@@ -5,13 +5,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.ufjf.dcc</groupId>
-    <artifactId>main</artifactId>
+    <artifactId>Main</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>br.ufjf.dcc.main</exec.mainClass>
+        <exec.mainClass>br.ufjf.dcc.Main</exec.mainClass>
     </properties>
     <build>
         <pluginManagement>
@@ -28,7 +28,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                         <archive>
                             <manifest>
                                 <addClasspath>true</addClasspath>
-            <mainClass>br.ufjf.dcc.main</mainClass>
+            <mainClass>br.ufjf.dcc.Main</mainClass>
 
                             </manifest>
                         </archive>
