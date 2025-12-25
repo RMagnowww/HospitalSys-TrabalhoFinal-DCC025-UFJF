@@ -18,7 +18,7 @@ public class TelaCadastroUsuario {
     private final JTextField campoEmail;
     private final JTextField campoSenha;
     private final JButton botaoCadastrar;
-    private final JButton botaoCancelar;
+    private final JButton botaoSair;
     private final JLabel labelNome;
     private final JLabel labelCPF;
     private final JLabel labelTelefone;
@@ -46,7 +46,7 @@ public class TelaCadastroUsuario {
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
         botaoCadastrar = new JButton("Cadastrar");
-        botaoCancelar = new JButton("Cancelar");
+        botaoSair = new JButton("Sair");
         labelNome = new JLabel("Nome:");
         labelCPF = new JLabel("CPF:");
         labelTelefone = new JLabel("Telefone:");
@@ -74,7 +74,7 @@ public class TelaCadastroUsuario {
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
         //botaoCadastrar.addActionListener(); -  Adicionar ação de cadastro aqui
-        botaoCancelar.addActionListener(new java.awt.event.ActionListener() {
+        botaoSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 frame.dispose();
             }
@@ -102,8 +102,8 @@ public class TelaCadastroUsuario {
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 
+        painelBotoes.add(botaoSair);
         painelBotoes.add(botaoCadastrar);
-        painelBotoes.add(botaoCancelar);
 
         painelPrincipal.add(painelEsq, BorderLayout.WEST);
         painelPrincipal.add(painelDir, BorderLayout.EAST);
