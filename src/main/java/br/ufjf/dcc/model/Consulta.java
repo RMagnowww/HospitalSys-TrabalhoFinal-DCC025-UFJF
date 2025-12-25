@@ -1,18 +1,61 @@
 package br.ufjf.dcc.model;
 
+import br.ufjf.dcc.model.enums.StatusConsulta;
+import java.time.LocalDateTime;
+
 public class Consulta {
-    private String data;
-    private String horario;
+    private LocalDateTime dataHora;
+    private StatusConsulta status;
     private String descricao;
     private Paciente paciente;
     private Medico medico;
 
-    public Consulta(String data, String horario, String descricao, Paciente paciente, Medico medico) {
-        this.data = data;
-        this.horario = horario;
-        this.descricao = descricao;
-        this.paciente = paciente;
+    public Consulta(LocalDateTime dataHora, Paciente paciente, Medico medico) {
+        this.status = StatusConsulta.AGENDADA;
+        setPaciente(paciente);
+        setMedico(medico);
+        setDataHora(dataHora);
+    }
+
+    public Medico getMedico() { return medico; }
+    public void setMedico(Medico medico) {
+        if(medico == null) {
+            throw new IllegalArgumentException("A consulta deve ter um médico responsável");
+        }
         this.medico = medico;
     }
 
+    public Paciente getPaciente() { return paciente; }
+    public void setPaciente(Paciente paciente) {
+        if(paciente == null) {
+            throw new IllegalArgumentException("A consulta deve ter um paciente.");
+        }
+        this.paciente = paciente;
+    }
+
+    public LocalDateTime getDataHora() { return dataHora; }
+    public void setDataHora(LocalDateTime dataHora) {
+        if (dataHora == null) {
+            throw new IllegalArgumentException("A data e hora da consulta são obrigatórias.");
+        }
+        if (dataHora.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Não é possível agendar consultas para o passado.");
+        }
+        this.dataHora = dataHora;
+    }
+
+    public StatusConsulta getStatus() { return status; }
+    public void setStatus(StatusConsulta status) {
+        this.status = status;
+    }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    @Override
+    public String toString(){
+        return "Consulta: " + dataHora + " - Dr(a). " + medico.getNome() + " - Paciente: " + paciente.getNome() + " [" + status + "]";
+    }
 }

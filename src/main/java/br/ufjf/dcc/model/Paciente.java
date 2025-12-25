@@ -1,16 +1,48 @@
 package br.ufjf.dcc.model;
 
-public class Paciente extends Usuario{
-    private String endereco;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Paciente(String nome, String cpf, String senha, String telefone, String email, String endereco) {
+public class Paciente extends Usuario{
+
+    private String dataNascimento;
+    private String tipoSanguineo;
+
+    private boolean aceitaVisitas;
+
+    private List<Consulta> historicoConsultas;
+    private List<Exame> exames;
+
+
+    public Paciente(String nome, String cpf, String senha, String telefone, String email, String dataNascimento, String tipoSanguineo) {
         super(nome, cpf, senha, telefone, email);
-        this.endereco = endereco;
+        this.dataNascimento = dataNascimento;
+        this.tipoSanguineo = tipoSanguineo;
+        this.aceitaVisitas = true;
+
+        this.historicoConsultas = new ArrayList<>();
+        this.exames = new ArrayList<>();
     }
-    public String getEndereco() {
-        return this.endereco;
-    } 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }   
+
+    public String getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(String dataNascimento) { this.dataNascimento = dataNascimento; }
+    public String getTipoSanguineo() { return tipoSanguineo; }
+    public void setTipoSanguineo(String tipoSanguineo) { this.tipoSanguineo = tipoSanguineo; }
+    public boolean isAceitaVisitas() { return aceitaVisitas; }
+    public void setAceitaVisitas(boolean aceitaVisitas) { this.aceitaVisitas = aceitaVisitas; }
+
+
+    public void adicionarConsulta(Consulta consulta) {
+        this.historicoConsultas.add(consulta);
+    }
+    public List<Consulta> getHistoricoConsultas() {
+        return historicoConsultas;
+    }
+    public void adicionarExame(Exame exame) {
+        this.exames.add(exame);
+    }
+    public List<Exame> getExames() {
+        return exames;
+    }
 }
+
