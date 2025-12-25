@@ -13,7 +13,6 @@ public class TelaLogin {
     private final JLabel labelEmail;
     private final JLabel labelSenha;
     private final JButton botaoEntrar;
-    private final JButton botaoCadastrar;
 
     public TelaLogin(){
         frame =  new JFrame("Login");
@@ -26,7 +25,6 @@ public class TelaLogin {
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         botaoEntrar = new JButton("Entrar");
-        botaoCadastrar = new JButton("Fazer Cadastro");
     }
 
     public void abrirLogin(){
@@ -40,15 +38,9 @@ public class TelaLogin {
         painelEsq.setBorder(BorderFactory.createEmptyBorder(15,0,21,0));
         painelDir.setLayout(new GridLayout(0,1,0,20));
         painelDir.setBorder(BorderFactory.createEmptyBorder(15,0,21,0));
-        painelBotoes.setLayout(new GridLayout(1,2,10,0));
-
-        //botaoEntrar.addActionListener(); - adicionar ação de login aqui
-        botaoCadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelaCadastroUsuario telaCadastro = new TelaCadastroUsuario();
-                telaCadastro.abrirCadastroUsuario();
-            }
-        });
+        painelBotoes.setLayout(new GridLayout(1,1,10,0));
+        painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,100,0,100));
+    
 
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
@@ -56,7 +48,6 @@ public class TelaLogin {
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 
-        painelBotoes.add(botaoCadastrar);
         painelBotoes.add(botaoEntrar);
 
         painelPrincipal.add(painelEsq, BorderLayout.WEST);
