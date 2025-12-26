@@ -1,4 +1,5 @@
 package br.ufjf.dcc.model;
+import br.ufjf.dcc.model.enums.PerfilUsuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ public class Medico extends Usuario {
 
     private List<Consulta> agendaConsultas;
 
-    public Medico(String nome, String cpf, String senha, String telefone, String email, String crm, String especialidade) {
-        super(nome, cpf, senha, telefone, email);
+    public Medico(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, String crm, String especialidade) {
+        super(nome, cpf, senha, telefone, email, endereco, PerfilUsuario.MEDICO);
         setCrm(crm);
         setEspecialidade(especialidade);
         this.agendaConsultas = new ArrayList<>();

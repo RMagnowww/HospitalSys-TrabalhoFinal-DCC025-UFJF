@@ -1,4 +1,5 @@
 package br.ufjf.dcc.model;
+import br.ufjf.dcc.model.enums.PerfilUsuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ public class Paciente extends Usuario{
     private List<Exame> exames;
 
 
-    public Paciente(String nome, String cpf, String senha, String telefone, String email, String dataNascimento, String tipoSanguineo) {
-        super(nome, cpf, senha, telefone, email);
+    public Paciente(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, String dataNascimento, String tipoSanguineo) {
+        super(nome, cpf, senha, telefone, email, endereco, PerfilUsuario.PACIENTE);
         this.dataNascimento = dataNascimento;
         this.tipoSanguineo = tipoSanguineo;
         this.aceitaVisitas = true;
