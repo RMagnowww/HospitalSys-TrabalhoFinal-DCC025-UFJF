@@ -1,4 +1,5 @@
 package br.ufjf.dcc.view;
+import br.ufjf.dcc.model.Paciente;
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,11 +28,19 @@ public class TelaMenuPaciente {
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirMenuPaciente(){
+    public void abrirMenuPaciente(Paciente paciente){
         frame.setSize(800,450);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
 
+        agendaConsulta.addActionListener(e -> {
+            TelaAgendamento telaAgendamento = new TelaAgendamento();
+            telaAgendamento.abrirTelaAgendamento();
+        });
+        dadosPessoais.addActionListener(e -> {
+            TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
+            telaCadastroUsuario.abrirDadosPaciente(paciente);
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelPrincipal.setLayout(new GridLayout(0, 2, 25, 0));
