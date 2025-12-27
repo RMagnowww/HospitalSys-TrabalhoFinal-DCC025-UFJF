@@ -37,9 +37,21 @@ public class TelaMenuPaciente {
             TelaAgendamento telaAgendamento = new TelaAgendamento();
             telaAgendamento.abrirTelaAgendamento();
         });
+        docsMedicos.addActionListener(e -> {
+            TelaDocumentos telaDocumentos = new TelaDocumentos();
+            telaDocumentos.abrirTelaDocumentos();
+        });
+        historico.addActionListener(e -> {
+            TelaHistorico telaHistorico = new TelaHistorico();
+            telaHistorico.abrirTelaHistorico();
+        });
         dadosPessoais.addActionListener(e -> {
             TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
             telaCadastroUsuario.abrirDadosPaciente(paciente);
+        });
+        verificaVisita.addActionListener(e -> {
+            TelaDisponibilidadeVisita telaDisponibilidadeVisita = new TelaDisponibilidadeVisita();
+            telaDisponibilidadeVisita.abrirTelaDisponibilidadeVisita();
         });
         botaoSair.addActionListener(e -> frame.dispose());
 

@@ -1,4 +1,5 @@
 package br.ufjf.dcc.view;
+import br.ufjf.dcc.model.Consulta;
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,8 +17,8 @@ public class TelaAgendamento {
     private JTextField campoMedico;
     private JTextField campoData;
     private JComboBox<String> comboBoxHorarios;
-    private JLabel statusConsulta;
-    private JList<String> listaAgendamentos;
+    private JLabel respostaStatusConsulta;
+    private JList<Consulta> listaAgendamentos;
     private JLabel labelMedico;
     private JLabel labelData;  
     private JLabel labelHorario;
@@ -38,7 +39,7 @@ public class TelaAgendamento {
         campoMedico = new JTextField();
         campoData = new JTextField();
         comboBoxHorarios = new JComboBox<>();
-        statusConsulta = new JLabel();
+        respostaStatusConsulta = new JLabel();
         labelMedico = new JLabel("Médico:");
         labelData = new JLabel("Data:");
         labelHorario = new JLabel("Horário:");
@@ -71,7 +72,7 @@ public class TelaAgendamento {
         painelBox.add(campoMedico);
         painelBox.add(campoData);
         painelBox.add(comboBoxHorarios);
-        painelBox.add(statusConsulta);
+        painelBox.add(respostaStatusConsulta);
 
         painelBotoes.setLayout(new GridLayout(0,3,10,0));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(180,20,15,20));
