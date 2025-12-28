@@ -8,6 +8,7 @@ public class Paciente extends Usuario{
 
     private String dataNascimento;
     private String tipoSanguineo;
+    private Endereco endereco;
 
     private boolean aceitaVisitas;
 
@@ -16,7 +17,8 @@ public class Paciente extends Usuario{
 
 
     public Paciente(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, String dataNascimento, String tipoSanguineo) {
-        super(nome, cpf, senha, telefone, email, endereco, PerfilUsuario.PACIENTE);
+        super(nome, cpf, senha, telefone, email, PerfilUsuario.PACIENTE);
+        this.endereco = endereco;
         this.dataNascimento = dataNascimento;
         this.tipoSanguineo = tipoSanguineo;
         this.aceitaVisitas = true;
@@ -24,14 +26,30 @@ public class Paciente extends Usuario{
         this.historicoConsultas = new ArrayList<>();
         this.exames = new ArrayList<>();
     }
-
-    public String getDataNascimento() { return dataNascimento; }
-    public void setDataNascimento(String dataNascimento) { this.dataNascimento = dataNascimento; }
-    public String getTipoSanguineo() { return tipoSanguineo; }
-    public void setTipoSanguineo(String tipoSanguineo) { this.tipoSanguineo = tipoSanguineo; }
-    public boolean isAceitaVisitas() { return aceitaVisitas; }
-    public void setAceitaVisitas(boolean aceitaVisitas) { this.aceitaVisitas = aceitaVisitas; }
-
+    public String getDataNascimento() { 
+        return dataNascimento; 
+    }
+    public void setDataNascimento(String dataNascimento) { 
+        this.dataNascimento = dataNascimento; 
+    }
+    public String getTipoSanguineo() { 
+        return tipoSanguineo; 
+    }
+    public void setTipoSanguineo(String tipoSanguineo) { 
+        this.tipoSanguineo = tipoSanguineo; 
+    }
+    public boolean isAceitaVisitas() { 
+        return aceitaVisitas;
+    }
+    public void setAceitaVisitas(boolean aceitaVisitas) { 
+        this.aceitaVisitas = aceitaVisitas; 
+    }
+    public Endereco getEndereco() { 
+        return endereco; 
+    }
+    public void setEndereco(Endereco endereco) { 
+        this.endereco = endereco; 
+    }
 
     public void adicionarConsulta(Consulta consulta) {
         this.historicoConsultas.add(consulta);

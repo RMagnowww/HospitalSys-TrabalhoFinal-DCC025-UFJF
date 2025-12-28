@@ -7,16 +7,14 @@ public abstract class Usuario {
     private String senha;
     private String telefone;
     private String email;
-    private Endereco endereco;
     private PerfilUsuario perfil;
     
-    public Usuario(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, PerfilUsuario perfil){
+    public Usuario(String nome, String cpf, String senha, String telefone, String email, PerfilUsuario perfil){
         setNome(nome);
         setCpf(cpf);
         setSenha(senha);
         this.telefone = telefone;
         this.email = email;
-        this.endereco = endereco;
         this.perfil = perfil;
     }
 
@@ -64,12 +62,6 @@ public abstract class Usuario {
     }
     public void setEmail(String email) {
         this.email = email;
-    }
-    public Endereco getEndereco() { 
-        return endereco; 
-    }
-    public void setEndereco(Endereco endereco) { 
-        this.endereco = endereco; 
     }
     public PerfilUsuario getPerfil() { 
         return perfil; 

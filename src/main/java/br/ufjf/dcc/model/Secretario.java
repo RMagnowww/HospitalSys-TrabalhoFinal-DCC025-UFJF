@@ -5,8 +5,8 @@ import br.ufjf.dcc.model.enums.PerfilUsuario;
 public class Secretario extends Usuario{
     private String matricula;
 
-    public Secretario(String nome, String cpf, String email, String telefone, String senha, Endereco endereco, String matricula) {
-        super(nome, cpf, email, telefone, senha, endereco, PerfilUsuario.SECRETARIO);
+    public Secretario(String nome, String cpf, String email, String telefone, String senha, String matricula) {
+        super(nome, cpf, email, telefone, senha, PerfilUsuario.SECRETARIO);
         setMatricula(matricula);
     }
 
