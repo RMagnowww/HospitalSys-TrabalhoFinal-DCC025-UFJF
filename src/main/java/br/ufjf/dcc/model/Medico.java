@@ -1,5 +1,5 @@
 package br.ufjf.dcc.model;
-import br.ufjf.dcc.model.enums.PerfilUsuario;
+import br.ufjf.dcc.model.enums.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,7 @@ public class Medico extends Usuario {
     private String crm; // registro
     private String especialidade; //
 
-
-
+    private StatusMedico atividade; // ATIVO ou INATIVO
     private String horarioInicioExpediente; //14:00
     private String horarioFimExpediente;    //18:00
 
@@ -18,16 +17,17 @@ public class Medico extends Usuario {
 
     private List<Consulta> agendaConsultas;
 
-    public Medico(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, String crm, String especialidade) {
-        super(nome, cpf, senha, telefone, email, endereco, PerfilUsuario.MEDICO);
+    public Medico(String nome, String cpf, String senha, String telefone, String email, String crm, String especialidade) {
+        super(nome, cpf, senha, telefone, email, PerfilUsuario.MEDICO);
         setCrm(crm);
         setEspecialidade(especialidade);
+        this.atividade = StatusMedico.ATIVO;
         this.agendaConsultas = new ArrayList<>();
     }
 
-
-
-    public String getCrm() { return crm; }
+    public String getCrm() { 
+        return crm; 
+    }
     public void setCrm(String crm) {
         if (crm == null || crm.trim().isEmpty()) {
             throw new IllegalArgumentException("O CRM do médico é obrigatório.");
@@ -35,7 +35,9 @@ public class Medico extends Usuario {
         this.crm = crm;
     }
 
-    public String getEspecialidade() { return especialidade; }
+    public String getEspecialidade() {
+        return especialidade; 
+    }
     public void setEspecialidade(String especialidade) {
         if (especialidade == null || especialidade.trim().isEmpty()) {
             throw new IllegalArgumentException("A especialidade é obrigatória.");
@@ -43,12 +45,24 @@ public class Medico extends Usuario {
         this.especialidade = especialidade;
     }
 
-    public String getHorarioInicioExpediente() { return horarioInicioExpediente; }
-    public void setHorarioInicioExpediente(String horarioInicioExpediente) { this.horarioInicioExpediente = horarioInicioExpediente; }
-
-    public String getHorarioFimExpediente() {return horarioFimExpediente; }
-    public void setHorarioFimExpediente(String horarioFimExpediente) { this.horarioFimExpediente = horarioFimExpediente; }
-
+    public String getHorarioInicioExpediente() {
+        return horarioInicioExpediente; 
+    }
+    public void setHorarioInicioExpediente(String horarioInicioExpediente) {
+        this.horarioInicioExpediente = horarioInicioExpediente; 
+    }
+    public String getHorarioFimExpediente() {
+        return horarioFimExpediente; 
+    }
+    public void setHorarioFimExpediente(String horarioFimExpediente) {
+        this.horarioFimExpediente = horarioFimExpediente; 
+    }
+    public StatusMedico getAtividade(){
+        return atividade;
+    }
+    public void setAtividade(StatusMedico atividade){
+        this.atividade = atividade;
+    }
 
     public List<Consulta> getAgendaConsultas() {
         return agendaConsultas;
