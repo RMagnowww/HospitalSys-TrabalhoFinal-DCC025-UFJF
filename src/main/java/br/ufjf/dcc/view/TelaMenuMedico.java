@@ -7,10 +7,9 @@ public class TelaMenuMedico {
     private JPanel painelPrincipal;
     private JPanel painelEsq;
     private JPanel painelDir;
-    private JButton historicoClinico;
+    private JButton botaoHistoricoClinico;
     private JButton emitirDocs;
-    private JButton Prontuario;
-    private JButton agenda;
+    private JButton botaoAgenda;
     private JButton botaoSair;
 
     public TelaMenuMedico() {
@@ -18,31 +17,37 @@ public class TelaMenuMedico {
         painelPrincipal = new JPanel();
         painelEsq = new JPanel(); 
         painelDir = new JPanel();  
-        historicoClinico = new JButton("Histórico Clínico");
+        botaoHistoricoClinico = new JButton("Histórico Clínico");
         emitirDocs = new JButton("Emissão de Documentos");
-        Prontuario = new JButton("Prontuário");
-        agenda = new JButton("Agenda de Atendimentos");
+        botaoAgenda = new JButton("Agenda de Atendimentos");
         botaoSair = new JButton("Sair");
     }
 
     public void abrirMenuMedico(){
-        frame.setSize(800,450);
+        frame.setSize(800,350);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         
+        botaoHistoricoClinico.addActionListener(e -> {
+            TelaHistoricoClinico telaHistoricoClinico = new TelaHistoricoClinico();
+            telaHistoricoClinico.abrirHistoricoClinico();
+        });
+        botaoAgenda.addActionListener(e -> {
+            TelaAgenda telaAgenda = new TelaAgenda();
+            telaAgenda.abrirAgenda();
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelPrincipal.setLayout(new GridLayout(0, 2, 25, 0));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(45,35,45,35));
 
         painelEsq.setLayout(new GridLayout(0,1,0,25));
-        painelEsq.add(historicoClinico);
+        painelEsq.add(botaoHistoricoClinico);
         painelEsq.add(emitirDocs);
-        painelEsq.add(Prontuario);
 
         painelDir.setLayout(new GridLayout(0,1,0,25));
-        painelDir.setBorder(BorderFactory.createEmptyBorder(0,0,115,0));
-        painelDir.add(agenda);
+        painelDir.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        painelDir.add(botaoAgenda);
         painelDir.add(botaoSair);
 
         painelPrincipal.add(painelEsq);
