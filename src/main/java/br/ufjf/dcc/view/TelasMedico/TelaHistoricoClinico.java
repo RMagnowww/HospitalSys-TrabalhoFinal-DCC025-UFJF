@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasMedico;
 import br.ufjf.dcc.model.Consulta;
 import br.ufjf.dcc.model.enums.StatusInternacao;
 
@@ -41,7 +41,7 @@ public class TelaHistoricoClinico {
         botaoBuscar = new JButton("Buscar");
         botaoAtualizar = new JButton("Atualizar Status");
     }
-    public void abrirHistoricoClinico(){
+    public void abrirTelaHistoricoClinico(){
         frame.setSize(700,400);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasSecretario;
 import br.ufjf.dcc.model.Paciente;
 import javax.swing.*;
 import java.awt.*;

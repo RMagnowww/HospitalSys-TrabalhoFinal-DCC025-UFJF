@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasPaciente;
 //import br.ufjf.dcc.model.enums.StatusInternacao;
 import javax.swing.*;
 import java.awt.*;

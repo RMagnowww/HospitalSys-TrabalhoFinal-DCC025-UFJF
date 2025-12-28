@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasMedico;
 import br.ufjf.dcc.model.Consulta;
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +59,7 @@ public class TelaAgenda {
         
     }
 
-    public void abrirAgenda(){
+    public void abrirTelaAgenda(){
         frame.setSize(750,350);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

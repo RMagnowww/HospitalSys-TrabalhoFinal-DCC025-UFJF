@@ -1,5 +1,6 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasSecretario;
 import javax.swing.*;
+
 import java.awt.*;
 
 public class TelaMenuSecretario {
@@ -25,14 +26,14 @@ public class TelaMenuSecretario {
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirMenuSecretario(){
+    public void abrirTelaMenuSecretario(){
         frame.setSize(800,450);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
 
         botaoCadastroPaciente.addActionListener(e -> {
-            TelaCadastroUsuario telaCadastroPaciente = new TelaCadastroUsuario();
-            telaCadastroPaciente.abrirCadastroPaciente();
+            TelaCadastroPaciente telaCadastroPaciente = new TelaCadastroPaciente();
+            telaCadastroPaciente.abrirTelaCadastroPaciente();
         });
         botaoVisitasInfo.addActionListener(e -> {
             TelaInternadosVisitas telaInternadosVisitas = new TelaInternadosVisitas();
@@ -40,11 +41,11 @@ public class TelaMenuSecretario {
         });
         botaoCorpoClinico.addActionListener( e-> {
             TelaCorpoClinico telaCorpoClinico = new TelaCorpoClinico();
-            telaCorpoClinico.abrirCorpoClinico();
+            telaCorpoClinico.abrirTelaCorpoClinico();
         });
         botaoDisponibilidade.addActionListener( e->{
             TelaDisponibilidadeMedicos telaDisponibilidadeMedicos = new TelaDisponibilidadeMedicos();
-            telaDisponibilidadeMedicos.abrirDispoibilidadeMedicos();
+            telaDisponibilidadeMedicos.abrirTelaDisponibilidadeMedicos();
         });
         botaoSair.addActionListener(e -> frame.dispose());
 

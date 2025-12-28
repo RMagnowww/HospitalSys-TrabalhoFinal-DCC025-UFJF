@@ -1,5 +1,6 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasMedico;
 import javax.swing.*;
+
 import java.awt.*;
 
 public class TelaMenuMedico {
@@ -8,7 +9,7 @@ public class TelaMenuMedico {
     private JPanel painelEsq;
     private JPanel painelDir;
     private JButton botaoHistoricoClinico;
-    private JButton emitirDocs;
+    private JButton botaoEmitirDocs;
     private JButton botaoAgenda;
     private JButton botaoSair;
 
@@ -18,23 +19,27 @@ public class TelaMenuMedico {
         painelEsq = new JPanel(); 
         painelDir = new JPanel();  
         botaoHistoricoClinico = new JButton("Histórico Clínico");
-        emitirDocs = new JButton("Emissão de Documentos");
+        botaoEmitirDocs = new JButton("Emissão de Documentos");
         botaoAgenda = new JButton("Agenda de Atendimentos");
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirMenuMedico(){
+    public void abrirTelaMenuMedico(){
         frame.setSize(800,350);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         
         botaoHistoricoClinico.addActionListener(e -> {
             TelaHistoricoClinico telaHistoricoClinico = new TelaHistoricoClinico();
-            telaHistoricoClinico.abrirHistoricoClinico();
+            telaHistoricoClinico.abrirTelaHistoricoClinico();
+        });
+        botaoEmitirDocs.addActionListener(e -> {
+            TelaEmitirDocs telaEmitirDocs = new TelaEmitirDocs();
+            telaEmitirDocs.abrirTelaEmitirDocs();
         });
         botaoAgenda.addActionListener(e -> {
             TelaAgenda telaAgenda = new TelaAgenda();
-            telaAgenda.abrirAgenda();
+            telaAgenda.abrirTelaAgenda();
         });
         botaoSair.addActionListener(e -> frame.dispose());
 
@@ -43,7 +48,7 @@ public class TelaMenuMedico {
 
         painelEsq.setLayout(new GridLayout(0,1,0,25));
         painelEsq.add(botaoHistoricoClinico);
-        painelEsq.add(emitirDocs);
+        painelEsq.add(botaoEmitirDocs);
 
         painelDir.setLayout(new GridLayout(0,1,0,25));
         painelDir.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));

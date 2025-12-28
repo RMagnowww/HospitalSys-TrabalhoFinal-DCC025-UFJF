@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasPaciente;
 import br.ufjf.dcc.model.Atestado;
 import br.ufjf.dcc.model.Exame;
 import javax.swing.*;

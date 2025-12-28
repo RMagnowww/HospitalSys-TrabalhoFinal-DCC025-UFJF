@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasSecretario;
 import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.enums.StatusMedico;
 
@@ -65,7 +65,7 @@ public class TelaCorpoClinico {
         listMedicos = new JList<Medico>();
     }
 
-    public void abrirCorpoClinico(){
+    public void abrirTelaCorpoClinico(){
         frame.setSize(800,500);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

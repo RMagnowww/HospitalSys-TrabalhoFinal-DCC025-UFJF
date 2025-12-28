@@ -1,4 +1,4 @@
-package br.ufjf.dcc.view;
+package br.ufjf.dcc.view.TelasSecretario;
 import java.time.LocalDateTime;
 import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.Consulta;
@@ -65,7 +65,7 @@ public class TelaDisponibilidadeMedicos{
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirDispoibilidadeMedicos(){
+    public void abrirTelaDisponibilidadeMedicos(){
         frame.setSize(600,500);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
