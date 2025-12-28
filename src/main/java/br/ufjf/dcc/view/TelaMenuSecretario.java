@@ -7,10 +7,10 @@ public class TelaMenuSecretario {
     private JPanel painelPrincipal;
     private JPanel painelEsq;
     private JPanel painelDir;
-    private JButton cadastro;
-    private JButton visitasInfo;
-    private JButton corpoClinico;
-    private JButton disponibilidade;
+    private JButton botaoCadastroPaciente;
+    private JButton botaoVisitasInfo;
+    private JButton botaoCorpoClinico;
+    private JButton botaoDisponibilidade;
     private JButton botaoSair;
 
     public TelaMenuSecretario() {
@@ -18,10 +18,10 @@ public class TelaMenuSecretario {
         painelPrincipal = new JPanel();
         painelEsq = new JPanel(); 
         painelDir = new JPanel();  
-        cadastro = new JButton("Cadastro de Pacientes");
-        visitasInfo = new JButton("Visitas e Informações");
-        corpoClinico = new JButton("Corpo Clínico");
-        disponibilidade = new JButton("Disponibilidade");
+        botaoCadastroPaciente = new JButton("Cadastro de Pacientes");
+        botaoVisitasInfo = new JButton("Internações e Visitas");
+        botaoCorpoClinico = new JButton("Corpo Clínico");
+        botaoDisponibilidade = new JButton("Disponibilidade");
         botaoSair = new JButton("Sair");
     }
 
@@ -30,9 +30,21 @@ public class TelaMenuSecretario {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
 
-        cadastro.addActionListener(e -> {
+        botaoCadastroPaciente.addActionListener(e -> {
             TelaCadastroUsuario telaCadastroPaciente = new TelaCadastroUsuario();
-            telaCadastroPaciente.abrirCadastroUsuario();
+            telaCadastroPaciente.abrirCadastroPaciente();
+        });
+        botaoVisitasInfo.addActionListener(e -> {
+            TelaInternadosVisitas telaInternadosVisitas = new TelaInternadosVisitas();
+            telaInternadosVisitas.abrirTelaInternadosVisitas();
+        });
+        botaoCorpoClinico.addActionListener( e-> {
+            TelaCorpoClinico telaCorpoClinico = new TelaCorpoClinico();
+            telaCorpoClinico.abrirCorpoClinico();
+        });
+        botaoDisponibilidade.addActionListener( e->{
+            TelaDisponibilidadeMedicos telaDisponibilidadeMedicos = new TelaDisponibilidadeMedicos();
+            telaDisponibilidadeMedicos.abrirDispoibilidadeMedicos();
         });
         botaoSair.addActionListener(e -> frame.dispose());
 
@@ -40,13 +52,13 @@ public class TelaMenuSecretario {
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(45,35,45,35));
 
         painelEsq.setLayout(new GridLayout(0,1,0,25));
-        painelEsq.add(cadastro);
-        painelEsq.add(visitasInfo);
-        painelEsq.add(corpoClinico);
+        painelEsq.add(botaoCadastroPaciente);
+        painelEsq.add(botaoVisitasInfo);
+        painelEsq.add(botaoCorpoClinico);
 
         painelDir.setLayout(new GridLayout(0,1,0,25));
         painelDir.setBorder(BorderFactory.createEmptyBorder(0,0,115,0));
-        painelDir.add(disponibilidade);
+        painelDir.add(botaoDisponibilidade);
         painelDir.add(botaoSair);
 
         painelPrincipal.add(painelEsq);
