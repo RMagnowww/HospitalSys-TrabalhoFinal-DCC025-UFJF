@@ -4,39 +4,48 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TelaCadastroUsuario {
-    private final JFrame frame;
-    private final JPanel painelPrincipal;
-    private final JPanel painelEsq;
-    private final JPanel painelDir;
-    private final JTextField campoNome;
-    private final JTextField campoCPF;
-    private final JTextField campoTelefone;
-    private final JTextField campoCidade;
-    private final JTextField campoBairro;
-    private final JTextField campoRua;
-    private final JTextField campoNumero;
-    private final JTextField campoCEP;
-    private final JTextField campoEmail;
-    private final JTextField campoSenha;
-    private final JButton botaoCadastrar;
-    private final JButton botaoConfirmar;
-    private final JButton botaoSair;
-    private final JLabel labelNome;
-    private final JLabel labelCPF;
-    private final JLabel labelTelefone;
-    private final JLabel labelCidade;
-    private final JLabel labelBairro;
-    private final JLabel labelRua;
-    private final JLabel labelNumero;
-    private final JLabel labelCEP;
-    private final JLabel labelEmail;
-    private final JLabel labelSenha;
+    private JFrame frame;
+    private JPanel painelPrincipal;
+    private JPanel painelCadastrar;
+    private JPanel painelEsq;
+    private JPanel painelDir;
+    private JPanel painelList;
+    private JPanel painelBotoes;
+    private JTextField campoNome;
+    private JTextField campoCPF;
+    private JTextField campoTelefone;
+    private JTextField campoCidade;
+    private JTextField campoBairro;
+    private JTextField campoRua;
+    private JTextField campoNumero;
+    private JTextField campoCEP;
+    private JTextField campoEmail;
+    private JTextField campoSenha;
+    private JButton botaoCadastrar;
+    private JButton botaoConfirmar;
+    private JButton botaoSair;
+    private JButton botaoRemover;
+    private JButton botaoNovo;
+    private JLabel labelNome;
+    private JLabel labelCPF;
+    private JLabel labelTelefone;
+    private JLabel labelCidade;
+    private JLabel labelBairro;
+    private JLabel labelRua;
+    private JLabel labelNumero;
+    private JLabel labelCEP;
+    private JLabel labelEmail;
+    private JLabel labelSenha;
+    private JList<Paciente> listPacientes;
 
     public TelaCadastroUsuario(){
-        frame =  new JFrame("Cadastro");
+        frame =  new JFrame("Cadastro de Pacientes");
         painelPrincipal = new JPanel();
+        painelCadastrar = new JPanel();
         painelEsq = new JPanel();
         painelDir = new JPanel();
+        painelList = new JPanel();
+        painelBotoes = new JPanel();
         campoNome = new JTextField(23);
         campoCPF = new JTextField(23);
         campoTelefone = new JTextField(23);
@@ -47,9 +56,11 @@ public class TelaCadastroUsuario {
         campoCEP = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
-        botaoCadastrar = new JButton("Cadastrar");
+        botaoCadastrar = new JButton("Cadastrar Paciente");
         botaoConfirmar = new JButton("Confirmar Mudanças");
         botaoSair = new JButton("Sair");
+        botaoRemover = new JButton("Remover Paciente");
+        botaoNovo = new JButton("Novo Paciente");
         labelNome = new JLabel("Nome:");
         labelCPF = new JLabel("CPF:");
         labelTelefone = new JLabel("Telefone:");
@@ -60,28 +71,29 @@ public class TelaCadastroUsuario {
         labelCEP = new JLabel("CEP:");
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
+        listPacientes = new JList<Paciente>();
     }
 
-    public void abrirCadastroUsuario(){
-        frame.setSize(400,500);
+    public void abrirCadastroPaciente(){
+        frame.setSize(800,520);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        painelPrincipal.setLayout(new BorderLayout(10,10));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
         painelEsq.setLayout(new GridLayout(0,1,0,15));
         painelEsq.setBorder(BorderFactory.createEmptyBorder(15,0,23,0));
+
         painelDir.setLayout(new GridLayout(0,1,0,15));
         painelDir.setBorder(BorderFactory.createEmptyBorder(15,0,23,0));
-        JPanel painelBotoes = new JPanel();
+
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
         //botaoCadastrar.addActionListener(); -  Adicionar ação de cadastro aqui
-        botaoSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frame.dispose();
-            }
-        });
+        botaoSair.addActionListener(e -> frame.dispose());
+
+        painelList.setLayout(new BorderLayout(10,10));
+        painelList.setBorder(BorderFactory.createTitledBorder("Pacientes Cadastrados"));
+        painelList.add(new JScrollPane(listPacientes));
+
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
         painelEsq.add(labelTelefone);
@@ -105,11 +117,19 @@ public class TelaCadastroUsuario {
         painelDir.add(campoSenha);
 
         painelBotoes.add(botaoSair);
+        painelBotoes.add(botaoRemover);
         painelBotoes.add(botaoCadastrar);
 
-        painelPrincipal.add(painelEsq, BorderLayout.WEST);
-        painelPrincipal.add(painelDir, BorderLayout.EAST);
-        painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+        painelCadastrar.setLayout(new BorderLayout(20,10));
+        painelCadastrar.add(botaoNovo, BorderLayout.NORTH);
+        painelCadastrar.add(painelEsq, BorderLayout.WEST);
+        painelCadastrar.add(painelDir, BorderLayout.CENTER);
+        painelCadastrar.add(painelBotoes, BorderLayout.SOUTH);
+
+        painelPrincipal.setLayout(new BorderLayout(10,10));
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
+        painelPrincipal.add(painelCadastrar, BorderLayout.CENTER);
+        painelPrincipal.add(painelList, BorderLayout.WEST);
 
         frame.add(painelPrincipal);
         frame.setVisible(true);
@@ -132,21 +152,19 @@ public void abrirDadosPaciente(Paciente paciente){
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        painelPrincipal.setLayout(new BorderLayout(10,10));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
+        painelCadastrar.setLayout(new BorderLayout(10,10));
+        painelCadastrar.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
+
         painelEsq.setLayout(new GridLayout(0,1,0,15));
         painelEsq.setBorder(BorderFactory.createEmptyBorder(15,0,23,0));
+
         painelDir.setLayout(new GridLayout(0,1,0,15));
         painelDir.setBorder(BorderFactory.createEmptyBorder(15,0,23,0));
-        JPanel painelBotoes = new JPanel();
+
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
         //botaoConfirmar.addActionListener(); -  Adicionar ação de confirmação de mudanças nos dados
-        botaoSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frame.dispose();
-            }
-        });
+        botaoSair.addActionListener(e -> frame.dispose());
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
         painelEsq.add(labelTelefone);
@@ -172,11 +190,11 @@ public void abrirDadosPaciente(Paciente paciente){
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoConfirmar);
 
-        painelPrincipal.add(painelEsq, BorderLayout.WEST);
-        painelPrincipal.add(painelDir, BorderLayout.EAST);
-        painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+        painelCadastrar.add(painelEsq, BorderLayout.WEST);
+        painelCadastrar.add(painelDir, BorderLayout.EAST);
+        painelCadastrar.add(painelBotoes, BorderLayout.SOUTH);
 
-        frame.add(painelPrincipal);
+        frame.add(painelCadastrar);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
