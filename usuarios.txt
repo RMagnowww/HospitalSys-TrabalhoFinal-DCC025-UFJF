@@ -1,3 +1,4 @@
-SECRETARIO;Nome;0;0;admin;admin1;0
-MEDICO;Nome;0;0;medico;medico1;0;0
-PACIENTE;Augusto;0;0;paciente;paciente1;aaaaa;aaaaa;aaaaa;aaaaa;aaaaa;0;a;true
+SECRETARIO;Maria;123.456.789-10;(32)91234-5678;maria@admin.com;admin123;123abc
+MEDICO;Dr. Jorge;123.456.789-10;(32)91234-5678;jorge@medico.com;medico123;0;Cardiologista
+PACIENTE;Gabriel;123.456.789-10;(32)91234-5678;gabriel@paciente.com;paciente123;Morais e Castro;Alto dos Passos;12345-678;Juiz de Fora;1600;01/01/2000;A+;true
+PACIENTE;Rafael;111.222.333-44;(32)91111-2222;rafael@paciente.com;paciente123;Morais e Castro;Alto dos Passos;11111-222;Juiz de Fora;1600;01/01/2000;A+;true
