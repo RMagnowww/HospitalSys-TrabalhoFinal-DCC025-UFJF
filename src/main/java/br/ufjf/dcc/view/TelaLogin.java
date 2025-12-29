@@ -1,6 +1,9 @@
 package br.ufjf.dcc.view;
 import javax.swing.*;
 import java.awt.*;
+import br.ufjf.dcc.controller.LoginController;
+import br.ufjf.dcc.model.Usuario;
+
 
 public class TelaLogin {
     private final JFrame frame;
@@ -25,6 +28,23 @@ public class TelaLogin {
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         botaoEntrar = new JButton("Entrar");
+        botaoEntrar.addActionListener(e -> {
+
+            String email = campoEmail.getText();
+            String senha = campoSenha.getText();
+
+            Usuario usuario = LoginController.login(email, senha);
+
+            if (usuario == null) {
+                JOptionPane.showMessageDialog(frame,
+                        "Email ou senha inválidos",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                abrirTelaPorPerfil(usuario);
+            }
+        });
+
     }
 
     public void abrirLogin(){
@@ -57,5 +77,20 @@ public class TelaLogin {
         frame.add(painelPrincipal);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+
+        private void abrirTelaPorPerfil(Usuario usuario) {
+
+            switch (usuario.getPerfil()) {
+                case MEDICO:
+                    new TelaMenuMedico(usuario);
+                    break;
+                case PACIENTE:
+                    new TelaMenuPaciente(usuario);
+                    break;
+                case SECRETARIO:
+                    new TelaMenuSecretario(usuario);
+                    break;
+            }
+        }
     }
 }

@@ -1,7 +1,9 @@
 package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
+import java.io.Serializable;
 
-public abstract class Usuario {
+public abstract class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nome;
     private String cpf;
     private String senha;

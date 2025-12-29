@@ -1,10 +1,12 @@
 package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.*;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Medico extends Usuario {
+public class Medico extends Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String crm; // registro
     private String especialidade; //

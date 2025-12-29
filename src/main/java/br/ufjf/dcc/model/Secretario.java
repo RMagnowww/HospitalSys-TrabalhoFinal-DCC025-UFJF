@@ -1,8 +1,9 @@
 package br.ufjf.dcc.model;
-
+import java.io.Serializable;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
 
-public class Secretario extends Usuario{
+public class Secretario extends Usuario implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String matricula;
 
     public Secretario(String nome, String cpf, String email, String telefone, String senha, String matricula) {
