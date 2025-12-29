@@ -1,4 +1,5 @@
 package br.ufjf.dcc.view.TelasSecretario;
+import  br.ufjf.dcc.controller.SecretarioController;
 import br.ufjf.dcc.model.Paciente;
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,8 @@ public class TelaCadastroPaciente {
     private JTextField campoRua;
     private JTextField campoNumero;
     private JTextField campoCEP;
+    private JTextField campoDataNascimento;
+    private JTextField campoTipoSanguineo;
     private JTextField campoEmail;
     private JTextField campoSenha;
     private JButton botaoCadastrar;
@@ -33,6 +36,8 @@ public class TelaCadastroPaciente {
     private JLabel labelRua;
     private JLabel labelNumero;
     private JLabel labelCEP;
+    private JLabel labelDataNascimento;
+    private JLabel labelTipoSanguineo;
     private JLabel labelEmail;
     private JLabel labelSenha;
     private JList<Paciente> listPacientes;
@@ -53,6 +58,8 @@ public class TelaCadastroPaciente {
         campoRua = new JTextField(23);
         campoNumero = new JTextField(23);
         campoCEP = new JTextField(23);
+        campoDataNascimento = new JTextField(23);
+        campoTipoSanguineo = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
         botaoCadastrar = new JButton("Cadastrar Paciente");
@@ -67,13 +74,15 @@ public class TelaCadastroPaciente {
         labelRua = new JLabel("Rua:");
         labelNumero = new JLabel("Número:");
         labelCEP = new JLabel("CEP:");
+        labelDataNascimento = new JLabel("Data de Nascimento");
+        labelTipoSanguineo = new JLabel("Tipo Sanguíneo");
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         listPacientes = new JList<Paciente>();
     }
 
     public void abrirTelaCadastroPaciente(){
-        frame.setSize(800,520);
+        frame.setSize(800,600);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -100,6 +109,8 @@ public class TelaCadastroPaciente {
         painelEsq.add(labelRua);
         painelEsq.add(labelNumero);
         painelEsq.add(labelCEP);
+        painelEsq.add(labelDataNascimento);
+        painelEsq.add(labelTipoSanguineo);
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
 
@@ -111,6 +122,8 @@ public class TelaCadastroPaciente {
         painelDir.add(campoRua);
         painelDir.add(campoNumero);
         painelDir.add(campoCEP);
+        painelDir.add(campoDataNascimento);
+        painelDir.add(campoTipoSanguineo);
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 
