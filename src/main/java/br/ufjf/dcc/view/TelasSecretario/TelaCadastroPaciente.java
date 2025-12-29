@@ -85,7 +85,7 @@ public class TelaCadastroPaciente {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        //botaoCadastrar.addActionListener(); -  Adicionar ação de cadastro aqui
+        botaoCadastrar.addActionListener(e -> SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText()));
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelList.setLayout(new BorderLayout(10,10));
