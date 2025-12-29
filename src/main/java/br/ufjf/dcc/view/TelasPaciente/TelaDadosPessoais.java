@@ -1,4 +1,5 @@
 package br.ufjf.dcc.view.TelasPaciente;
+import br.ufjf.dcc.controller.PacienteController;
 import br.ufjf.dcc.model.Paciente;
 import javax.swing.*;
 import java.awt.*;
@@ -89,7 +90,7 @@ public class TelaDadosPessoais {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        //botaoConfirmar.addActionListener(); -  Adicionar ação de confirmação de mudanças nos dados
+        botaoConfirmar.addActionListener(e -> { PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText());});
         botaoSair.addActionListener(e -> frame.dispose());
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
