@@ -1,13 +1,12 @@
 package br.ufjf.dcc.model;
-import java.io.Serializable;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
 
-public class Secretario extends Usuario implements Serializable{
+public class Secretario extends Usuario{
     private static final long serialVersionUID = 1L;
     private String matricula;
 
-    public Secretario(String nome, String cpf, String email, String telefone, String senha, String matricula) {
-        super(nome, cpf, email, telefone, senha, PerfilUsuario.SECRETARIO);
+    public Secretario(String nome, String cpf, String telefone, String email, String senha, String matricula) {
+        super(nome, cpf, telefone, email, senha, PerfilUsuario.SECRETARIO);
         setMatricula(matricula);
     }
 

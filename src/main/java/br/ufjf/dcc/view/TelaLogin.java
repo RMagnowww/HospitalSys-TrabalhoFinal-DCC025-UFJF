@@ -2,7 +2,10 @@ package br.ufjf.dcc.view;
 import javax.swing.*;
 import java.awt.*;
 import br.ufjf.dcc.controller.LoginController;
-import br.ufjf.dcc.model.Usuario;
+import br.ufjf.dcc.model.*;
+import br.ufjf.dcc.view.TelasMedico.TelaMenuMedico;
+import br.ufjf.dcc.view.TelasPaciente.TelaMenuPaciente;
+import br.ufjf.dcc.view.TelasSecretario.TelaMenuSecretario;
 
 
 public class TelaLogin {
@@ -33,7 +36,7 @@ public class TelaLogin {
             String email = campoEmail.getText();
             String senha = campoSenha.getText();
 
-            Usuario usuario = LoginController.login(email, senha);
+            Usuario usuario = LoginController.autenticar(email, senha);
 
             if (usuario == null) {
                 JOptionPane.showMessageDialog(frame,
@@ -46,6 +49,28 @@ public class TelaLogin {
         });
 
     }
+
+    private void abrirTelaPorPerfil(Usuario usuario) {
+
+    switch (usuario.getPerfil()) {
+        case MEDICO:
+            Medico m = (Medico) usuario;
+            TelaMenuMedico telaMenuMedico = new TelaMenuMedico();
+            telaMenuMedico.abrirTelaMenuMedico(m);
+            break;
+        case PACIENTE:
+            Paciente p = (Paciente) usuario;
+            TelaMenuPaciente telaMenuPaciente = new TelaMenuPaciente();
+            telaMenuPaciente.abrirTelaMenuPaciente(p);
+            break;
+        case SECRETARIO:
+            Secretario s = (Secretario) usuario;
+            TelaMenuSecretario telaMenuSecretario = new TelaMenuSecretario();
+            telaMenuSecretario.abrirTelaMenuSecretario(s);
+            break;
+    }
+}
+
 
     public void abrirLogin(){
         frame.setSize(400,200);
@@ -77,20 +102,5 @@ public class TelaLogin {
         frame.add(painelPrincipal);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-
-        private void abrirTelaPorPerfil(Usuario usuario) {
-
-            switch (usuario.getPerfil()) {
-                case MEDICO:
-                    new TelaMenuMedico(usuario);
-                    break;
-                case PACIENTE:
-                    new TelaMenuPaciente(usuario);
-                    break;
-                case SECRETARIO:
-                    new TelaMenuSecretario(usuario);
-                    break;
-            }
-        }
     }
 }

@@ -11,7 +11,7 @@ public abstract class Usuario implements Serializable {
     private String email;
     private PerfilUsuario perfil;
     
-    public Usuario(String nome, String cpf, String senha, String telefone, String email, PerfilUsuario perfil){
+    public Usuario(String nome, String cpf, String telefone, String email, String senha, PerfilUsuario perfil){
         setNome(nome);
         setCpf(cpf);
         setSenha(senha);

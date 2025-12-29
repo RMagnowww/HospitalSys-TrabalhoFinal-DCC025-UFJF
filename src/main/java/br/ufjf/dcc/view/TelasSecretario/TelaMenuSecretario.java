@@ -1,6 +1,6 @@
 package br.ufjf.dcc.view.TelasSecretario;
 import javax.swing.*;
-
+import br.ufjf.dcc.model.Secretario;
 import java.awt.*;
 
 public class TelaMenuSecretario {
@@ -26,7 +26,7 @@ public class TelaMenuSecretario {
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirTelaMenuSecretario(){
+    public void abrirTelaMenuSecretario(Secretario secretario){
         frame.setSize(800,450);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);

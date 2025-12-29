@@ -1,10 +1,9 @@
 package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Paciente extends Usuario implements Serializable{
+public class Paciente extends Usuario{
     private static final long serialVersionUID = 1L;
     private String dataNascimento;
     private String tipoSanguineo;
@@ -16,8 +15,8 @@ public class Paciente extends Usuario implements Serializable{
     private List<Exame> exames;
 
 
-    public Paciente(String nome, String cpf, String senha, String telefone, String email, Endereco endereco, String dataNascimento, String tipoSanguineo) {
-        super(nome, cpf, senha, telefone, email, PerfilUsuario.PACIENTE);
+    public Paciente(String nome, String cpf, String telefone, String email, String senha, Endereco endereco, String dataNascimento, String tipoSanguineo) {
+        super(nome, cpf, telefone, email, senha, PerfilUsuario.PACIENTE);
         this.endereco = endereco;
         this.dataNascimento = dataNascimento;
         this.tipoSanguineo = tipoSanguineo;
