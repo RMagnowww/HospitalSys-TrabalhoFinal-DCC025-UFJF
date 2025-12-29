@@ -1,8 +1,12 @@
 package br.ufjf.dcc.view.TelasSecretario;
 import  br.ufjf.dcc.controller.SecretarioController;
+import br.ufjf.dcc.model.Persistencia;
+
 import br.ufjf.dcc.model.Paciente;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaCadastroPaciente {
     private JFrame frame;
@@ -41,6 +45,7 @@ public class TelaCadastroPaciente {
     private JLabel labelEmail;
     private JLabel labelSenha;
     private JList<Paciente> listPacientes;
+    private ArrayList<Paciente> pacientes;
 
     public TelaCadastroPaciente(){
         frame =  new JFrame("Cadastro de Pacientes");
@@ -62,7 +67,7 @@ public class TelaCadastroPaciente {
         campoTipoSanguineo = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
-        botaoCadastrar = new JButton("Cadastrar Paciente");
+        botaoCadastrar = new JButton("Salvar Paciente");
         botaoSair = new JButton("Sair");
         botaoRemover = new JButton("Remover Paciente");
         botaoNovo = new JButton("Novo Paciente");
@@ -79,6 +84,13 @@ public class TelaCadastroPaciente {
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         listPacientes = new JList<Paciente>();
+            try{
+                pacientes = Persistencia.carregarPacientes();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
     }
 
     public void abrirTelaCadastroPaciente(){
@@ -94,7 +106,64 @@ public class TelaCadastroPaciente {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        botaoCadastrar.addActionListener(e -> SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText()));
+        listPacientes.addListSelectionListener(e -> {
+            if(listPacientes.getSelectedValue() != null){
+                campoNome.setText(listPacientes.getSelectedValue().getNome());
+                campoCPF.setText(listPacientes.getSelectedValue().getCpf());
+                campoTelefone.setText(listPacientes.getSelectedValue().getTelefone());
+                campoCidade.setText(listPacientes.getSelectedValue().getEndereco().getCidade());
+                campoBairro.setText(listPacientes.getSelectedValue().getEndereco().getBairro());
+                campoRua.setText(listPacientes.getSelectedValue().getEndereco().getRua());
+                campoNumero.setText(listPacientes.getSelectedValue().getEndereco().getNumero());
+                campoCEP.setText(listPacientes.getSelectedValue().getEndereco().getCep());
+                campoEmail.setText(listPacientes.getSelectedValue().getEmail());
+                campoSenha.setText(listPacientes.getSelectedValue().getSenha());
+                campoDataNascimento.setText(listPacientes.getSelectedValue().getDataNascimento());
+                campoTipoSanguineo.setText(listPacientes.getSelectedValue().getTipoSanguineo());
+            }
+        });
+        botaoNovo.addActionListener( e -> {
+            listPacientes.clearSelection();
+            campoNome.setText(null);
+            campoCPF.setText(null);
+            campoTelefone.setText(null);
+            campoCidade.setText(null);
+            campoBairro.setText(null);
+            campoRua.setText(null);
+            campoNumero.setText(null);
+            campoCEP.setText(null);
+            campoEmail.setText(null);
+            campoSenha.setText(null); 
+            campoDataNascimento.setText(null);
+            campoTipoSanguineo.setText(null);
+        });
+        botaoCadastrar.addActionListener(  e -> {
+            if(listPacientes.getSelectedValue() == null)
+                SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+            else
+                SecretarioController.alterarDadosPaciente(listPacientes.getSelectedValue(), campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+            try{
+                pacientes = Persistencia.carregarPacientes();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
+        });
+        botaoRemover.addActionListener(e -> {
+            if(listPacientes.getSelectedValue() != null){
+                SecretarioController.deletarUsuario(listPacientes.getSelectedValue());
+                 try{
+                pacientes = Persistencia.carregarPacientes();
+                } 
+                catch (IOException ex) {
+                ex.printStackTrace();
+                }
+                listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
+            }
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Não há paciente selecionado para remoção!","Erro!", JOptionPane.ERROR_MESSAGE);
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelList.setLayout(new BorderLayout(10,10));

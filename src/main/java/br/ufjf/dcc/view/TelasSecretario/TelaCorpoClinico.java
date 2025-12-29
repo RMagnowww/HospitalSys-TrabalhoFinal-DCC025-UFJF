@@ -1,9 +1,13 @@
 package br.ufjf.dcc.view.TelasSecretario;
+import java.util.ArrayList;
+import br.ufjf.dcc.controller.SecretarioController;
+import br.ufjf.dcc.model.Persistencia;
 import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.enums.StatusMedico;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 public class TelaCorpoClinico {
     private  JFrame frame;
     private JPanel painelPrincipal;
@@ -33,6 +37,7 @@ public class TelaCorpoClinico {
     private JLabel labelSenha;
     private JLabel labelAtividade;
     private JList<Medico> listMedicos;
+    private ArrayList<Medico> medicos = new ArrayList<>();
 
     public TelaCorpoClinico(){
         frame =  new JFrame("Gerenciamento de Corpo Clínico");
@@ -50,7 +55,10 @@ public class TelaCorpoClinico {
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
         boxStatus = new JComboBox<StatusMedico>();
-        botaoCadastrar = new JButton("Cadastrar Médico");
+            boxStatus.addItem(StatusMedico.ATIVO);
+            boxStatus.addItem(StatusMedico.INATIVO);
+            boxStatus.setSelectedItem(null);
+        botaoCadastrar = new JButton("Salvar Médico");
         botaoSair = new JButton("Sair");
         botaoRemover = new JButton("Remover Médico");
         botaoNovo = new JButton("Novo Médico");
@@ -62,7 +70,14 @@ public class TelaCorpoClinico {
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         labelAtividade = new JLabel("Status:");
-        listMedicos = new JList<Medico>();
+        listMedicos = new JList<>();
+            try {
+                medicos = Persistencia.carregarMedicos();
+            } 
+            catch (IOException ex) {
+            ex.printStackTrace();
+            }
+            listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
     }
 
     public void abrirTelaCorpoClinico(){
@@ -78,7 +93,56 @@ public class TelaCorpoClinico {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        //botaoCadastrar.addActionListener(); -  Adicionar ação de cadastro aqui
+        listMedicos.addListSelectionListener(e -> {
+            if(listMedicos.getSelectedValue() != null){
+                campoNome.setText(listMedicos.getSelectedValue().getNome());
+                campoCPF.setText(listMedicos.getSelectedValue().getCpf());
+                campoTelefone.setText(listMedicos.getSelectedValue().getTelefone());
+                campoEmail.setText(listMedicos.getSelectedValue().getEmail());
+                campoSenha.setText(listMedicos.getSelectedValue().getSenha());
+                campoCrm.setText(listMedicos.getSelectedValue().getCrm());
+                campoEspecialidade.setText(listMedicos.getSelectedValue().getEspecialidade());
+                boxStatus.setSelectedItem(listMedicos.getSelectedValue().getAtividade());
+            }
+         });
+        botaoNovo.addActionListener( e -> {
+            listMedicos.clearSelection();
+            campoNome.setText(null);
+            campoCPF.setText(null);
+            campoTelefone.setText(null);
+            campoCrm.setText(null);
+            campoEspecialidade.setText(null);
+            campoEmail.setText(null);
+            campoSenha.setText(null);
+            boxStatus.setSelectedItem(null);
+        });
+        botaoCadastrar.addActionListener(e -> {
+            if(listMedicos.getSelectedValue() == null)
+                SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
+            else
+                SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
+            try{
+                medicos = Persistencia.carregarMedicos();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+        });
+        botaoRemover.addActionListener(e -> {
+            if(listMedicos.getSelectedValue() != null){
+                SecretarioController.deletarUsuario(listMedicos.getSelectedValue());
+                try{
+                medicos = Persistencia.carregarMedicos();
+                } 
+                catch (IOException ex) {
+                ex.printStackTrace();
+                }
+                listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+            }
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Não há médico selecionado para remoção!","Erro!", JOptionPane.ERROR_MESSAGE);
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelList.setLayout(new BorderLayout(10,10));
