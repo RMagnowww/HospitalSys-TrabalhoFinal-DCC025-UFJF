@@ -1,0 +1,3 @@
+SECRETARIO;Maria;123.456.789-10;(32)91234-5678;maria@admin.com;admin123;123abc
+MEDICO;Dr. Jorge;123.456.789-10;(32)91234-5678;jorge@medico.com;medico123;1234;Cardiologista;ATIVOPACIENTE;aa;aa;aa;aa;aa;aa;aa;aa;aa;aa;aa;aa;true
+PACIENTE;Gabriel;123.456.789-10;(32)91234-5678;gabriel@paciente.com;paciente123;Morais e Castro;Alto dos Passos;12345-678;Juiz de Fora;1600;01/01/2000;A+;true

@@ -1,4 +1,35 @@
 package br.ufjf.dcc.controller;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.Persistencia;
 
 public class PacienteController {
+    public static void alterarDados(Paciente p,String nome, String cpf, String telefone, String cidade, String bairro, String rua, String num, String cep, String email, String senha){
+         try {
+            Persistencia.deletarUsuario(p);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        p.setNome(nome);
+        p.setCpf(cpf);
+        p.setTelefone(telefone);
+        p.getEndereco().setCidade(cidade);
+        p.getEndereco().setBairro(bairro);
+        p.getEndereco().setRua(rua);
+        p.getEndereco().setNumero(num);
+        p.getEndereco().setCep(cep);
+        p.setEmail(email);
+        p.setSenha(senha);
+        try {
+            Persistencia.salvarUsuario(p);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados Pessoais confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
+    }
 }
+

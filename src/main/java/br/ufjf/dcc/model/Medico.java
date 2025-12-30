@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Medico extends Usuario {
+    private static final long serialVersionUID = 1L;
 
     private String crm; // registro
     private String especialidade; //
@@ -17,8 +18,8 @@ public class Medico extends Usuario {
 
     private List<Consulta> agendaConsultas;
 
-    public Medico(String nome, String cpf, String senha, String telefone, String email, String crm, String especialidade) {
-        super(nome, cpf, senha, telefone, email, PerfilUsuario.MEDICO);
+    public Medico(String nome, String cpf, String telefone, String email, String senha, String crm, String especialidade) {
+        super(nome, cpf, telefone, email, senha, PerfilUsuario.MEDICO);
         setCrm(crm);
         setEspecialidade(especialidade);
         this.atividade = StatusMedico.ATIVO;

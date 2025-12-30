@@ -1,6 +1,6 @@
 package br.ufjf.dcc.view.TelasMedico;
 import javax.swing.*;
-
+import br.ufjf.dcc.model.Medico;
 import java.awt.*;
 
 public class TelaMenuMedico {
@@ -24,7 +24,7 @@ public class TelaMenuMedico {
         botaoSair = new JButton("Sair");
     }
 
-    public void abrirTelaMenuMedico(){
+    public void abrirTelaMenuMedico(Medico medico){
         frame.setSize(800,350);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);

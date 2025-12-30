@@ -1,6 +1,12 @@
 package br.ufjf.dcc.view;
 import javax.swing.*;
 import java.awt.*;
+import br.ufjf.dcc.controller.LoginController;
+import br.ufjf.dcc.model.*;
+import br.ufjf.dcc.view.TelasMedico.TelaMenuMedico;
+import br.ufjf.dcc.view.TelasPaciente.TelaMenuPaciente;
+import br.ufjf.dcc.view.TelasSecretario.TelaMenuSecretario;
+
 
 public class TelaLogin {
     private final JFrame frame;
@@ -25,7 +31,46 @@ public class TelaLogin {
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         botaoEntrar = new JButton("Entrar");
+        botaoEntrar.addActionListener(e -> {
+
+            String email = campoEmail.getText();
+            String senha = campoSenha.getText();
+
+            Usuario usuario = LoginController.autenticar(email, senha);
+
+            if (usuario == null) {
+                JOptionPane.showMessageDialog(frame,
+                        "Email ou senha inválidos",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                abrirTelaPorPerfil(usuario);
+            }
+        });
+
     }
+
+    private void abrirTelaPorPerfil(Usuario usuario) {
+
+    switch (usuario.getPerfil()) {
+        case MEDICO:
+            Medico m = (Medico) usuario;
+            TelaMenuMedico telaMenuMedico = new TelaMenuMedico();
+            telaMenuMedico.abrirTelaMenuMedico(m);
+            break;
+        case PACIENTE:
+            Paciente p = (Paciente) usuario;
+            TelaMenuPaciente telaMenuPaciente = new TelaMenuPaciente();
+            telaMenuPaciente.abrirTelaMenuPaciente(p);
+            break;
+        case SECRETARIO:
+            Secretario s = (Secretario) usuario;
+            TelaMenuSecretario telaMenuSecretario = new TelaMenuSecretario();
+            telaMenuSecretario.abrirTelaMenuSecretario(s);
+            break;
+    }
+}
+
 
     public void abrirLogin(){
         frame.setSize(400,200);

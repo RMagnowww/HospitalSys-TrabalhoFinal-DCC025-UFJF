@@ -9,7 +9,6 @@ public class TelaEmitirDocs {
     private JPanel painelInfo;
     private JPanel painelLabel;
     private JPanel painelBox;
-    private JPanel painelDocumento;
     private JTextPane campoDocumento;
     private JTextField campoPaciente;
     private JComboBox<String> boxTipo;
@@ -25,15 +24,14 @@ public class TelaEmitirDocs {
         painelInfo = new JPanel();
         painelLabel = new JPanel();
         painelBox = new JPanel();
-        painelDocumento = new JPanel();
         campoDocumento = new JTextPane();
         campoPaciente = new JTextField();
         boxTipo = new JComboBox<String>();
-            boxTipo.addItem("");
             boxTipo.addItem("Atestado");
             boxTipo.addItem("Receita");
             boxTipo.addItem("Exame");
-        painelDocumento  = new JPanel();
+            boxTipo.setSelectedItem(null);
+
         labelPaciente = new JLabel("Paciente:");
         labelTipo = new JLabel("Tipo de Documento:");
         botaoSair = new JButton("Sair");
