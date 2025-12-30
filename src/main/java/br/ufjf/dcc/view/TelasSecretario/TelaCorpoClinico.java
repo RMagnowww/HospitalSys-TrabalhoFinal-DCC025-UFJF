@@ -40,7 +40,7 @@ public class TelaCorpoClinico {
     private ArrayList<Medico> medicos = new ArrayList<>();
 
     public TelaCorpoClinico(){
-        frame =  new JFrame("Gerenciamento de Corpo Clínico");
+        frame =  new JFrame("Cadastro de Médicos");
         painelPrincipal = new JPanel();
         painelCadastrar = new JPanel();
         painelEsq = new JPanel();
@@ -54,10 +54,7 @@ public class TelaCorpoClinico {
         campoCrm = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
-        boxStatus = new JComboBox<StatusMedico>();
-            boxStatus.addItem(StatusMedico.ATIVO);
-            boxStatus.addItem(StatusMedico.INATIVO);
-            boxStatus.setSelectedItem(null);
+        boxStatus = new JComboBox<StatusMedico>(StatusMedico.values());
         botaoCadastrar = new JButton("Salvar Médico");
         botaoSair = new JButton("Sair");
         botaoRemover = new JButton("Remover Médico");
@@ -69,19 +66,30 @@ public class TelaCorpoClinico {
         labelCrm = new JLabel("CRM:");
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
-        labelAtividade = new JLabel("Status:");
-        listMedicos = new JList<>();
-            try {
+        labelAtividade = new JLabel("Atividade:");
+        listMedicos = new JList<Medico>();
+            try{
                 medicos = Persistencia.carregarMedicos();
             } 
             catch (IOException ex) {
-            ex.printStackTrace();
+                ex.printStackTrace();
+            }
+            listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+        labelSenha = new JLabel("Senha:");
+        listMedicos = new JList<Medico>();
+            try{
+                medicos = Persistencia.carregarMedicos();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
             }
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
     }
 
+    
+
     public void abrirTelaCorpoClinico(){
-        frame.setSize(800,500);
+        frame.setSize(800,600);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -98,31 +106,29 @@ public class TelaCorpoClinico {
                 campoNome.setText(listMedicos.getSelectedValue().getNome());
                 campoCPF.setText(listMedicos.getSelectedValue().getCpf());
                 campoTelefone.setText(listMedicos.getSelectedValue().getTelefone());
+                campoEspecialidade.setText(listMedicos.getSelectedValue().getEspecialidade());
+                campoCrm.setText(listMedicos.getSelectedValue().getCrm());
                 campoEmail.setText(listMedicos.getSelectedValue().getEmail());
                 campoSenha.setText(listMedicos.getSelectedValue().getSenha());
-                campoCrm.setText(listMedicos.getSelectedValue().getCrm());
-                campoEspecialidade.setText(listMedicos.getSelectedValue().getEspecialidade());
                 boxStatus.setSelectedItem(listMedicos.getSelectedValue().getAtividade());
             }
-         });
+        });
         botaoNovo.addActionListener( e -> {
             listMedicos.clearSelection();
             campoNome.setText(null);
             campoCPF.setText(null);
             campoTelefone.setText(null);
-            campoCrm.setText(null);
             campoEspecialidade.setText(null);
+            campoCrm.setText(null);
             campoEmail.setText(null);
             campoSenha.setText(null);
             boxStatus.setSelectedItem(null);
         });
-        botaoCadastrar.addActionListener(e -> {
-            if(listMedicos.getSelectedValue() == null && boxStatus.getSelectedItem() == null)
+        botaoCadastrar.addActionListener(  e -> {
+            if(listMedicos.getSelectedValue() == null)
                 SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), null);
-            else if(listMedicos.getSelectedValue() == null)
-                    SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
-                else
-                    SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
+            else
+                SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
             try{
                 medicos = Persistencia.carregarMedicos();
             } 
@@ -134,7 +140,7 @@ public class TelaCorpoClinico {
         botaoRemover.addActionListener(e -> {
             if(listMedicos.getSelectedValue() != null){
                 SecretarioController.deletarUsuario(listMedicos.getSelectedValue());
-                try{
+                 try{
                 medicos = Persistencia.carregarMedicos();
                 } 
                 catch (IOException ex) {
@@ -159,6 +165,8 @@ public class TelaCorpoClinico {
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
         painelEsq.add(labelAtividade);
+        painelEsq.add(labelEmail);
+        painelEsq.add(labelSenha);
 
         painelDir.add(campoNome);
         painelDir.add(campoCPF);
@@ -168,6 +176,8 @@ public class TelaCorpoClinico {
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
         painelDir.add(boxStatus);
+        painelDir.add(campoEmail);
+        painelDir.add(campoSenha);
 
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoRemover);
@@ -188,5 +198,4 @@ public class TelaCorpoClinico {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-
 }
