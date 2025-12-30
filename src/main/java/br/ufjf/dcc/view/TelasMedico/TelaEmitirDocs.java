@@ -31,6 +31,7 @@ public class TelaEmitirDocs {
             boxTipo.addItem("Receita");
             boxTipo.addItem("Exame");
             boxTipo.setSelectedItem(null);
+
         labelPaciente = new JLabel("Paciente:");
         labelTipo = new JLabel("Tipo de Documento:");
         botaoSair = new JButton("Sair");
