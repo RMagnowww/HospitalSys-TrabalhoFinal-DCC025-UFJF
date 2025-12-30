@@ -1,5 +1,5 @@
 package br.ufjf.dcc.view.TelasPaciente;
-//import br.ufjf.dcc.model.enums.StatusInternacao;
+import br.ufjf.dcc.controller.PacienteController;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,10 +13,10 @@ public class TelaDisponibilidadeVisita{
     private JTextField campoPaciente;
     private JLabel labelPaciente;
     private JLabel labelAptidao;
-    private JLabel labelStatusInternacao;
+    private JLabel campoAptidao;
     private JButton botaoSair;
     private JButton botaoBuscar;
-    //private StatusInternacao statusPaciente;
+
 
     public TelaDisponibilidadeVisita(){
         frame = new JFrame("Verificar Disponibilidade de Visita");
@@ -28,7 +28,7 @@ public class TelaDisponibilidadeVisita{
         campoPaciente = new JTextField();
         labelPaciente = new JLabel("Nome do Paciente:");
         labelAptidao = new JLabel("Aptidão a Visitas:");
-        labelStatusInternacao = new JLabel();
+        campoAptidao = new JLabel();
         botaoSair = new JButton("Sair");
         botaoBuscar = new JButton("Buscar");
     }
@@ -38,6 +38,16 @@ public class TelaDisponibilidadeVisita{
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
 
+        botaoBuscar.addActionListener(e -> {
+            String apt = PacienteController.checarDisponibilidadeVisita(campoPaciente.getText());
+            campoAptidao.setText(apt);
+            if(apt != null){
+                if(apt.equals("APTO"))
+                    campoAptidao.setForeground(new Color(0,155,0));
+                else
+                    campoAptidao.setForeground(new Color(155,35,35));
+            }
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelSupEsq.setLayout(new GridLayout(2,0,0,15));
@@ -46,7 +56,7 @@ public class TelaDisponibilidadeVisita{
 
         painelSupDir.setLayout(new GridLayout(2,0,0,15));
         painelSupDir.add(campoPaciente);
-        painelSupDir.add(labelStatusInternacao);
+        painelSupDir.add(campoAptidao);
 
         painelSuperior.setLayout(new BorderLayout(5,5));
         painelSuperior.setBorder(BorderFactory.createEmptyBorder(15,0,10,0));
