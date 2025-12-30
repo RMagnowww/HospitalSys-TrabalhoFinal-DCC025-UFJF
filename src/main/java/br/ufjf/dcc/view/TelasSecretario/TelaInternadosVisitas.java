@@ -1,7 +1,12 @@
 package br.ufjf.dcc.view.TelasSecretario;
+import br.ufjf.dcc.controller.SecretarioController;
 import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.Persistencia;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaInternadosVisitas{
     private JFrame frame;
@@ -13,13 +18,13 @@ public class TelaInternadosVisitas{
     private JPanel painelInfoEsq;
     private JPanel painelInfoDir;
     private JTextField campoPaciente;
-    private JList<Paciente> listInternados;
+    private JList<Paciente> listPacientes;
     private JLabel labelPaciente;
     private JLabel labelAptidao;
-    private JLabel labelStatusInternacao;
+    private JLabel campoAptidao;
     private JButton botaoSair;
     private JButton botaoBuscar;
-    //private StatusInternacao statusPaciente;
+    private ArrayList<Paciente> pacientes;
 
     public TelaInternadosVisitas(){
         frame = new JFrame("Internações e Visitas");
@@ -31,10 +36,17 @@ public class TelaInternadosVisitas{
         painelInfoEsq = new JPanel();
         painelInfoDir = new JPanel();
         campoPaciente = new JTextField();
-        listInternados = new JList<Paciente>();
+        listPacientes = new JList<Paciente>();
+            try{
+                pacientes = Persistencia.carregarPacientes();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
         labelPaciente = new JLabel("Nome do Paciente:");
         labelAptidao = new JLabel("Aptidão a Visitas:");
-        labelStatusInternacao = new JLabel();
+        campoAptidao = new JLabel();
         botaoSair = new JButton("Sair");
         botaoBuscar = new JButton("Buscar");
     }
@@ -44,11 +56,32 @@ public class TelaInternadosVisitas{
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
 
+        botaoBuscar.addActionListener(e -> {
+            String apt = SecretarioController.checarDisponibilidadeVisita(campoPaciente.getText());
+            campoAptidao.setText(apt);
+            if(apt != null){
+                if(apt.equals("APTO"))
+                    campoAptidao.setForeground(new Color(0,155,0));
+                else
+                    campoAptidao.setForeground(new Color(155,35,35));
+            }
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
-        painelList.setBorder(BorderFactory.createTitledBorder("Pacientes Internados"));
+        listPacientes.addListSelectionListener(e -> {
+            campoPaciente.setText(listPacientes.getSelectedValue().getNome());
+            String apt = SecretarioController.checarDisponibilidadeVisita(campoPaciente.getText());
+            campoAptidao.setText(apt);
+            if(apt != null){
+                if(apt.equals("APTO"))
+                    campoAptidao.setForeground(new Color(0,155,0));
+                else
+                    campoAptidao.setForeground(new Color(155,35,35));
+            }
+        });
+        painelList.setBorder(BorderFactory.createTitledBorder("Pacientes"));
         painelList.setLayout(new BorderLayout(5,5));
-        painelList.add(new JScrollPane(listInternados));
+        painelList.add(new JScrollPane(listPacientes));
 
         painelInfoEsq.setLayout(new GridLayout(2,0,0,15));
         painelInfoEsq.add(labelPaciente);
@@ -56,7 +89,7 @@ public class TelaInternadosVisitas{
 
         painelInfoDir.setLayout(new GridLayout(2,0,0,15));
         painelInfoDir.add(campoPaciente);
-        painelInfoDir.add(labelStatusInternacao);
+        painelInfoDir.add(campoAptidao);
 
         painelInfo.setLayout(new BorderLayout(5,5));
         painelInfo.setBorder(BorderFactory.createEmptyBorder(30,0,220,0));

@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 import br.ufjf.dcc.model.enums.StatusMedico;
 import br.ufjf.dcc.model.Usuario;
@@ -101,4 +102,23 @@ public class SecretarioController{
         JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados Médico Confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public static String checarDisponibilidadeVisita(String pacienteNome){
+        try {
+            ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
+            for (Paciente p : listaPacientes) {
+                if (p.getNome().equals(pacienteNome)) {
+                    if(p.isAceitaVisitas())
+                        return "APTO";
+                    else if(!p.isAceitaVisitas())
+                        return "NÃO APTO";
+                }
+            }
+
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        JOptionPane.showMessageDialog(new JFrame(),"Paciente não encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
 }
