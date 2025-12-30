@@ -1,6 +1,6 @@
 package br.ufjf.dcc.view.TelasMedico;
+import br.ufjf.dcc.controller.MedicoController;
 import br.ufjf.dcc.model.Consulta;
-import br.ufjf.dcc.model.enums.StatusInternacao;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class TelaHistoricoClinico {
     private JList<Consulta> listConsultas;
     private JLabel labelPaciente;
     private JLabel labelAptidao;
-    private JComboBox<StatusInternacao> boxStatusInternacao;
+    private JComboBox<String> boxAptidao;
     private JButton botaoSair;
     private JButton botaoBuscar;
     private JButton botaoAtualizar;
@@ -36,7 +36,10 @@ public class TelaHistoricoClinico {
         listConsultas = new JList<Consulta>();
         labelPaciente = new JLabel("Paciente:");
         labelAptidao = new JLabel("Status:");
-        boxStatusInternacao = new JComboBox<StatusInternacao>();
+        boxAptidao = new JComboBox<String>();
+            boxAptidao.addItem("APTO");
+            boxAptidao.addItem("NÃO APTO");
+            boxAptidao.setSelectedItem(null);
         botaoSair = new JButton("Sair");
         botaoBuscar = new JButton("Buscar");
         botaoAtualizar = new JButton("Atualizar Status");
@@ -47,6 +50,24 @@ public class TelaHistoricoClinico {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
 
+        botaoBuscar.addActionListener( e -> {
+           String apt = MedicoController.checarDisponibilidadeVisita(campoPaciente.getText());
+           if(apt != null)
+                if(apt.equals("APTO"))
+                    boxAptidao.setSelectedIndex(0);
+                else if(apt.equals("NÃO APTO"))
+                        boxAptidao.setSelectedIndex(1);
+        });
+        botaoAtualizar.addActionListener(e -> {
+            MedicoController.atualizarAptidao(campoPaciente.getText(), boxAptidao.getSelectedItem().toString());
+            String apt = MedicoController.checarDisponibilidadeVisita(campoPaciente.getText());
+            if(apt != null)
+                if(apt.equals("APTO"))
+                    boxAptidao.setSelectedIndex(0);
+                else if(apt.equals("NÃO APTO"))
+                        boxAptidao.setSelectedIndex(1);
+
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelList.setBorder(BorderFactory.createTitledBorder("Histórico do Paciente"));
@@ -59,7 +80,7 @@ public class TelaHistoricoClinico {
 
         painelInfoDir.setLayout(new GridLayout(2,0,0,15));
         painelInfoDir.add(campoPaciente);
-        painelInfoDir.add(boxStatusInternacao);
+        painelInfoDir.add(boxAptidao);
 
         painelInfo.setLayout(new BorderLayout(5,5));
         painelInfo.setBorder(BorderFactory.createEmptyBorder(30,0,220,0));
