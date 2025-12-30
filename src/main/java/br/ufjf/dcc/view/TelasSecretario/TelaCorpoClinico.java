@@ -117,10 +117,12 @@ public class TelaCorpoClinico {
             boxStatus.setSelectedItem(null);
         });
         botaoCadastrar.addActionListener(e -> {
-            if(listMedicos.getSelectedValue() == null)
-                SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
-            else
-                SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
+            if(listMedicos.getSelectedValue() == null && boxStatus.getSelectedItem() == null)
+                SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), null);
+            else if(listMedicos.getSelectedValue() == null)
+                    SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
+                else
+                    SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
             try{
                 medicos = Persistencia.carregarMedicos();
             } 

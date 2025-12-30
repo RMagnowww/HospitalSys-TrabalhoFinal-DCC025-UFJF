@@ -64,7 +64,9 @@ public class SecretarioController{
 
     public static void cadastrarMedico(String nome, String cpf, String telefone, String email, String senha, String crm, String especialidade, String atividade){
         Medico m = new Medico(nome, cpf, telefone, email, senha, crm, especialidade);
-        if(atividade.equals("INATIVO"))
+        if(atividade == null || atividade.equals("ATIVO"))
+            m.setAtividade(StatusMedico.ATIVO);
+        else if(atividade.equals("INATIVO"))
                 m.setAtividade(StatusMedico.INATIVO);
         try {
             Persistencia.salvarUsuario(m);
@@ -87,7 +89,7 @@ public class SecretarioController{
         m.setEspecialidade(especialidade);
         m.setEmail(email);
         m.setSenha(senha);
-        if (atividade.equals("ATIVO"))
+        if(atividade.equals("ATIVO"))
             m.setAtividade(StatusMedico.ATIVO);
         else if(atividade.equals("INATIVO"))
                 m.setAtividade(StatusMedico.INATIVO);
