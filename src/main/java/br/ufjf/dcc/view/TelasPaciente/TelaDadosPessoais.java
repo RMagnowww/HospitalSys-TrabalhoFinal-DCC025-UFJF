@@ -18,6 +18,8 @@ public class TelaDadosPessoais {
     private JTextField campoRua;
     private JTextField campoNumero;
     private JTextField campoCEP;
+    private JTextField campoDataNascimento;
+    private JTextField campoTipoSanguineo;
     private JTextField campoEmail;
     private JTextField campoSenha;
     private JButton botaoConfirmar;
@@ -30,6 +32,8 @@ public class TelaDadosPessoais {
     private JLabel labelRua;
     private JLabel labelNumero;
     private JLabel labelCEP;
+    private JLabel labelDataNascimento;
+    private JLabel labelTipoSanguineo;
     private JLabel labelEmail;
     private JLabel labelSenha;
 
@@ -47,6 +51,8 @@ public class TelaDadosPessoais {
         campoRua = new JTextField(23);
         campoNumero = new JTextField(23);
         campoCEP = new JTextField(23);
+        campoDataNascimento= new JTextField(23);
+        campoTipoSanguineo = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
         botaoConfirmar = new JButton("Confirmar Mudanças");
@@ -59,6 +65,8 @@ public class TelaDadosPessoais {
         labelRua = new JLabel("Rua:");
         labelNumero = new JLabel("Número:");
         labelCEP = new JLabel("CEP:");
+        labelDataNascimento = new JLabel("Data de Nascimento:");
+        labelTipoSanguineo = new JLabel("Tipo Sanguíneo");
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
     }
@@ -72,10 +80,12 @@ public class TelaDadosPessoais {
         campoRua.setText(paciente.getEndereco().getRua());
         campoNumero.setText(paciente.getEndereco().getNumero());
         campoCEP.setText(paciente.getEndereco().getCep());
+        campoDataNascimento.setText(paciente.getDataNascimento());
+        campoTipoSanguineo.setText(paciente.getTipoSanguineo());
         campoEmail.setText(paciente.getEmail());
         campoSenha.setText(paciente.getSenha());
 
-        frame.setSize(400,500);
+        frame.setSize(450,550);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -90,7 +100,7 @@ public class TelaDadosPessoais {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        botaoConfirmar.addActionListener(e -> { PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText());});
+        botaoConfirmar.addActionListener(e -> { PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getText(),campoTipoSanguineo.getText());});
         botaoSair.addActionListener(e -> frame.dispose());
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
@@ -100,6 +110,8 @@ public class TelaDadosPessoais {
         painelEsq.add(labelRua);
         painelEsq.add(labelNumero);
         painelEsq.add(labelCEP);
+        painelEsq.add(labelDataNascimento);
+        painelEsq.add(labelTipoSanguineo);
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
 
@@ -111,6 +123,8 @@ public class TelaDadosPessoais {
         painelDir.add(campoRua);
         painelDir.add(campoNumero);
         painelDir.add(campoCEP);
+        painelDir.add(campoDataNascimento);
+        painelDir.add(campoTipoSanguineo);
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 

@@ -8,7 +8,7 @@ import br.ufjf.dcc.model.Paciente;
 import br.ufjf.dcc.model.Persistencia;
 
 public class PacienteController {
-    public static void alterarDados(Paciente p,String nome, String cpf, String telefone, String cidade, String bairro, String rua, String num, String cep, String email, String senha){
+    public static void alterarDados(Paciente p,String nome, String cpf, String telefone, String cidade, String bairro, String rua, String num, String cep, String email, String senha, String dataNas, String tipoSang){
          try {
             Persistencia.deletarUsuario(p);
         } catch (IOException ex) {
@@ -24,6 +24,8 @@ public class PacienteController {
         p.getEndereco().setCep(cep);
         p.setEmail(email);
         p.setSenha(senha);
+        p.setDataNascimento(dataNas);
+        p.setTipoSanguineo(tipoSang);
         try {
             Persistencia.salvarUsuario(p);
         } catch (IOException ex) {
