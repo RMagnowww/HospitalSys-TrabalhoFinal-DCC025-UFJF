@@ -256,7 +256,8 @@ public class Persistencia {
                     c.getPaciente().getCpf() + ";" +
                     c.getMedico().getNome() + ";" +
                     c.getMedico().getCpf() + ";" +
-                    c.getStatus()
+                    c.getStatus() + ";" +
+                    c.getDescricao()
 
                     
                 );
@@ -267,7 +268,6 @@ public class Persistencia {
      // ================= CARREGAR CONSULTAS DO PACIENTE REALIZADAS =================
     public static ArrayList<Consulta> carregarConsultasPacienteRealizadas(Paciente p) throws IOException {
         ArrayList<Consulta> lista = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         File f = new File(ARQUIVOCONSULTAS);
         if (!f.exists()) return lista;
 
@@ -283,7 +283,8 @@ public class Persistencia {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], formatter), p, m, StatusConsulta.REALIZADA);
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.REALIZADA);
+                               c.setDescricao(d[6]);
                                lista.add(c);  
                             }
                         }
@@ -297,7 +298,6 @@ public class Persistencia {
      // ================= CARREGAR CONSULTAS DO PACIENTE AGENDADAS =================
     public static ArrayList<Consulta> carregarConsultasPacienteAgendadas(Paciente p) throws IOException {
         ArrayList<Consulta> lista = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         File f = new File(ARQUIVOCONSULTAS);
         if (!f.exists()) return lista;
 
@@ -313,7 +313,8 @@ public class Persistencia {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], formatter), p, m, StatusConsulta.AGENDADA); 
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
+                                c.setDescricao(d[6]);
                                lista.add(c);  
                             }
                         }
@@ -327,7 +328,6 @@ public class Persistencia {
      // ================= CARREGAR CONSULTAS DO MÉDICO AGENDADAS =================
     public static ArrayList<Consulta> carregarConsultasMedicoAgendadas(Medico m) throws IOException {
         ArrayList<Consulta> lista = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         File f = new File(ARQUIVOCONSULTAS);
         if (!f.exists()) return lista;
 
@@ -343,10 +343,43 @@ public class Persistencia {
                         ArrayList<Paciente> pacientes = carregarPacientes();
                         for (Paciente p : pacientes) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], formatter), p, m, StatusConsulta.AGENDADA); 
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
+                                c.setDescricao(d[6]); 
                                lista.add(c);  
                             }
                         }
+       
+                    }
+                }
+            }
+        }
+        return lista;
+    }
+     // ================= CARREGAR CONSULTAS COM FALTA =================
+    public static ArrayList<Consulta> carregarConsultasFalta() throws IOException {
+        ArrayList<Consulta> lista = new ArrayList<>();
+        File f = new File(ARQUIVOCONSULTAS);
+        if (!f.exists()) return lista;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                String[] d = linha.split(";");
+
+                switch (d[5]) {
+
+                    case "FALTA" -> {
+                        ArrayList<Paciente> pacientes = carregarPacientes();
+                        ArrayList<Medico> medicos = carregarMedicos();
+                        for (Paciente p : pacientes)
+                            for(Medico m : medicos) {
+                                if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
+                                    Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.FALTA);
+                                    c.setDescricao(d[6]); 
+                                    lista.add(c);  
+                                }
+                            }
        
                     }
                 }
