@@ -6,6 +6,7 @@ import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.enums.StatusMedico;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.io.IOException;
 public class TelaCorpoClinico {
@@ -47,13 +48,13 @@ public class TelaCorpoClinico {
         painelDir = new JPanel();
         painelList = new JPanel();
         painelBotoes = new JPanel();
-        campoNome = new JTextField(23);
-        campoCPF = new JTextField(23);
-        campoTelefone = new JTextField(23);
-        campoEspecialidade = new JTextField(23);
-        campoCrm = new JTextField(23);
-        campoEmail = new JTextField(23);
-        campoSenha = new JTextField(23);
+        campoNome = new JTextField(36);
+        campoCPF = new JTextField(36);
+        campoTelefone = new JTextField(36);
+        campoEspecialidade = new JTextField(36);
+        campoCrm = new JTextField(36);
+        campoEmail = new JTextField(36);
+        campoSenha = new JTextField(36);
         boxStatus = new JComboBox<StatusMedico>(StatusMedico.values());
         botaoCadastrar = new JButton("Salvar Médico");
         botaoSair = new JButton("Sair");
@@ -190,8 +191,8 @@ public class TelaCorpoClinico {
 
         painelPrincipal.setLayout(new BorderLayout(10,10));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
-        painelPrincipal.add(painelCadastrar, BorderLayout.CENTER);
-        painelPrincipal.add(painelList, BorderLayout.WEST);
+        painelPrincipal.add(painelCadastrar, BorderLayout.EAST);
+        painelPrincipal.add(painelList, BorderLayout.CENTER);
 
         frame.add(painelPrincipal);
         frame.setVisible(true);

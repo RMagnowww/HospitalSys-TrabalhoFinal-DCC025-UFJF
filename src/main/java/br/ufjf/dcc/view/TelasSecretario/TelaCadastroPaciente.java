@@ -55,18 +55,18 @@ public class TelaCadastroPaciente {
         painelDir = new JPanel();
         painelList = new JPanel();
         painelBotoes = new JPanel();
-        campoNome = new JTextField(23);
-        campoCPF = new JTextField(23);
-        campoTelefone = new JTextField(23);
-        campoCidade = new JTextField(23);
-        campoBairro = new JTextField(23);
-        campoRua = new JTextField(23);
-        campoNumero = new JTextField(23);
-        campoCEP = new JTextField(23);
-        campoDataNascimento = new JTextField(23);
-        campoTipoSanguineo = new JTextField(23);
-        campoEmail = new JTextField(23);
-        campoSenha = new JTextField(23);
+        campoNome = new JTextField(36);
+        campoCPF = new JTextField(36);
+        campoTelefone = new JTextField(36);
+        campoCidade = new JTextField(36);
+        campoBairro = new JTextField(36);
+        campoRua = new JTextField(36);
+        campoNumero = new JTextField(36);
+        campoCEP = new JTextField(36);
+        campoDataNascimento = new JTextField(36);
+        campoTipoSanguineo = new JTextField(36);
+        campoEmail = new JTextField(36);
+        campoSenha = new JTextField(36);
         botaoCadastrar = new JButton("Salvar Paciente");
         botaoSair = new JButton("Sair");
         botaoRemover = new JButton("Remover Paciente");
@@ -222,8 +222,8 @@ public class TelaCadastroPaciente {
 
         painelPrincipal.setLayout(new BorderLayout(10,10));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15,23,15,23));
-        painelPrincipal.add(painelCadastrar, BorderLayout.CENTER);
-        painelPrincipal.add(painelList, BorderLayout.WEST);
+        painelPrincipal.add(painelCadastrar, BorderLayout.EAST);
+        painelPrincipal.add(painelList, BorderLayout.CENTER);
 
         frame.add(painelPrincipal);
         frame.setVisible(true);
