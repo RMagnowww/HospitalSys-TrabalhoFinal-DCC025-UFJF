@@ -2,6 +2,8 @@ package br.ufjf.dcc.view.TelasPaciente;
 import br.ufjf.dcc.model.Consulta;
 import br.ufjf.dcc.model.Paciente;
 import br.ufjf.dcc.model.Persistencia;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -21,7 +23,7 @@ public class TelaAgendamento {
     private JButton botaoSair;
     private JTextField campoMedico;
     private JTextField campoData;
-    private JComboBox<String> comboBoxHorarios;
+    private JComboBox<LocalTime> comboBoxHorarios;
     private JLabel respostaStatusConsulta;
     private JList<Consulta> listaAgendamentos;
     private JLabel labelMedico;
@@ -66,6 +68,12 @@ public class TelaAgendamento {
             ex.printStackTrace();
         }
         listaAgendamentos.setListData(consultas.toArray(new Consulta[consultas.size()]));
+        listaAgendamentos.addListSelectionListener(e -> {
+            campoMedico.setText(listaAgendamentos.getSelectedValue().getMedico().getNome());
+            campoData.setText(listaAgendamentos.getSelectedValue().getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            comboBoxHorarios.setSelectedItem(listaAgendamentos.getSelectedValue().getDataHora().toLocalTime());
+            respostaStatusConsulta.setText(listaAgendamentos.getSelectedValue().getStatus().toString());
+        });
 
         painelAgendamentos.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
         painelAgendamentos.setLayout(new BorderLayout(10,10));
