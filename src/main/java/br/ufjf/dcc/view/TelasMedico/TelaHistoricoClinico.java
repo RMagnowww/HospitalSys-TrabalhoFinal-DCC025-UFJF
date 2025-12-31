@@ -8,20 +8,33 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
 public class TelaHistoricoClinico {
     private JFrame frame;
     private JPanel painelPrincipal;
     private JPanel painelSuperior;
+    private JPanel painelBusca;
     private JPanel painelInfo;
+    private JPanel painelInfoLabel;
+    private JPanel painelInfoText;
     private JPanel painelBotoes;
     private JPanel painelList;
-    private JPanel painelInfoEsq;
-    private JPanel painelInfoDir;
-    private JTextField campoPaciente;
+    private JPanel painelBuscaEsq;
+    private JPanel painelBuscaDir;
+    private JTextField campoPacienteBusca;
     private JList<Consulta> listConsultas;
-    private JLabel labelPaciente;
+    private JLabel labelPacienteBusca;
     private JLabel labelAptidao;
+    private JTextField campoPaciente;
+    private JTextField campoMedico;
+    private JTextField campoEspecialidade;
+    private JTextField campoDataHora;
+    private JTextPane paneDescricao;
+    private JLabel labelPaciente;
+    private JLabel labelMedico;
+    private JLabel labelEspecialidade;
+    private JLabel labelDataHora;
     private JComboBox<String> boxAptidao;
     private JButton botaoSair;
     private JButton botaoBuscar;
@@ -32,15 +45,27 @@ public class TelaHistoricoClinico {
         frame = new JFrame("Histórico Clínico");
         painelPrincipal = new JPanel();
         painelSuperior = new JPanel();
+        painelBusca = new JPanel();
         painelInfo = new JPanel();
+        painelInfoLabel = new JPanel();
+        painelInfoText = new JPanel();
         painelBotoes = new JPanel();
         painelList = new JPanel();
-        painelInfoEsq = new JPanel();
-        painelInfoDir = new JPanel();
-        campoPaciente = new JTextField();
+        painelBuscaEsq = new JPanel();
+        painelBuscaDir = new JPanel();
+        campoPacienteBusca = new JTextField(20);
         listConsultas = new JList<Consulta>();
-        labelPaciente = new JLabel("Paciente:");
+        labelPacienteBusca = new JLabel("Paciente:");
         labelAptidao = new JLabel("Status:");
+        campoPaciente = new JTextField(25);
+        campoMedico = new JTextField(25);
+        campoEspecialidade = new JTextField(25);
+        campoDataHora = new JTextField(25);
+        paneDescricao = new JTextPane();
+        labelPaciente = new JLabel("Paciente:");
+        labelMedico= new JLabel("Medico:");
+        labelEspecialidade = new JLabel("Especialidade:");
+        labelDataHora = new JLabel("Data/Hora:");
         boxAptidao = new JComboBox<String>();
             boxAptidao.addItem("APTO");
             boxAptidao.addItem("NÃO APTO");
@@ -50,13 +75,13 @@ public class TelaHistoricoClinico {
         botaoAtualizar = new JButton("Atualizar Status");
     }
     public void abrirTelaHistoricoClinico(){
-        frame.setSize(700,400);
+        frame.setSize(900,450);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
 
         botaoBuscar.addActionListener( e -> {
-           String apt = MedicoController.checarDisponibilidadeVisita(campoPaciente.getText());
+           String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText());
            if(apt != null){
                 if(apt.equals("APTO"))
                     boxAptidao.setSelectedIndex(0);
@@ -65,7 +90,7 @@ public class TelaHistoricoClinico {
                 try{
                     ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
                     for (Paciente p : listaPacientes) {
-                        if (p.getNome().equals(campoPaciente.getText())){
+                        if (p.getNome().equals(campoPacienteBusca.getText())){
                             try{
                                 consultas = Persistencia.carregarConsultasPacienteRealizadas(p);
                             } 
@@ -82,8 +107,8 @@ public class TelaHistoricoClinico {
             }
         });
         botaoAtualizar.addActionListener(e -> {
-            MedicoController.atualizarAptidao(campoPaciente.getText(), boxAptidao.getSelectedItem().toString());
-            String apt = MedicoController.checarDisponibilidadeVisita(campoPaciente.getText());
+            MedicoController.atualizarAptidao(campoPacienteBusca.getText(), boxAptidao.getSelectedItem().toString());
+            String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText());
             if(apt != null)
                 if(apt.equals("APTO"))
                     boxAptidao.setSelectedIndex(0);
@@ -93,32 +118,65 @@ public class TelaHistoricoClinico {
         });
         botaoSair.addActionListener(e -> frame.dispose());
 
+        listConsultas.addListSelectionListener(e -> {
+            campoPaciente.setText(listConsultas.getSelectedValue().getPaciente().getNome());
+            campoMedico.setText(listConsultas.getSelectedValue().getMedico().getNome());
+            campoEspecialidade.setText(listConsultas.getSelectedValue().getMedico().getEspecialidade());
+            campoDataHora.setText(listConsultas.getSelectedValue().getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            paneDescricao.setText(listConsultas.getSelectedValue().getDescricao());
+        });
+
         painelList.setBorder(BorderFactory.createTitledBorder("Histórico do Paciente"));
         painelList.setLayout(new BorderLayout(5,5));
         painelList.add(new JScrollPane(listConsultas));
 
-        painelInfoEsq.setLayout(new GridLayout(2,0,0,15));
-        painelInfoEsq.add(labelPaciente);
-        painelInfoEsq.add(labelAptidao);
+        painelBuscaEsq.setLayout(new GridLayout(2,0,0,15));
+        painelBuscaEsq.add(labelPacienteBusca);
+        painelBuscaEsq.add(labelAptidao);
 
-        painelInfoDir.setLayout(new GridLayout(2,0,0,15));
-        painelInfoDir.add(campoPaciente);
-        painelInfoDir.add(boxAptidao);
+        painelBuscaDir.setLayout(new GridLayout(2,0,0,15));
+        painelBuscaDir.add(campoPacienteBusca);
+        painelBuscaDir.add(boxAptidao);
 
-        painelInfo.setLayout(new BorderLayout(5,5));
-        painelInfo.setBorder(BorderFactory.createEmptyBorder(30,0,220,0));
-        painelInfo.add(painelInfoEsq, BorderLayout.WEST);
-        painelInfo.add(painelInfoDir, BorderLayout.CENTER);
+        painelBusca.setLayout(new BorderLayout(5,5));
+        painelBusca.setBorder(BorderFactory.createEmptyBorder(30,0,250,0));
+        painelBusca.add(painelBuscaEsq, BorderLayout.WEST);
+        painelBusca.add(painelBuscaDir, BorderLayout.CENTER);
 
         painelSuperior.setLayout(new BorderLayout(10,10));
-        painelSuperior.add(painelInfo, BorderLayout.CENTER);
-        painelSuperior.add(painelList, BorderLayout.EAST);
+        painelSuperior.add(painelBusca, BorderLayout.WEST);
+        painelSuperior.add(painelList, BorderLayout.CENTER);
+        painelSuperior.add(painelInfo, BorderLayout.EAST);
 
         painelBotoes.setLayout(new GridLayout(0,3,5,0));
-        painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,5,0,270));
+        painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,5,0,400));
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoAtualizar);
         painelBotoes.add(botaoBuscar);
+
+        painelInfoLabel.setLayout(new GridLayout(4,0,0,10));
+        painelInfoLabel.setBorder(BorderFactory.createEmptyBorder(10,10,0,0));
+        painelInfoLabel.add(labelPaciente);
+        painelInfoLabel.add(labelMedico);
+        painelInfoLabel.add(labelEspecialidade);
+        painelInfoLabel.add(labelDataHora);
+
+        painelInfoText.setLayout(new GridLayout(4,0,0,10));
+        painelInfoText.add(campoPaciente);
+        painelInfoText.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
+        painelInfoText.add(campoMedico);
+        painelInfoText.add(campoEspecialidade);
+        painelInfoText.add(campoDataHora);
+
+        paneDescricao.setBorder(BorderFactory.createTitledBorder("Descrição"));
+        paneDescricao.setPreferredSize(new Dimension(200,200));
+        paneDescricao.setMaximumSize(new Dimension(200,200));
+        painelInfo.setBorder(BorderFactory.createTitledBorder("Informações da Consulta"));
+        painelInfo.setLayout(new BorderLayout(10,10));
+        painelInfo.add(painelInfoLabel, BorderLayout.WEST);
+        painelInfo.add(painelInfoText, BorderLayout.CENTER);
+        painelInfo.add(new JScrollPane(paneDescricao), BorderLayout.SOUTH);
+
 
         painelPrincipal.setLayout(new BorderLayout(5,5));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
