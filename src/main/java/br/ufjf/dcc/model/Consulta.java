@@ -10,8 +10,8 @@ public class Consulta {
     private Paciente paciente;
     private Medico medico;
 
-    public Consulta(LocalDateTime dataHora, Paciente paciente, Medico medico) {
-        this.status = StatusConsulta.AGENDADA;
+    public Consulta(LocalDateTime dataHora, Paciente paciente, Medico medico,StatusConsulta status) {
+        setStatus(status);
         setPaciente(paciente);
         setMedico(medico);
         setDataHora(dataHora);
@@ -38,7 +38,7 @@ public class Consulta {
         if (dataHora == null) {
             throw new IllegalArgumentException("A data e hora da consulta são obrigatórias.");
         }
-        if (dataHora.isBefore(LocalDateTime.now())) {
+        if (dataHora.isBefore(LocalDateTime.now()) && this.status != StatusConsulta.REALIZADA) {
             throw new IllegalArgumentException("Não é possível agendar consultas para o passado.");
         }
         this.dataHora = dataHora;
