@@ -40,7 +40,7 @@ public class TelaCorpoClinico {
     private ArrayList<Medico> medicos = new ArrayList<>();
 
     public TelaCorpoClinico(){
-        frame =  new JFrame("Gerenciamento de Corpo Clínico");
+        frame =  new JFrame("Cadastro de Médicos");
         painelPrincipal = new JPanel();
         painelCadastrar = new JPanel();
         painelEsq = new JPanel();
@@ -66,9 +66,9 @@ public class TelaCorpoClinico {
         labelCrm = new JLabel("CRM:");
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
-        labelAtividade = new JLabel("Status:");
-        listMedicos = new JList<>();
-            try {
+        labelAtividade = new JLabel("Atividade:");
+        listMedicos = new JList<Medico>();
+            try{
                 medicos = Persistencia.carregarMedicos();
             } 
             catch (IOException ex) {
@@ -77,8 +77,10 @@ public class TelaCorpoClinico {
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
     }
 
+    
+
     public void abrirTelaCorpoClinico(){
-        frame.setSize(800,500);
+        frame.setSize(800,600);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -195,5 +197,4 @@ public class TelaCorpoClinico {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-
 }
