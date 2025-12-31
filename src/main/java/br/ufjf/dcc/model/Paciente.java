@@ -62,5 +62,9 @@ public class Paciente extends Usuario{
     public List<Exame> getExames() {
         return exames;
     }
+    @Override
+    public String toString(){
+        return getNome() + " - CPF: " + getCpf();
+    }
 }
 

@@ -72,4 +72,8 @@ public class Medico extends Usuario {
     public void adicionarConsultaAgenda(Consulta consulta) {
         this.agendaConsultas.add(consulta);
     }
+    @Override
+    public String toString(){
+        return getNome() + " - CPF: " + getCpf() + " - " + getEspecialidade();
+    }
 }

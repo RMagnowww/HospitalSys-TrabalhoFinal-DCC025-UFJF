@@ -1,7 +1,8 @@
 package br.ufjf.dcc.model;
 
 import br.ufjf.dcc.model.enums.StatusConsulta;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Consulta {
     private LocalDateTime dataHora;
@@ -56,6 +57,6 @@ public class Consulta {
 
     @Override
     public String toString(){
-        return "Consulta: " + dataHora + " - Dr(a). " + medico.getNome() + " - Paciente: " + paciente.getNome() + " [" + status + "]";
+        return "Consulta: " + dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + " - Medico: " + medico.getNome() + " - Paciente: " + paciente.getNome() + " [" + status + "]";
     }
 }
