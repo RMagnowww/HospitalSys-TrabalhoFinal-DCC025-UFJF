@@ -1,10 +1,15 @@
 package br.ufjf.dcc.view.TelasSecretario;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import br.ufjf.dcc.model.Medico;
+import br.ufjf.dcc.model.Persistencia;
 import br.ufjf.dcc.model.Consulta;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaDisponibilidadeMedicos{
     private JFrame frame;
@@ -32,6 +37,7 @@ public class TelaDisponibilidadeMedicos{
     private JLabel labelHorarioConsulta;
     private JLabel labelHorariosDisponiveis;
     private JButton botaoSair;
+    private ArrayList<Consulta> consultas;
 
     public TelaDisponibilidadeMedicos(){
         frame = new JFrame("Disponibilidade");
@@ -48,10 +54,10 @@ public class TelaDisponibilidadeMedicos{
         painelBotoes = new JPanel();
         listMedicosAtivos = new JList<Medico>();
         listConsultaFalta = new JList<Consulta>();
-        campoMedico1 = new JTextField();
-        campoMedico2 = new JTextField();
-        campoPaciente = new JTextField();
-        campoHorario = new JTextField();
+        campoMedico1 = new JTextField(20);
+        campoMedico2 = new JTextField(20);
+        campoPaciente = new JTextField(20);
+        campoHorario = new JTextField(20);
         campoMedico1.setEditable(false);
         campoMedico2.setEditable(false);
         campoPaciente.setEditable(false);
@@ -70,6 +76,21 @@ public class TelaDisponibilidadeMedicos{
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(10,10));
+
+        try{
+            consultas = Persistencia.carregarConsultasFalta();
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        listConsultaFalta.setListData(consultas.toArray(new Consulta[consultas.size()]));
+
+        listConsultaFalta.addListSelectionListener(e ->{
+            campoPaciente.setText(listConsultaFalta.getSelectedValue().getPaciente().getNome());
+            campoMedico2.setText(listConsultaFalta.getSelectedValue().getMedico().getNome());
+            campoHorario.setText(listConsultaFalta.getSelectedValue().getDataHora().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")));
+
+        });
 
         botaoSair.addActionListener(e -> frame.dispose());
 
@@ -113,8 +134,8 @@ public class TelaDisponibilidadeMedicos{
         painelInfoMain.add(painelInfo2);
 
         painelSuperior.setLayout(new BorderLayout(10,10));
-        painelSuperior.add(painelLists, BorderLayout.WEST);
-        painelSuperior.add(painelInfoMain, BorderLayout.CENTER);
+        painelSuperior.add(painelLists, BorderLayout.CENTER);
+        painelSuperior.add(painelInfoMain, BorderLayout.EAST);
 
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,175,0,175));
         painelBotoes.setLayout(new BorderLayout(10,10));
