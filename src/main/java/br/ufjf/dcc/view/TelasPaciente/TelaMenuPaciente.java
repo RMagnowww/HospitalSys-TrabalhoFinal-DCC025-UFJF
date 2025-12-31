@@ -36,7 +36,7 @@ public class TelaMenuPaciente {
 
         botaoAgendarConsulta.addActionListener(e -> {
             TelaAgendamento telaAgendamento = new TelaAgendamento();
-            telaAgendamento.abrirTelaAgendamento();
+            telaAgendamento.abrirTelaAgendamento(paciente);
         });
         botaoDocsMedicos.addActionListener(e -> {
             TelaDocumentos telaDocumentos = new TelaDocumentos();
@@ -44,7 +44,7 @@ public class TelaMenuPaciente {
         });
         botaoHistorico.addActionListener(e -> {
             TelaHistorico telaHistorico = new TelaHistorico();
-            telaHistorico.abrirTelaHistorico();
+            telaHistorico.abrirTelaHistorico(paciente);
         });
         botaoDadosPessoais.addActionListener(e -> {
             TelaDadosPessoais telaDadosPessoais = new TelaDadosPessoais();

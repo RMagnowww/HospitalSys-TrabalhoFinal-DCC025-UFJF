@@ -80,7 +80,7 @@ public class TelaCorpoClinico {
     
 
     public void abrirTelaCorpoClinico(){
-        frame.setSize(800,600);
+        frame.setSize(800,500);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

@@ -1,7 +1,12 @@
 package br.ufjf.dcc.view.TelasPaciente;
 import br.ufjf.dcc.model.Consulta;
+import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.Persistencia;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaAgendamento {
     private JFrame frame;
@@ -23,6 +28,7 @@ public class TelaAgendamento {
     private JLabel labelData;  
     private JLabel labelHorario;
     private JLabel labelStatusConsulta;
+    private ArrayList<Consulta> consultas;
     
 
     public TelaAgendamento(){
@@ -45,13 +51,21 @@ public class TelaAgendamento {
         labelHorario = new JLabel("Horário:");
         listaAgendamentos = new JList<>();
         labelStatusConsulta = new JLabel("Status da Consulta:");
-    }
+    }     
 
-    public void abrirTelaAgendamento(){
+    public void abrirTelaAgendamento(Paciente paciente){
         frame.setSize(800,500);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
+
+        try{
+            consultas = Persistencia.carregarConsultasPacienteAgendadas(paciente);
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        listaAgendamentos.setListData(consultas.toArray(new Consulta[consultas.size()]));
 
         painelAgendamentos.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
         painelAgendamentos.setLayout(new BorderLayout(10,10));

@@ -1,9 +1,13 @@
 package br.ufjf.dcc.view.TelasMedico;
 import br.ufjf.dcc.controller.MedicoController;
+import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.Persistencia;
 import br.ufjf.dcc.model.Consulta;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaHistoricoClinico {
     private JFrame frame;
@@ -22,6 +26,7 @@ public class TelaHistoricoClinico {
     private JButton botaoSair;
     private JButton botaoBuscar;
     private JButton botaoAtualizar;
+    private ArrayList<Consulta> consultas;
 
     public TelaHistoricoClinico(){
         frame = new JFrame("Histórico Clínico");
@@ -52,11 +57,29 @@ public class TelaHistoricoClinico {
 
         botaoBuscar.addActionListener( e -> {
            String apt = MedicoController.checarDisponibilidadeVisita(campoPaciente.getText());
-           if(apt != null)
+           if(apt != null){
                 if(apt.equals("APTO"))
                     boxAptidao.setSelectedIndex(0);
                 else if(apt.equals("NÃO APTO"))
                         boxAptidao.setSelectedIndex(1);
+                try{
+                    ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
+                    for (Paciente p : listaPacientes) {
+                        if (p.getNome().equals(campoPaciente.getText())){
+                            try{
+                                consultas = Persistencia.carregarConsultasPacienteRealizadas(p);
+                            } 
+                            catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            listConsultas.setListData(consultas.toArray(new Consulta[consultas.size()]));
+                        }
+                    }
+                }
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         botaoAtualizar.addActionListener(e -> {
             MedicoController.atualizarAptidao(campoPaciente.getText(), boxAptidao.getSelectedItem().toString());

@@ -1,7 +1,12 @@
 package br.ufjf.dcc.view.TelasPaciente;
 import br.ufjf.dcc.model.Consulta;
+import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.Persistencia;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaHistorico{
     private JFrame frame;
@@ -12,6 +17,7 @@ public class TelaHistorico{
     private JTextPane painelVisualizar;
     private JButton botaoSair;
     private JButton botaoAbrir;
+    private ArrayList<Consulta> consultas;
 
     public TelaHistorico(){
         frame = new JFrame("Histórico Médico");
@@ -23,12 +29,19 @@ public class TelaHistorico{
         botaoSair = new JButton("Sair");
         botaoAbrir = new JButton("Abrir");
     }
-    public void abrirTelaHistorico(){
+    public void abrirTelaHistorico(Paciente paciente){
         frame.setSize(600,500);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         listConsultas.setBorder(BorderFactory.createTitledBorder("Histórico de Consultas"));
+        try{
+            consultas = Persistencia.carregarConsultasPacienteRealizadas(paciente);
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        listConsultas.setListData(consultas.toArray(new Consulta[consultas.size()]));
 
         botaoSair.addActionListener(e -> frame.dispose());
 
