@@ -54,10 +54,7 @@ public class TelaCorpoClinico {
         campoCrm = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
-        boxStatus = new JComboBox<StatusMedico>();
-            boxStatus.addItem(StatusMedico.ATIVO);
-            boxStatus.addItem(StatusMedico.INATIVO);
-            boxStatus.setSelectedItem(null);
+        boxStatus = new JComboBox<StatusMedico>(StatusMedico.values());
         botaoCadastrar = new JButton("Salvar Médico");
         botaoSair = new JButton("Sair");
         botaoRemover = new JButton("Remover Médico");
@@ -75,7 +72,7 @@ public class TelaCorpoClinico {
                 medicos = Persistencia.carregarMedicos();
             } 
             catch (IOException ex) {
-            ex.printStackTrace();
+                ex.printStackTrace();
             }
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
     }
@@ -98,49 +95,57 @@ public class TelaCorpoClinico {
                 campoNome.setText(listMedicos.getSelectedValue().getNome());
                 campoCPF.setText(listMedicos.getSelectedValue().getCpf());
                 campoTelefone.setText(listMedicos.getSelectedValue().getTelefone());
+                campoEspecialidade.setText(listMedicos.getSelectedValue().getEspecialidade());
+                campoCrm.setText(listMedicos.getSelectedValue().getCrm());
                 campoEmail.setText(listMedicos.getSelectedValue().getEmail());
                 campoSenha.setText(listMedicos.getSelectedValue().getSenha());
-                campoCrm.setText(listMedicos.getSelectedValue().getCrm());
-                campoEspecialidade.setText(listMedicos.getSelectedValue().getEspecialidade());
                 boxStatus.setSelectedItem(listMedicos.getSelectedValue().getAtividade());
             }
-         });
+        });
         botaoNovo.addActionListener( e -> {
             listMedicos.clearSelection();
             campoNome.setText(null);
             campoCPF.setText(null);
             campoTelefone.setText(null);
-            campoCrm.setText(null);
             campoEspecialidade.setText(null);
+            campoCrm.setText(null);
             campoEmail.setText(null);
             campoSenha.setText(null);
-            boxStatus.setSelectedItem(null);
+            boxStatus.setSelectedIndex(0);
         });
         botaoCadastrar.addActionListener(e -> {
-            if(listMedicos.getSelectedValue() == null && boxStatus.getSelectedItem() == null)
-                SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), null);
-            else if(listMedicos.getSelectedValue() == null)
-                    SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(), boxStatus.getSelectedItem().toString());
+                if(listMedicos.getSelectedValue() == null)
+                    SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(),  boxStatus.getSelectedItem().toString());
                 else
                     SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
-            try{
-                medicos = Persistencia.carregarMedicos();
-            } 
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
+                try{
+                    medicos = Persistencia.carregarMedicos();
+                } 
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+            listMedicos.setSelectedIndex(medicos.size()-1);
         });
         botaoRemover.addActionListener(e -> {
             if(listMedicos.getSelectedValue() != null){
                 SecretarioController.deletarUsuario(listMedicos.getSelectedValue());
                 try{
-                medicos = Persistencia.carregarMedicos();
+                    medicos = Persistencia.carregarMedicos();
                 } 
                 catch (IOException ex) {
-                ex.printStackTrace();
+                    ex.printStackTrace();
                 }
                 listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+                listMedicos.clearSelection();
+                campoNome.setText(null);
+                campoCPF.setText(null);
+                campoTelefone.setText(null);
+                campoEspecialidade.setText(null);
+                campoCrm.setText(null);
+                campoEmail.setText(null);
+                campoSenha.setText(null);
+                boxStatus.setSelectedIndex(0);
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Não há médico selecionado para remoção!","Erro!", JOptionPane.ERROR_MESSAGE);
@@ -156,18 +161,20 @@ public class TelaCorpoClinico {
         painelEsq.add(labelTelefone);
         painelEsq.add(labelEspecialidade);
         painelEsq.add(labelCrm);
+        painelEsq.add(labelAtividade);
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
-        painelEsq.add(labelAtividade);
+        
 
         painelDir.add(campoNome);
         painelDir.add(campoCPF);
         painelDir.add(campoTelefone);
         painelDir.add(campoEspecialidade);
         painelDir.add(campoCrm);
+        painelDir.add(boxStatus);
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
-        painelDir.add(boxStatus);
+       
 
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoRemover);

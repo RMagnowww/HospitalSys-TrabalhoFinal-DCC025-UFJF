@@ -149,6 +149,7 @@ public class TelaCadastroPaciente {
                 ex.printStackTrace();
             }
             listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
+            listPacientes.setSelectedIndex(pacientes.size()-1);
         });
         botaoRemover.addActionListener(e -> {
             if(listPacientes.getSelectedValue() != null){
@@ -160,6 +161,19 @@ public class TelaCadastroPaciente {
                 ex.printStackTrace();
                 }
                 listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
+                listPacientes.clearSelection();
+                campoNome.setText(null);
+                campoCPF.setText(null);
+                campoTelefone.setText(null);
+                campoCidade.setText(null);
+                campoBairro.setText(null);
+                campoRua.setText(null);
+                campoNumero.setText(null);
+                campoCEP.setText(null);
+                campoEmail.setText(null);
+                campoSenha.setText(null); 
+                campoDataNascimento.setText(null);
+                campoTipoSanguineo.setText(null);
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Não há paciente selecionado para remoção!","Erro!", JOptionPane.ERROR_MESSAGE);
