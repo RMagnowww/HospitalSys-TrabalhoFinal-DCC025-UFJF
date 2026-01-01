@@ -426,6 +426,97 @@ public class Persistencia {
         }
     }
 
+    private static final String ARQUIVODOCUMENTOS = "documentos.txt";
+     // ================= SALVAR DOCUMENTOS =================
+    public static void salvarDocumentos(DocumentoMedico d) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVODOCUMENTOS, true))) {
+               if (d instanceof Atestado a) {
+                bw.write(
+                    "ATESTADO;" +
+                    a.getMedico().getNome() + ";" +
+                    a.getMedico().getCpf() + ";" +
+                    a.getPaciente().getNome() + ";" +
+                    a.getPaciente().getCpf() + ";" +
+                    a.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    a.getDiasAfastamento() + ";" +
+                    a.getDescricao()
+                );
+            }
+
+            else if (d instanceof Exame e) {
+                bw.write(
+                    "EXAME;" +
+                    e.getMedico().getNome() + ";" +
+                    e.getMedico().getCpf() + ";" +
+                    e.getPaciente().getNome() + ";" +
+                    e.getPaciente().getCpf() + ";" +
+                    e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    e.getNomeExame()  + ";" +
+                    e.getResultado()
+                );
+            }
+
+            else if (d instanceof Receita r) {
+                bw.write(
+                    "RECEITA;" +
+                    r.getMedico().getNome() + ";" +
+                    r.getMedico().getCpf() + ";" +
+                    r.getPaciente().getNome() + ";" +
+                    r.getPaciente().getCpf() + ";" +
+                    r.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    r.getMedicamentos()
+                );
+            }
+
+            bw.newLine();
+        }
+    }
+        // ================= CARREGAR DOCUMENTOS DO PACIENTE =================
+    public static List<DocumentoMedico> carregarDocumentosPaciente(Paciente p) throws IOException {
+        List<DocumentoMedico> lista = new ArrayList<>();
+        ArrayList<Medico> medicos = carregarMedicos();
+        File f = new File(ARQUIVODOCUMENTOS);
+        if (!f.exists()) return lista;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                String[] d = linha.split(";");
+
+                switch (d[0]) {
+
+                    case "ATESTADO" -> {
+                        for(Medico m : medicos)
+                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
+                                Atestado a = new Atestado(m, p, Integer.parseInt(d[6]), d[7]);
+                                a.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                lista.add(a);
+                            }
+                    }
+
+                    case "EXAME" -> {
+                        for(Medico m : medicos)
+                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
+                                Exame e = new Exame(m, p, d[6], d[7]);
+                                e.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                lista.add(e);
+                            }
+                    }
+
+                    case "RECEITA" -> {
+                        for(Medico m : medicos)
+                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
+                                Receita r = new Receita(m, p, d[6]);
+                                r.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                lista.add(r);
+                    }
+                }
+            }
+        }
+        return lista;
+        }
+    }
 }
     
 
