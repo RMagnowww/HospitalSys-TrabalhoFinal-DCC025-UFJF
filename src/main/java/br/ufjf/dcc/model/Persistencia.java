@@ -173,7 +173,7 @@ public class Persistencia {
         return lista;
     }
 
-    // ================= DELETAR=================
+    // ================= DELETAR USUÁRIO =================
     public static void deletarUsuario(Usuario u) throws IOException {
         String linhaExcluir = new String();
             if (u instanceof Paciente p) {
@@ -251,7 +251,7 @@ public class Persistencia {
     public static void salvarConsultas(Consulta c) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVOCONSULTAS, true))) {
                 bw.write(
-                    c.getDataHora() + ";" +
+                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
                     c.getPaciente().getNome() + ";" +
                     c.getPaciente().getCpf() + ";" +
                     c.getMedico().getNome() + ";" +
@@ -283,7 +283,7 @@ public class Persistencia {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.REALIZADA);
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.REALIZADA);
                                c.setDescricao(d[6]);
                                lista.add(c);  
                             }
@@ -313,7 +313,7 @@ public class Persistencia {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
                                 c.setDescricao(d[6]);
                                lista.add(c);  
                             }
@@ -343,7 +343,7 @@ public class Persistencia {
                         ArrayList<Paciente> pacientes = carregarPacientes();
                         for (Paciente p : pacientes) {
                             if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
+                               Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
                                 c.setDescricao(d[6]); 
                                lista.add(c);  
                             }
@@ -375,7 +375,7 @@ public class Persistencia {
                         for (Paciente p : pacientes)
                             for(Medico m : medicos) {
                                 if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
-                                    Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")), p, m, StatusConsulta.FALTA);
+                                    Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.FALTA);
                                     c.setDescricao(d[6]); 
                                     lista.add(c);  
                                 }
@@ -387,6 +387,45 @@ public class Persistencia {
         }
         return lista;
     }
+    // ================= DELETAR CONSULTA =================
+    public static void deletarConsulta(Consulta c) throws IOException {
+        String linhaExcluir = new String();
+                linhaExcluir = (
+                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
+                    c.getPaciente().getNome() + ";" +
+                    c.getPaciente().getCpf() + ";" +
+                    c.getMedico().getNome() + ";" +
+                    c.getMedico().getCpf() + ";" +
+                    c.getStatus() + ";" +
+                    c.getDescricao());
+
+        String arquivoTemporarioConsultas = "consultas_temp.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVOCONSULTAS));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoTemporarioConsultas))) {
+
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                if (!linha.equals(linhaExcluir)) {
+                    bw.write(linha);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Path originalPath = Paths.get(ARQUIVOCONSULTAS);
+        Path tempPath = Paths.get(arquivoTemporarioConsultas);
+
+        try {
+            Files.delete(originalPath);
+            Files.move(tempPath, originalPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
     
 

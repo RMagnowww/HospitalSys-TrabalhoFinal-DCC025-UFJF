@@ -13,6 +13,7 @@ import java.io.IOException;
 public class TelaAgendamento {
     private JFrame frame;
     private JPanel painelPrincipal;
+    private JPanel painelInfo;
     private JPanel painelAgendar;
     private JPanel painelAgendamentos;
     private JPanel painelLabel;
@@ -24,6 +25,7 @@ public class TelaAgendamento {
     private JTextField campoMedico;
     private JTextField campoData;
     private JComboBox<LocalTime> comboBoxHorarios;
+    private JTextPane paneDescricao;
     private JLabel respostaStatusConsulta;
     private JList<Consulta> listaAgendamentos;
     private JLabel labelMedico;
@@ -36,6 +38,7 @@ public class TelaAgendamento {
     public TelaAgendamento(){
         frame = new JFrame("Agendamento de Consultas");
         painelPrincipal = new JPanel();
+        painelInfo = new JPanel();
         painelAgendar = new JPanel();  
         painelAgendamentos = new JPanel();
         painelLabel = new JPanel();
@@ -47,11 +50,13 @@ public class TelaAgendamento {
         campoMedico = new JTextField();
         campoData = new JTextField();
         comboBoxHorarios = new JComboBox<>();
+        paneDescricao = new JTextPane();
         respostaStatusConsulta = new JLabel();
+            respostaStatusConsulta.setForeground(new Color(0,155,0));
         labelMedico = new JLabel("Médico:");
         labelData = new JLabel("Data:");
         labelHorario = new JLabel("Horário:");
-        listaAgendamentos = new JList<>();
+        listaAgendamentos = new JList<Consulta>();
         labelStatusConsulta = new JLabel("Status da Consulta:");
     }     
 
@@ -69,10 +74,17 @@ public class TelaAgendamento {
         }
         listaAgendamentos.setListData(consultas.toArray(new Consulta[consultas.size()]));
         listaAgendamentos.addListSelectionListener(e -> {
-            campoMedico.setText(listaAgendamentos.getSelectedValue().getMedico().getNome());
-            campoData.setText(listaAgendamentos.getSelectedValue().getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            comboBoxHorarios.setSelectedItem(listaAgendamentos.getSelectedValue().getDataHora().toLocalTime());
-            respostaStatusConsulta.setText(listaAgendamentos.getSelectedValue().getStatus().toString());
+            if(listaAgendamentos.getSelectedValue() != null){
+                campoMedico.setText(listaAgendamentos.getSelectedValue().getMedico().getNome());
+                campoData.setText(listaAgendamentos.getSelectedValue().getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                comboBoxHorarios.setSelectedItem(listaAgendamentos.getSelectedValue().getDataHora().toLocalTime());
+                respostaStatusConsulta.setText(listaAgendamentos.getSelectedValue().getStatus().toString());
+                paneDescricao.setText(listaAgendamentos.getSelectedValue().getDescricao());
+                campoMedico.setEditable(false);
+                campoData.setEditable(false);
+                comboBoxHorarios.setEditable(false);
+                paneDescricao.setEditable(false);
+            }
         });
 
         painelAgendamentos.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
@@ -97,15 +109,51 @@ public class TelaAgendamento {
         painelBox.add(respostaStatusConsulta);
 
         painelBotoes.setLayout(new GridLayout(0,3,10,0));
-        painelBotoes.setBorder(BorderFactory.createEmptyBorder(180,20,15,20));
+        painelBotoes.setBorder(BorderFactory.createEmptyBorder(10,20,15,20));
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoCancelarAgendamento);
         painelBotoes.add(botaoConfirmarAgendamento);
 
+        botaoCancelarAgendamento.addActionListener(e -> {
+            if(listaAgendamentos.getSelectedValue() != null){
+                try{
+                    Persistencia.deletarConsulta(listaAgendamentos.getSelectedValue());
+                } 
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try{
+                    consultas = Persistencia.carregarConsultasPacienteAgendadas(paciente);
+                } 
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                listaAgendamentos.setListData(consultas.toArray(new Consulta[consultas.size()]));
+                campoMedico.setText(null);
+                campoData.setText(null);
+                comboBoxHorarios.setSelectedItem(null);
+                respostaStatusConsulta.setText(null);
+                paneDescricao.setText(null);
+                campoMedico.setEditable(true);
+                campoData.setEditable(true);
+                comboBoxHorarios.setEditable(true);
+                paneDescricao.setEditable(true);
+            }
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Não há consulta selecionada para cancelamento!","Erro!", JOptionPane.ERROR_MESSAGE);
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
-        painelAgendar.add(painelLabel, BorderLayout.WEST);
-        painelAgendar.add(painelBox, BorderLayout.CENTER);
+        paneDescricao.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder("Descrição")));
+        paneDescricao.setPreferredSize(new Dimension(200,150));
+        paneDescricao.setMaximumSize(new Dimension(200,150));
+
+        painelInfo.setLayout(new BorderLayout(10,10));
+        painelInfo.add(painelLabel, BorderLayout.WEST);
+        painelInfo.add(painelBox, BorderLayout.CENTER);
+        painelInfo.add(new JScrollPane(paneDescricao), BorderLayout.SOUTH);
+
+        painelAgendar.add(painelInfo, BorderLayout.CENTER);
         painelAgendar.add(painelBotoes, BorderLayout.SOUTH);
 
         painelPrincipal.setLayout(new BorderLayout(10,10));
