@@ -39,7 +39,7 @@ public class TelaMenuMedico {
         });
         botaoAgenda.addActionListener(e -> {
             TelaAgenda telaAgenda = new TelaAgenda();
-            telaAgenda.abrirTelaAgenda();
+            telaAgenda.abrirTelaAgenda(medico);
         });
         botaoSair.addActionListener(e -> frame.dispose());
 

@@ -1,7 +1,14 @@
 package br.ufjf.dcc.view.TelasMedico;
-import br.ufjf.dcc.model.Consulta;
+
+import br.ufjf.dcc.controller.AgendamentoController;
+import br.ufjf.dcc.model.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 
 public class TelaAgenda {
     private JFrame frame;
@@ -11,10 +18,15 @@ public class TelaAgenda {
     private JPanel painelInfo;
     private JPanel painelList;
     private JPanel painelBotoes;
+    private JPanel painelExpediente;
+    private JPanel painelDias;
     private JList<Consulta> listConsultas;
     private JTextField campoInicio;
     private JTextField campoFim;
-    private JTextField campoDuracao;
+    private JTextField campoConsultaPaciente;
+    private JTextField campoConsultaData;
+    private JTextField campoConsultaStatus;
+    private JTextPane paneDescricao;
     private JCheckBox checkSegunda;
     private JCheckBox checkTerca;
     private JCheckBox checkQuarta;
@@ -24,12 +36,18 @@ public class TelaAgenda {
     private JCheckBox checkDomingo;
     private JLabel labelInicio;
     private JLabel labelFim;
-    private JLabel labelDuracao;
     private JLabel labelDiasTrab;
+    private JLabel labelPaciente;
+    private JLabel labelData;
+    private JLabel labelStatus;
     private JButton botaoSair;
     private JButton botaoSalvar;
-
+    private JButton botaoAtualizar;
+    private JButton botaoRealizarConsulta;
+    private JButton botaoMarcarFalta;
     
+    private Medico medicoAtual;
+    private ArrayList<Consulta> consultas;
 
     public TelaAgenda(){
         frame = new JFrame("Agenda de Atendimentos");
@@ -39,74 +57,259 @@ public class TelaAgenda {
         painelInfo = new JPanel();
         painelList = new JPanel();
         painelBotoes = new JPanel();
+        painelExpediente = new JPanel();
+        painelDias = new JPanel();
         listConsultas = new JList<Consulta>();
-        campoInicio = new JTextField();
-        campoFim = new JTextField();
-        campoDuracao = new JTextField();
+        campoInicio = new JTextField(10);
+        campoFim = new JTextField(10);
+        campoConsultaPaciente = new JTextField(20);
+        campoConsultaData = new JTextField(20);
+        campoConsultaStatus = new JTextField(20);
+        paneDescricao = new JTextPane();
         checkSegunda = new JCheckBox("Segunda");
         checkTerca = new JCheckBox("Terça");
         checkQuarta = new JCheckBox("Quarta");
         checkQuinta = new JCheckBox("Quinta");
         checkSexta = new JCheckBox("Sexta");
-        checkSabado = new JCheckBox("Sabado");
+        checkSabado = new JCheckBox("Sábado");
         checkDomingo = new JCheckBox("Domingo");
-        labelInicio = new JLabel("Horário de Início do Expediente:");
-        labelFim = new JLabel("Horário de Fim do Expediente:");
-        labelDuracao = new JLabel("Duração do Atendimento (minutos):");
-        labelDiasTrab = new JLabel("Selecione os dias de Trabalho:");
+        labelInicio = new JLabel("Início (HH:mm):");
+        labelFim = new JLabel("Fim (HH:mm):");
+        labelDiasTrab = new JLabel("Dias de Trabalho:");
+        labelPaciente = new JLabel("Paciente:");
+        labelData = new JLabel("Data/Hora:");
+        labelStatus = new JLabel("Status:");
         botaoSair = new JButton("Sair");
-        botaoSalvar = new JButton("Salvar");
+        botaoSalvar = new JButton("Salvar Expediente");
+        botaoAtualizar = new JButton("Atualizar");
+        botaoRealizarConsulta = new JButton("Realizar Consulta");
+        botaoMarcarFalta = new JButton("Marcar Falta");
         
+        campoConsultaPaciente.setEditable(false);
+        campoConsultaData.setEditable(false);
+        campoConsultaStatus.setEditable(false);
+        paneDescricao.setEditable(false);
     }
 
-    public void abrirTelaAgenda(){
-        frame.setSize(750,350);
+    public void abrirTelaAgenda(Medico medico){
+        this.medicoAtual = medico;
+        
+        frame.setSize(900,550);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+    
+        carregarDadosMedico();
+        carregarConsultas();
+
+        listConsultas.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && listConsultas.getSelectedValue() != null) {
+                exibirDetalhesConsulta();
+            }
+        });
+
+        botaoSalvar.addActionListener(e -> {
+            salvarExpediente();
+        });
+
+        botaoAtualizar.addActionListener(e -> {
+            carregarConsultas();
+        });
+
+        botaoRealizarConsulta.addActionListener(e -> {
+            realizarConsulta();
+        });
+
+        botaoMarcarFalta.addActionListener(e -> {
+            marcarFalta();
+        });
+
         botaoSair.addActionListener(e -> frame.dispose());
 
-        painelBotoes.setLayout(new GridLayout(0,2,10,0));
-        painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,75,0,325));
+        configurarPainelExpediente();
+        configurarPainelConsultas();
+        configurarPainelInfo();
+
+        painelBotoes.setLayout(new GridLayout(0,4,10,0));
+        painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,50,0,50));
         painelBotoes.add(botaoSair);
-        painelBotoes.add(botaoSalvar);
-
-
-        listConsultas.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
-
-        painelList.setLayout(new BorderLayout(10,10));
-        painelList.add(new JScrollPane(listConsultas));
-
-        painelEsq.setLayout(new GridLayout(7,0,0,10));
-        painelEsq.add(labelInicio);
-        painelEsq.add(labelFim);
-        painelEsq.add(labelDuracao);
-        painelEsq.add(labelDiasTrab);
-        painelEsq.add(checkTerca);
-        painelEsq.add(checkQuarta);
-        painelEsq.add(checkQuinta);
-
-        painelDir.setLayout(new GridLayout(7,0,0,10));
-        painelDir.add(campoInicio);
-        painelDir.add(campoFim);
-        painelDir.add(campoDuracao);
-        painelDir.add(checkSegunda);
-        painelDir.add(checkSexta);
-        painelDir.add(checkSabado);
-        painelDir.add(checkDomingo);
-
-        painelInfo.setLayout(new GridLayout(0,2,10,0));
-        painelInfo.add(painelEsq);
-        painelInfo.add(painelDir);
+        painelBotoes.add(botaoAtualizar);
+        painelBotoes.add(botaoRealizarConsulta);
+        painelBotoes.add(botaoMarcarFalta);
 
         painelPrincipal.setLayout(new BorderLayout(10,10));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
-        painelPrincipal.add(painelInfo, BorderLayout.CENTER);
-        painelPrincipal.add(painelList, BorderLayout.EAST);
+        painelPrincipal.add(painelEsq, BorderLayout.WEST);
+        painelPrincipal.add(painelList, BorderLayout.CENTER);
+        painelPrincipal.add(painelDir, BorderLayout.EAST);
         painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
 
         frame.add(painelPrincipal);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+    }
+
+    private void configurarPainelExpediente() {
+        painelExpediente.setBorder(BorderFactory.createTitledBorder("Horário de Expediente"));
+        painelExpediente.setLayout(new GridLayout(3,2,10,10));
+        painelExpediente.add(labelInicio);
+        painelExpediente.add(campoInicio);
+        painelExpediente.add(labelFim);
+        painelExpediente.add(campoFim);
+        painelExpediente.add(new JLabel());
+        painelExpediente.add(botaoSalvar);
+
+        painelDias.setBorder(BorderFactory.createTitledBorder("Dias de Atendimento"));
+        painelDias.setLayout(new GridLayout(4,2,5,5));
+        painelDias.add(checkSegunda);
+        painelDias.add(checkTerca);
+        painelDias.add(checkQuarta);
+        painelDias.add(checkQuinta);
+        painelDias.add(checkSexta);
+        painelDias.add(checkSabado);
+        painelDias.add(checkDomingo);
+
+        painelEsq.setLayout(new BorderLayout(10,10));
+        painelEsq.add(painelExpediente, BorderLayout.NORTH);
+        painelEsq.add(painelDias, BorderLayout.CENTER);
+    }
+
+    private void configurarPainelConsultas() {
+        listConsultas.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
+        painelList.setLayout(new BorderLayout(10,10));
+        painelList.add(new JScrollPane(listConsultas));
+    }
+
+    private void configurarPainelInfo() {
+        painelInfo.setBorder(BorderFactory.createTitledBorder("Detalhes da Consulta"));
+        painelInfo.setLayout(new GridLayout(3,2,5,10));
+        painelInfo.add(labelPaciente);
+        painelInfo.add(campoConsultaPaciente);
+        painelInfo.add(labelData);
+        painelInfo.add(campoConsultaData);
+        painelInfo.add(labelStatus);
+        painelInfo.add(campoConsultaStatus);
+
+        paneDescricao.setBorder(BorderFactory.createTitledBorder("Observações"));
+        paneDescricao.setPreferredSize(new Dimension(250, 200));
+
+        painelDir.setLayout(new BorderLayout(10,10));
+        painelDir.add(painelInfo, BorderLayout.NORTH);
+        painelDir.add(new JScrollPane(paneDescricao), BorderLayout.CENTER);
+    }
+
+    private void carregarDadosMedico() {
+        if (medicoAtual.getHorarioInicioExpediente() != null) {
+            campoInicio.setText(medicoAtual.getHorarioInicioExpediente());
+        }
+        if (medicoAtual.getHorarioFimExpediente() != null) {
+            campoFim.setText(medicoAtual.getHorarioFimExpediente());
+        }
+    }
+
+    private void carregarConsultas() {
+        try {
+            consultas = Persistencia.carregarConsultasMedicoAgendadas(medicoAtual);
+            listConsultas.setListData(consultas.toArray(new Consulta[0]));
+            
+            if (!consultas.isEmpty()) {
+                int novasConsultas = consultas.size();
+                JOptionPane.showMessageDialog(frame, 
+                    "Você tem " + novasConsultas + " consulta(s) agendada(s)!", 
+                    "Notificação", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void exibirDetalhesConsulta() {
+        Consulta consultaSelecionada = listConsultas.getSelectedValue();
+        if (consultaSelecionada != null) {
+            campoConsultaPaciente.setText(consultaSelecionada.getPaciente().getNome());
+            campoConsultaData.setText(consultaSelecionada.getDataHora()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            campoConsultaStatus.setText(consultaSelecionada.getStatus().toString());
+            paneDescricao.setText(consultaSelecionada.getDescricao());
+        }
+    }
+
+    private void salvarExpediente() {
+        String inicio = campoInicio.getText();
+        String fim = campoFim.getText();
+
+        if (inicio == null || inicio.trim().isEmpty() || fim == null || fim.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(frame, 
+                "Preencha os horários de início e fim!", 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            Persistencia.deletarUsuario(medicoAtual);
+            medicoAtual.setHorarioInicioExpediente(inicio);
+            medicoAtual.setHorarioFimExpediente(fim);
+            Persistencia.salvarUsuario(medicoAtual);
+
+            JOptionPane.showMessageDialog(frame, 
+                "Expediente salvo com sucesso!", 
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, 
+                "Erro ao salvar expediente: " + ex.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void realizarConsulta() {
+        Consulta consultaSelecionada = listConsultas.getSelectedValue();
+        
+        if (consultaSelecionada == null) {
+            JOptionPane.showMessageDialog(frame, 
+                "Selecione uma consulta!", 
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String observacoes = JOptionPane.showInputDialog(frame, 
+            "Digite as observações médicas da consulta:", 
+            "Observações", JOptionPane.PLAIN_MESSAGE);
+
+        if (observacoes != null) {
+            AgendamentoController.realizarConsulta(consultaSelecionada, observacoes);
+            carregarConsultas();
+            limparDetalhes();
+        }
+    }
+
+    private void marcarFalta() {
+        Consulta consultaSelecionada = listConsultas.getSelectedValue();
+        
+        if (consultaSelecionada == null) {
+            JOptionPane.showMessageDialog(frame, 
+                "Selecione uma consulta!", 
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(frame, 
+            "Confirma que o paciente faltou à consulta?", 
+            "Confirmar Falta", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            AgendamentoController.marcarFalta(consultaSelecionada);
+            carregarConsultas();
+            limparDetalhes();
+        }
+    }
+    
+    private void limparDetalhes() {
+        campoConsultaPaciente.setText("");
+        campoConsultaData.setText("");
+        campoConsultaStatus.setText("");
+        paneDescricao.setText("");
+        listConsultas.clearSelection();
     }
 }

@@ -1,6 +1,6 @@
-31/12/2026 17:15;Rafael;111.222.333-44;Dr. Jorge;123.456.789-10;AGENDADA;Exemplo de Descrição de Consulta
 31/12/2026 17:15;Rafael;111.222.333-44;Dr. Jorge;123.456.789-10;REALIZADA;Exemplo de Descrição de Consulta
 31/12/2026 17:15;Rafael;111.222.333-44;Dr. Jorge;123.456.789-10;FALTA;Exemplo de Descrição de Consulta
-31/12/2026 17:15;Gabriel;123.456.789-10;Dr. Jorge;123.456.789-10;AGENDADA;Exemplo de Descrição de Consulta
 31/12/2026 17:15;Gabriel;123.456.789-10;Dr. Jorge;123.456.789-10;REALIZADA;Exemplo de Descrição de Consulta
 31/12/2026 17:15;Gabriel;123.456.789-10;Dr. Jorge;123.456.789-10;FALTA;Exemplo de Descrição de Consulta
+31/12/2026 17:15;Gabriel;123.456.789-10;Dr. Jorge;123.456.789-10;REALIZADA;legal
+01/01/2026 16:00;Gabriel;123.456.789-10;Dr. Jorge;123.456.789-10;AGENDADA;teste

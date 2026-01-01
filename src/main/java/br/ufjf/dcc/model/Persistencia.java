@@ -45,7 +45,9 @@ public class Persistencia {
                     m.getSenha() + ";" +
                     m.getCrm() + ";" +
                     m.getEspecialidade()  + ";" +
-                    m.getAtividade()
+                    m.getAtividade() + ";" +
+                    (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
+                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente())
                 );
             }
 
@@ -98,6 +100,8 @@ public class Persistencia {
                             m.setAtividade(StatusMedico.ATIVO);
                         else if(d[8].equals("INATIVO"))
                                 m.setAtividade(StatusMedico.INATIVO); 
+                        if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
+                        if (d.length > 10) m.setHorarioFimExpediente(d[10]);
                         lista.add(m);
                     }
 
@@ -165,6 +169,8 @@ public class Persistencia {
                             m.setAtividade(StatusMedico.ATIVO);
                         else if(d[8].equals("INATIVO"))
                                 m.setAtividade(StatusMedico.INATIVO); 
+                        if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
+                        if (d.length > 10) m.setHorarioFimExpediente(d[10]);
                         lista.add(m);
                     }
                 }
@@ -205,7 +211,10 @@ public class Persistencia {
                     m.getSenha() + ";" +
                     m.getCrm() + ";" +
                     m.getEspecialidade()  + ";" +
-                    m.getAtividade());
+                    m.getAtividade() + ";" +
+                    (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
+                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente())
+                );
             }
 
             else if (u instanceof Secretario s) {
@@ -518,6 +527,6 @@ public class Persistencia {
         }
     }
 }
-    
+
 
 
