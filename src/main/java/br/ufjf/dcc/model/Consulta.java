@@ -39,9 +39,9 @@ public class Consulta {
         if (dataHora == null) {
             throw new IllegalArgumentException("A data e hora da consulta são obrigatórias.");
         }
-        if (dataHora.isBefore(LocalDateTime.now()) && this.status != StatusConsulta.REALIZADA) {
+        /*if (dataHora.isBefore(LocalDateTime.now()) && this.status != StatusConsulta.REALIZADA) {
             throw new IllegalArgumentException("Não é possível agendar consultas para o passado.");
-        }
+        }*/
         this.dataHora = dataHora;
     }
 

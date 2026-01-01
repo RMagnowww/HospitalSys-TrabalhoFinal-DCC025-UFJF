@@ -36,7 +36,6 @@ public class TelaAgenda {
     private JCheckBox checkDomingo;
     private JLabel labelInicio;
     private JLabel labelFim;
-    private JLabel labelDiasTrab;
     private JLabel labelPaciente;
     private JLabel labelData;
     private JLabel labelStatus;
@@ -75,7 +74,6 @@ public class TelaAgenda {
         checkDomingo = new JCheckBox("Domingo");
         labelInicio = new JLabel("Início (HH:mm):");
         labelFim = new JLabel("Fim (HH:mm):");
-        labelDiasTrab = new JLabel("Dias de Trabalho:");
         labelPaciente = new JLabel("Paciente:");
         labelData = new JLabel("Data/Hora:");
         labelStatus = new JLabel("Status:");
@@ -94,7 +92,7 @@ public class TelaAgenda {
     public void abrirTelaAgenda(Medico medico){
         this.medicoAtual = medico;
         
-        frame.setSize(900,550);
+        frame.setSize(1030,550);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

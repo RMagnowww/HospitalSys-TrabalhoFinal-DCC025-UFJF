@@ -80,7 +80,7 @@ public class TelaHistoricoClinico {
         paneDescricao.setEditable(false);
     }
     public void abrirTelaHistoricoClinico(){
-        frame.setSize(900,450);
+        frame.setSize(1000,450);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
