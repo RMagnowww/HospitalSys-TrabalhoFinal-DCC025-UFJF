@@ -73,6 +73,11 @@ public class TelaHistoricoClinico {
         botaoSair = new JButton("Sair");
         botaoBuscar = new JButton("Buscar");
         botaoAtualizar = new JButton("Atualizar Status");
+        campoPaciente.setEditable(false);
+        campoMedico.setEditable(false);
+        campoEspecialidade.setEditable(false);
+        campoDataHora.setEditable(false);
+        paneDescricao.setEditable(false);
     }
     public void abrirTelaHistoricoClinico(){
         frame.setSize(900,450);
@@ -119,11 +124,13 @@ public class TelaHistoricoClinico {
         botaoSair.addActionListener(e -> frame.dispose());
 
         listConsultas.addListSelectionListener(e -> {
-            campoPaciente.setText(listConsultas.getSelectedValue().getPaciente().getNome());
-            campoMedico.setText(listConsultas.getSelectedValue().getMedico().getNome());
-            campoEspecialidade.setText(listConsultas.getSelectedValue().getMedico().getEspecialidade());
-            campoDataHora.setText(listConsultas.getSelectedValue().getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-            paneDescricao.setText(listConsultas.getSelectedValue().getDescricao());
+            if(listConsultas.getSelectedValue() != null){
+                campoPaciente.setText(listConsultas.getSelectedValue().getPaciente().getNome());
+                campoMedico.setText(listConsultas.getSelectedValue().getMedico().getNome());
+                campoEspecialidade.setText(listConsultas.getSelectedValue().getMedico().getEspecialidade());
+                campoDataHora.setText(listConsultas.getSelectedValue().getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                paneDescricao.setText(listConsultas.getSelectedValue().getDescricao());
+            }
         });
 
         painelList.setBorder(BorderFactory.createTitledBorder("Histórico do Paciente"));

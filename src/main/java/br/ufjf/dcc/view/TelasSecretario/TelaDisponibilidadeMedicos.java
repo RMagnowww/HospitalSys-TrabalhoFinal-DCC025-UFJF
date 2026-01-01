@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.Persistencia;
 import br.ufjf.dcc.model.Consulta;
+import br.ufjf.dcc.model.enums.StatusMedico;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -38,6 +39,8 @@ public class TelaDisponibilidadeMedicos{
     private JLabel labelHorariosDisponiveis;
     private JButton botaoSair;
     private ArrayList<Consulta> consultas;
+    private ArrayList<Medico> medicos;
+    private ArrayList<Medico> medicosDisponiveis;
 
     public TelaDisponibilidadeMedicos(){
         frame = new JFrame("Disponibilidade");
@@ -76,6 +79,23 @@ public class TelaDisponibilidadeMedicos{
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(10,10));
+
+        try{
+            medicos = Persistencia.carregarMedicos();
+            medicosDisponiveis = new ArrayList<>();
+            for(Medico m : medicos)
+                if(m.getAtividade().equals(StatusMedico.ATIVO))
+                    medicosDisponiveis.add(m);
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        listMedicosAtivos.setListData(medicosDisponiveis.toArray(new Medico[medicosDisponiveis.size()]));
+
+        listMedicosAtivos.addListSelectionListener(e ->{
+            campoMedico1.setText(listMedicosAtivos.getSelectedValue().getNome());
+
+        });
 
         try{
             consultas = Persistencia.carregarConsultasFalta();
