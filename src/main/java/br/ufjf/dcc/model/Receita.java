@@ -12,13 +12,14 @@ public class Receita extends DocumentoMedico{
         super(medico, paciente, TipoDocumento.RECEITA);
         setMedicamentos(medicamentos);
     }
+    @Override
     public String gerarConteudo() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         StringBuilder sb = new StringBuilder();
         sb.append("=== RECEITA MÉDICA ===\n");
         sb.append("Data: ").append(getData().format(formatter)).append("\n");
         sb.append("Paciente: ").append(getPaciente().getNome()).append("\n");
-        sb.append("Dr(a): ").append(getMedico().getNome()).append("\n\n");
+        sb.append("Médico: ").append(getMedico().getNome()).append("\n\n");
         sb.append("PRESCRIÇÃO:\n");
         sb.append(medicamentos).append("\n");
         return sb.toString();
@@ -34,6 +35,6 @@ public class Receita extends DocumentoMedico{
     }
     @Override
     public String toString() {
-        return getTipo().toString() + " - Paciente:" + getPaciente().getNome() + " - Médico:" + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        return getTipo().toString() + " - Paciente: " + getPaciente().getNome() + " - Médico: " + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 }

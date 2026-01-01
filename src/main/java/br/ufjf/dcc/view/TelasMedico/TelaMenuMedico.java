@@ -35,7 +35,7 @@ public class TelaMenuMedico {
         });
         botaoEmitirDocs.addActionListener(e -> {
             TelaEmitirDocs telaEmitirDocs = new TelaEmitirDocs();
-            telaEmitirDocs.abrirTelaEmitirDocs();
+            telaEmitirDocs.abrirTelaEmitirDocs(medico);
         });
         botaoAgenda.addActionListener(e -> {
             TelaAgenda telaAgenda = new TelaAgenda();

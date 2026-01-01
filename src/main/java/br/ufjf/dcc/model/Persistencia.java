@@ -446,7 +446,7 @@ public class Persistencia {
                     a.getMedico().getCpf() + ";" +
                     a.getPaciente().getNome() + ";" +
                     a.getPaciente().getCpf() + ";" +
-                    a.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    a.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
                     a.getDiasAfastamento() + ";" +
                     a.getDescricao()
                 );
@@ -459,7 +459,7 @@ public class Persistencia {
                     e.getMedico().getCpf() + ";" +
                     e.getPaciente().getNome() + ";" +
                     e.getPaciente().getCpf() + ";" +
-                    e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
                     e.getNomeExame()  + ";" +
                     e.getResultado()
                 );
@@ -472,7 +472,7 @@ public class Persistencia {
                     r.getMedico().getCpf() + ";" +
                     r.getPaciente().getNome() + ";" +
                     r.getPaciente().getCpf() + ";" +
-                    r.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ";" +
+                    r.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
                     r.getMedicamentos()
                 );
             }
@@ -481,8 +481,8 @@ public class Persistencia {
         }
     }
         // ================= CARREGAR DOCUMENTOS DO PACIENTE =================
-    public static List<DocumentoMedico> carregarDocumentosPaciente(Paciente p) throws IOException {
-        List<DocumentoMedico> lista = new ArrayList<>();
+    public static ArrayList<DocumentoMedico> carregarDocumentosPaciente(Paciente p) throws IOException {
+        ArrayList<DocumentoMedico> lista = new ArrayList<>();
         ArrayList<Medico> medicos = carregarMedicos();
         File f = new File(ARQUIVODOCUMENTOS);
         if (!f.exists()) return lista;
@@ -499,7 +499,7 @@ public class Persistencia {
                         for(Medico m : medicos)
                             if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
                                 Atestado a = new Atestado(m, p, Integer.parseInt(d[6]), d[7]);
-                                a.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                a.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(a);
                             }
                     }
@@ -508,7 +508,7 @@ public class Persistencia {
                         for(Medico m : medicos)
                             if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
                                 Exame e = new Exame(m, p, d[6], d[7]);
-                                e.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                e.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(e);
                             }
                     }
@@ -517,7 +517,7 @@ public class Persistencia {
                         for(Medico m : medicos)
                             if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
                                 Receita r = new Receita(m, p, d[6]);
-                                r.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy"))); 
+                                r.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(r);
                     }
                 }

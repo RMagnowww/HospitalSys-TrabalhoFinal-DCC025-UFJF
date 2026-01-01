@@ -12,14 +12,14 @@ public class Atestado extends DocumentoMedico{
         setDescricao(descricao);
 
     }
-
+    @Override
     public String gerarConteudo(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         StringBuilder sb = new StringBuilder();
         sb.append("=== ATESTADO MÉDICO===\n");
         sb.append("Emissão: ").append(getData().format(formatter)).append("\n");
         sb.append("Paciente: ").append(getPaciente().getNome()).append(" (CPF: ").append(getPaciente().getCpf()).append(")\n");
-        sb.append("Médico Responsável: Dr(a). ").append(getMedico().getNome()).append(" (CRM: ").append(getMedico().getCrm()).append(")\n\n");
+        sb.append("Médico Responsável: ").append(getMedico().getNome()).append(" (CRM: ").append(getMedico().getCrm()).append(")\n\n");
         sb.append("Declaro para os devidos fins que o paciente acima necessita de ").append(diasAfastamento).append(" dias de afastamento.\n");
         sb.append("Observações: ").append(descricao).append("\n");
         return sb.toString();
@@ -43,7 +43,7 @@ public class Atestado extends DocumentoMedico{
 
     @Override
     public String toString() {
-        return getTipo().toString() + " - Paciente:" + getPaciente().getNome() + " - Médico:" + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        return getTipo().toString() + " - Paciente: " + getPaciente().getNome() + " - Médico: " + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 }
 

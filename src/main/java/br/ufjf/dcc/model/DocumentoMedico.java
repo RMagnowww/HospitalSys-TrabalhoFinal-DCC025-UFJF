@@ -40,4 +40,7 @@ public abstract class DocumentoMedico {
     public void setTipo(TipoDocumento tipo){
         this.tipo = tipo;
     }
+    public String gerarConteudo(){
+        return null;
+    }
 }

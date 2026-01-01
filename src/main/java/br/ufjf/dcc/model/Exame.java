@@ -13,7 +13,8 @@ public class Exame extends DocumentoMedico {
         setNomeExame(nomeExame);
         setResultado(resultado);
     }
-
+    
+    @Override
     public String gerarConteudo() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         StringBuilder sb = new StringBuilder();
@@ -21,7 +22,7 @@ public class Exame extends DocumentoMedico {
         sb.append("Exame: ").append(nomeExame).append("\n");
         sb.append("Data: ").append(getData().format(formatter)).append("\n");
         sb.append("Paciente: ").append(getPaciente().getNome()).append("\n");
-        sb.append("Solicitado por: Dr(a). ").append(getMedico().getNome()).append("\n");
+        sb.append("Solicitado por: ").append(getMedico().getNome()).append("\n");
         sb.append("--------------------------\n");
         sb.append("RESULTADO:\n").append(resultado).append("\n");
         return sb.toString();
@@ -48,6 +49,6 @@ public class Exame extends DocumentoMedico {
     }
     @Override
     public String toString() {
-        return getTipo().toString() + ":" + nomeExame + " - Paciente:" + getPaciente().getNome() + " - Médico:" + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")); 
+        return getTipo().toString() + ": " + nomeExame + " - Paciente: " + getPaciente().getNome() + " - Médico: " + getMedico().getNome() + " - " + getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")); 
     }
 }
