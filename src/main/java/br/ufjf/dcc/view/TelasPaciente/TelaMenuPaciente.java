@@ -40,7 +40,7 @@ public class TelaMenuPaciente {
         });
         botaoDocsMedicos.addActionListener(e -> {
             TelaDocumentos telaDocumentos = new TelaDocumentos();
-            telaDocumentos.abrirTelaDocumentos();
+            telaDocumentos.abrirTelaDocumentos(paciente);
         });
         botaoHistorico.addActionListener(e -> {
             TelaHistorico telaHistorico = new TelaHistorico();

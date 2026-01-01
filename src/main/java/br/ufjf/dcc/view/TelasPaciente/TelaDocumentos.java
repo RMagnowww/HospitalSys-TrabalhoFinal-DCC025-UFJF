@@ -1,47 +1,59 @@
 package br.ufjf.dcc.view.TelasPaciente;
-import br.ufjf.dcc.model.Atestado;
-import br.ufjf.dcc.model.Exame;
+import br.ufjf.dcc.model.Paciente;
+import br.ufjf.dcc.model.DocumentoMedico;
+import br.ufjf.dcc.model.Persistencia;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TelaDocumentos{
     private JFrame frame;
     private JPanel painelPrincipal;
     private JPanel painelSuperior;
     private JPanel painelInferior;
-    private JList<Exame> listExames;
-    private JList<Atestado> listAtestados;
+    private JList<DocumentoMedico> listDocumentos;
     private JTextPane painelVisualizar;
     private JButton botaoSair;
     private JButton botaoAbrir;
+    private ArrayList<DocumentoMedico> documentos; 
 
     public TelaDocumentos(){
         frame = new JFrame("Documentos Médicos");
         painelPrincipal = new JPanel();
         painelSuperior = new JPanel();
         painelInferior = new JPanel();
-        listExames = new JList<Exame>();
-        listAtestados = new JList<Atestado>();
+        listDocumentos = new JList<DocumentoMedico>();
         painelVisualizar = new JTextPane();
         botaoSair = new JButton("Sair");
         botaoAbrir = new JButton("Abrir");
     }
-    public void abrirTelaDocumentos(){
-        frame.setSize(800,450);
+    public void abrirTelaDocumentos(Paciente paciente){
+        frame.setSize(600,450);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        listExames.setBorder(BorderFactory.createTitledBorder("Resultados de Exames"));
-        listAtestados.setBorder(BorderFactory.createTitledBorder("Atestados Médicos"));
+        listDocumentos.setBorder(BorderFactory.createTitledBorder("Documentos Médicos"));
+        try{
+            documentos = Persistencia.carregarDocumentosPaciente(paciente);
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        listDocumentos.setListData(documentos.toArray(new DocumentoMedico[documentos.size()]));
         painelVisualizar.setBorder(BorderFactory.createTitledBorder("Visualizador"));
         painelVisualizar.setEditable(false);
-        painelVisualizar.setVisible(false);
+        listDocumentos.addListSelectionListener(e -> {
+            if(listDocumentos.getSelectedValue() != null)
+                painelVisualizar.setText(listDocumentos.getSelectedValue().gerarConteudo());
+        });
         botaoSair.addActionListener(e -> frame.dispose());
 
-        painelSuperior.setLayout(new GridLayout(0,3,10,0));
-        painelSuperior.add(new JScrollPane(listExames));
-        painelSuperior.add(painelVisualizar);
-        painelSuperior.add(new JScrollPane(listAtestados));
+        painelSuperior.setLayout(new GridLayout(0,2,10,0));
+        painelSuperior.add(new JScrollPane(listDocumentos));
+        painelSuperior.add(new JScrollPane(painelVisualizar));
+
 
         painelInferior.setLayout(new GridLayout(0,2,10,0));
         painelInferior.setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
