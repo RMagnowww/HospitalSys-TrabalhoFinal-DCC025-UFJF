@@ -22,6 +22,7 @@ public class TelaAgendamento {
     private JPanel painelBotoes;
     private JButton botaoConfirmarAgendamento;
     private JButton botaoCancelarAgendamento;
+    private JButton botaoNovoAgendamento;
     private JButton botaoSair;
     private JComboBox<Medico> comboBoxMedicos;
     private JTextField campoData;
@@ -48,6 +49,7 @@ public class TelaAgendamento {
         painelBotoes = new JPanel();
         botaoConfirmarAgendamento = new JButton("Confirmar Agendamento");
         botaoCancelarAgendamento = new JButton("Cancelar Agendamento");
+        botaoNovoAgendamento = new JButton("Novo Agendamemto");
         botaoSair = new JButton("Sair");
         comboBoxMedicos = new JComboBox<>();
         campoData = new JTextField();
@@ -69,8 +71,8 @@ public class TelaAgendamento {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout(5,5));
-
         carregarMedicosDisponiveis();
+        
 
         try{
             consultas = Persistencia.carregarConsultasPacienteAgendadas(paciente);
@@ -82,11 +84,17 @@ public class TelaAgendamento {
         listaAgendamentos.addListSelectionListener(e -> {
             if(listaAgendamentos.getSelectedValue() != null){
                 Consulta selecionada = listaAgendamentos.getSelectedValue();
-                comboBoxMedicos.setSelectedItem(selecionada.getMedico());
+                comboBoxMedicos.removeAllItems();
+                comboBoxMedicos.addItem(selecionada.getMedico());
                 campoData.setText(selecionada.getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                comboBoxHorarios.setSelectedItem(selecionada.getDataHora().toLocalTime());
+                comboBoxHorarios.removeAllItems();
+                comboBoxHorarios.addItem(selecionada.getDataHora().toLocalTime());
                 respostaStatusConsulta.setText(selecionada.getStatus().toString());
                 paneDescricao.setText(selecionada.getDescricao());
+                comboBoxMedicos.setEnabled(false);
+                campoData.setEditable(false);
+                comboBoxHorarios.setEditable(false);
+                paneDescricao.setEditable(false);
             }
         });
 
@@ -102,7 +110,6 @@ public class TelaAgendamento {
         painelAgendamentos.setLayout(new BorderLayout(10,10));
         painelAgendamentos.add(new JScrollPane(listaAgendamentos), BorderLayout.CENTER);
 
-        painelAgendar.setBorder(BorderFactory.createTitledBorder("Agendar Consulta"));
         painelAgendar.setLayout(new BorderLayout(10,10));
 
         painelLabel.setLayout(new GridLayout(4,0,0,20));
@@ -134,9 +141,25 @@ public class TelaAgendamento {
                 AgendamentoController.cancelarConsulta(listaAgendamentos.getSelectedValue());
                 atualizarListaConsultas();
                 limparCampos();
+                comboBoxMedicos.setEnabled(true);
+                campoData.setEditable(true);
+                comboBoxHorarios.setEditable(true);
+                paneDescricao.setEditable(true);
+                carregarMedicosDisponiveis();
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Não há consulta selecionada para cancelamento!","Erro!", JOptionPane.ERROR_MESSAGE);
+        });
+
+        botaoNovoAgendamento.addActionListener(e -> {
+            comboBoxMedicos.setEnabled(true);
+            campoData.setEditable(true);
+            comboBoxHorarios.setEditable(true);
+            paneDescricao.setEditable(true);
+            listaAgendamentos.clearSelection();
+            carregarMedicosDisponiveis();
+            limparCampos();
+
         });
 
         botaoSair.addActionListener(e -> frame.dispose());
@@ -150,6 +173,7 @@ public class TelaAgendamento {
         painelInfo.add(painelBox, BorderLayout.CENTER);
         painelInfo.add(new JScrollPane(paneDescricao), BorderLayout.SOUTH);
 
+        painelAgendar.add(botaoNovoAgendamento, BorderLayout.NORTH);
         painelAgendar.add(painelInfo, BorderLayout.CENTER);
         painelAgendar.add(painelBotoes, BorderLayout.SOUTH);
 
@@ -164,7 +188,7 @@ public class TelaAgendamento {
         
     }
 
-    private void carregarMedicosDisponiveis() {
+    private void carregarMedicosDisponiveis(){
         ArrayList<Medico> medicos = AgendamentoController.carregarMedicosDisponiveis();
         comboBoxMedicos.removeAllItems();
         for (Medico m : medicos) {
@@ -174,7 +198,6 @@ public class TelaAgendamento {
 
     private void atualizarHorariosDisponiveis() {
         comboBoxHorarios.removeAllItems();
-        
         Medico medicoSelecionado = (Medico) comboBoxMedicos.getSelectedItem();
         String dataTexto = campoData.getText();
 
@@ -208,7 +231,7 @@ public class TelaAgendamento {
         String dataTexto = campoData.getText();
         String descricao = paneDescricao.getText();
 
-        if (medico == null || horario == null || dataTexto == null || dataTexto.trim().isEmpty()) {
+        if (medico == null || horario == null || dataTexto == null || dataTexto.trim().isEmpty() || descricao.equals("")) {
             JOptionPane.showMessageDialog(frame, 
                 "Preencha todos os campos obrigatórios!", 
                 "Erro", JOptionPane.ERROR_MESSAGE);
@@ -222,6 +245,7 @@ public class TelaAgendamento {
             AgendamentoController.agendarConsulta(pacienteAtual, medico, dataHora, descricao);
             atualizarListaConsultas();
             limparCampos();
+            listaAgendamentos.setSelectedIndex(listaAgendamentos.getLastVisibleIndex());
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(frame, 
@@ -243,10 +267,10 @@ public class TelaAgendamento {
 
     private void limparCampos() {
         comboBoxMedicos.setSelectedIndex(0);
-        campoData.setText("");
+        campoData.setText(null);
         comboBoxHorarios.removeAllItems();
-        paneDescricao.setText("");
-        respostaStatusConsulta.setText("");
+        paneDescricao.setText(null);
+        respostaStatusConsulta.setText(null);
         listaAgendamentos.clearSelection();
     }
 }
