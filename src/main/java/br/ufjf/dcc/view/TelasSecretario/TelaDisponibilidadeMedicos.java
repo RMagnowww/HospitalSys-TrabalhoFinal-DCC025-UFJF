@@ -1,12 +1,15 @@
 package br.ufjf.dcc.view.TelasSecretario;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import br.ufjf.dcc.model.Medico;
 import br.ufjf.dcc.model.Persistencia;
+import br.ufjf.dcc.controller.AgendamentoController;
 import br.ufjf.dcc.model.Consulta;
 import br.ufjf.dcc.model.enums.StatusMedico;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +34,7 @@ public class TelaDisponibilidadeMedicos{
     private JTextField campoMedico2;
     private JTextField campoPaciente;
     private JTextField campoHorario;
-    private JComboBox<LocalDateTime> boxHorarios;
+    private JComboBox<LocalTime> boxHorarios;
     private JLabel labelMedico1;
     private JLabel labelMedico2;
     private JLabel labelPaciente;
@@ -65,7 +68,7 @@ public class TelaDisponibilidadeMedicos{
         campoMedico2.setEditable(false);
         campoPaciente.setEditable(false);
         campoHorario.setEditable(false);
-        boxHorarios = new JComboBox<LocalDateTime>();
+        boxHorarios = new JComboBox<LocalTime>();
         labelMedico1 = new JLabel("Médico:");
         labelMedico2 = new JLabel("Médico:");
         labelPaciente = new JLabel("Paciente:");
@@ -94,6 +97,7 @@ public class TelaDisponibilidadeMedicos{
 
         listMedicosAtivos.addListSelectionListener(e ->{
             campoMedico1.setText(listMedicosAtivos.getSelectedValue().getNome());
+            atualizarHorariosDisponiveis();
 
         });
 
@@ -169,5 +173,31 @@ public class TelaDisponibilidadeMedicos{
         frame.add(painelPrincipal);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+    }
+
+    private void atualizarHorariosDisponiveis() {
+        boxHorarios.removeAllItems();
+        Medico medicoSelecionado = listMedicosAtivos.getSelectedValue();
+        LocalDate data = LocalDate.now();
+
+        if (medicoSelecionado != null && data != null) {
+            try {
+                List<LocalTime> horarios = AgendamentoController.gerarHorariosDisponiveis(medicoSelecionado, data);
+                for (LocalTime horario : horarios) {
+                    boxHorarios.addItem(horario);
+                }
+
+                if (horarios.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, 
+                        "Não há horários disponíveis para esta data!", 
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, 
+                    "Data inválida! Use o formato dd/MM/yyyy", 
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }
