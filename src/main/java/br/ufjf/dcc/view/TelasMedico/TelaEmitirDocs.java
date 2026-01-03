@@ -84,6 +84,7 @@ public class TelaEmitirDocs {
                             if(atestado != null){
                                 campoDocumento.setText(atestado.gerarConteudo());
                                 Persistencia.salvarDocumentos(atestado);
+                                JOptionPane.showMessageDialog(new JFrame(),"Atestado Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
                             }
                             else
                                JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
@@ -96,6 +97,7 @@ public class TelaEmitirDocs {
                             if(exame != null){
                                 campoDocumento.setText(exame.gerarConteudo());
                                 Persistencia.salvarDocumentos(exame);
+                                JOptionPane.showMessageDialog(new JFrame(),"Exame Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
                             }
                             else
                                JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
@@ -108,6 +110,7 @@ public class TelaEmitirDocs {
                             if(receita != null){
                                 campoDocumento.setText(receita.gerarConteudo());
                                 Persistencia.salvarDocumentos(receita);
+                                JOptionPane.showMessageDialog(new JFrame(),"Receita Emitida com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
                             }
                             else
                                JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
@@ -195,7 +198,7 @@ public class TelaEmitirDocs {
         campoDocumento.setPreferredSize(new Dimension(350,300));
         campoDocumento.setEditable(false);
 
-        painelBotoes.setLayout(new GridLayout(0,3,10,0));
+        painelBotoes.setLayout(new GridLayout(0,2,10,0));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,100,0,100));
         painelBotoes.add(botaoSair);
         painelBotoes.add(botaoEmitir);

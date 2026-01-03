@@ -16,7 +16,6 @@ public class TelaDocumentos{
     private JList<DocumentoMedico> listDocumentos;
     private JTextPane painelVisualizar;
     private JButton botaoSair;
-    private JButton botaoAbrir;
     private ArrayList<DocumentoMedico> documentos; 
 
     public TelaDocumentos(){
@@ -27,7 +26,6 @@ public class TelaDocumentos{
         listDocumentos = new JList<DocumentoMedico>();
         painelVisualizar = new JTextPane();
         botaoSair = new JButton("Sair");
-        botaoAbrir = new JButton("Abrir");
     }
     public void abrirTelaDocumentos(Paciente paciente){
         frame.setSize(600,450);
@@ -55,10 +53,9 @@ public class TelaDocumentos{
         painelSuperior.add(new JScrollPane(painelVisualizar));
 
 
-        painelInferior.setLayout(new GridLayout(0,2,10,0));
-        painelInferior.setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
+        painelInferior.setLayout(new GridLayout(0,1,10,0));
+        painelInferior.setBorder(BorderFactory.createEmptyBorder(0,100,0,100));
         painelInferior.add(botaoSair);
-        painelInferior.add(botaoAbrir);
 
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
         painelPrincipal.setLayout(new BorderLayout(5,5));
