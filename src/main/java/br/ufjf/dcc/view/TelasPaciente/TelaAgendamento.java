@@ -158,9 +158,9 @@ public class TelaAgendamento {
             campoData.setEditable(true);
             comboBoxHorarios.setEditable(true);
             paneDescricao.setEditable(true);
-            listaAgendamentos.clearSelection();
             carregarMedicosDisponiveis();
             limparCampos();
+            listaAgendamentos.clearSelection();
 
         });
 

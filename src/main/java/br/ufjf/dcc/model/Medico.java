@@ -13,8 +13,7 @@ public class Medico extends Usuario {
     private StatusMedico atividade; // ATIVO ou INATIVO
     private String horarioInicioExpediente; //14:00
     private String horarioFimExpediente;    //18:00
-
-
+    private int duracaoConsulta;
 
     private List<Consulta> agendaConsultas;
 
@@ -24,6 +23,7 @@ public class Medico extends Usuario {
         setEspecialidade(especialidade);
         this.atividade = StatusMedico.ATIVO;
         this.agendaConsultas = new ArrayList<>();
+        setDuracaoConsulta(0);
     }
 
     public String getCrm() { 
@@ -57,6 +57,12 @@ public class Medico extends Usuario {
     }
     public void setHorarioFimExpediente(String horarioFimExpediente) {
         this.horarioFimExpediente = horarioFimExpediente; 
+    }
+     public int getDuracaoConsulta() {
+        return duracaoConsulta; 
+    }
+    public void setDuracaoConsulta(int duracaoConsulta) {
+        this.duracaoConsulta = duracaoConsulta; 
     }
     public StatusMedico getAtividade(){
         return atividade;

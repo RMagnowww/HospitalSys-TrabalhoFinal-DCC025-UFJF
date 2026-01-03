@@ -23,6 +23,7 @@ public class TelaAgenda {
     private JList<Consulta> listConsultas;
     private JTextField campoInicio;
     private JTextField campoFim;
+    private JComboBox<Integer> campoDuracao;
     private JTextField campoConsultaPaciente;
     private JTextField campoConsultaData;
     private JTextField campoConsultaStatus;
@@ -36,6 +37,7 @@ public class TelaAgenda {
     private JCheckBox checkDomingo;
     private JLabel labelInicio;
     private JLabel labelFim;
+    private JLabel labelDuracao;
     private JLabel labelPaciente;
     private JLabel labelData;
     private JLabel labelStatus;
@@ -61,6 +63,11 @@ public class TelaAgenda {
         listConsultas = new JList<Consulta>();
         campoInicio = new JTextField(10);
         campoFim = new JTextField(10);
+        campoDuracao = new JComboBox<Integer>();
+            campoDuracao.addItem(15);
+            campoDuracao.addItem(30);
+            campoDuracao.addItem(45);
+            campoDuracao.addItem(60);
         campoConsultaPaciente = new JTextField(20);
         campoConsultaData = new JTextField(20);
         campoConsultaStatus = new JTextField(20);
@@ -74,6 +81,7 @@ public class TelaAgenda {
         checkDomingo = new JCheckBox("Domingo");
         labelInicio = new JLabel("Início (HH:mm):");
         labelFim = new JLabel("Fim (HH:mm):");
+        labelDuracao = new JLabel("Duração (mm)");
         labelPaciente = new JLabel("Paciente:");
         labelData = new JLabel("Data/Hora:");
         labelStatus = new JLabel("Status:");
@@ -149,11 +157,13 @@ public class TelaAgenda {
 
     private void configurarPainelExpediente() {
         painelExpediente.setBorder(BorderFactory.createTitledBorder("Horário de Expediente"));
-        painelExpediente.setLayout(new GridLayout(3,2,10,10));
+        painelExpediente.setLayout(new GridLayout(4,2,10,10));
         painelExpediente.add(labelInicio);
         painelExpediente.add(campoInicio);
         painelExpediente.add(labelFim);
         painelExpediente.add(campoFim);
+        painelExpediente.add(labelDuracao);
+        painelExpediente.add(campoDuracao);
         painelExpediente.add(new JLabel());
         painelExpediente.add(botaoSalvar);
 
@@ -203,6 +213,9 @@ public class TelaAgenda {
         if (medicoAtual.getHorarioFimExpediente() != null) {
             campoFim.setText(medicoAtual.getHorarioFimExpediente());
         }
+        if (medicoAtual.getDuracaoConsulta() > 0) {
+            campoDuracao.setSelectedItem(medicoAtual.getDuracaoConsulta());
+        }
     }
 
     private void carregarConsultas() {
@@ -235,10 +248,10 @@ public class TelaAgenda {
     private void salvarExpediente() {
         String inicio = campoInicio.getText();
         String fim = campoFim.getText();
-
-        if (inicio == null || inicio.trim().isEmpty() || fim == null || fim.trim().isEmpty()) {
+        int duracao = Integer.parseInt(campoDuracao.getSelectedItem().toString());
+        if (inicio == null || inicio.trim().isEmpty() || fim == null || fim.trim().isEmpty() || duracao <= 0) {
             JOptionPane.showMessageDialog(frame, 
-                "Preencha os horários de início e fim!", 
+                "Preencha os horários de início, fim e a duração!", 
                 "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -247,6 +260,7 @@ public class TelaAgenda {
             Persistencia.deletarUsuario(medicoAtual);
             medicoAtual.setHorarioInicioExpediente(inicio);
             medicoAtual.setHorarioFimExpediente(fim);
+            medicoAtual.setDuracaoConsulta(duracao);
             Persistencia.salvarUsuario(medicoAtual);
 
             JOptionPane.showMessageDialog(frame, 

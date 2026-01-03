@@ -136,16 +136,14 @@ public class AgendamentoController {
     public static List<LocalTime> gerarHorariosDisponiveis(Medico medico, LocalDate data) {
         List<LocalTime> horarios = new ArrayList<>();
         
-        if (medico.getHorarioInicioExpediente() == null || medico.getHorarioFimExpediente() == null) {
+        if (medico.getHorarioInicioExpediente() == null || medico.getHorarioFimExpediente() == null || medico.getDuracaoConsulta() == 0) {
             return horarios; 
         }
 
         try {
             LocalTime inicio = LocalTime.parse(medico.getHorarioInicioExpediente());
-            LocalTime fim = LocalTime.parse(medico.getHorarioFimExpediente());
-            
-            // lembrar de alterar essa variável para ser dinâmica
-            int duracaoMinutos = 30;
+            LocalTime fim = LocalTime.parse(medico.getHorarioFimExpediente());           
+            int duracaoMinutos = medico.getDuracaoConsulta();
 
             ArrayList<Consulta> consultasAgendadas = Persistencia.carregarConsultasMedicoAgendadas(medico);
             List<LocalTime> horariosOcupados = new ArrayList<>();
@@ -157,7 +155,7 @@ public class AgendamentoController {
             }
 
             LocalTime atual = inicio;
-            while (atual.isBefore(fim)) {
+            while (!atual.isAfter(fim.minusMinutes(duracaoMinutos))) {
                 LocalDateTime dataHoraCompleta = LocalDateTime.of(data, atual);
                 if (dataHoraCompleta.isAfter(LocalDateTime.now())) {
                     if (!horariosOcupados.contains(atual)) {

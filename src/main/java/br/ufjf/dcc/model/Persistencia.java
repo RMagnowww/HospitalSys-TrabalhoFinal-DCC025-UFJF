@@ -47,7 +47,8 @@ public class Persistencia {
                     m.getEspecialidade()  + ";" +
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
-                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente())
+                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
+                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta())
                 );
             }
 
@@ -102,6 +103,7 @@ public class Persistencia {
                                 m.setAtividade(StatusMedico.INATIVO); 
                         if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
                         if (d.length > 10) m.setHorarioFimExpediente(d[10]);
+                        if (d.length > 11) m.setDuracaoConsulta(Integer.parseInt(d[11]));
                         lista.add(m);
                     }
 
@@ -171,6 +173,7 @@ public class Persistencia {
                                 m.setAtividade(StatusMedico.INATIVO); 
                         if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
                         if (d.length > 10) m.setHorarioFimExpediente(d[10]);
+                        if (d.length > 11) m.setDuracaoConsulta(Integer.parseInt(d[11]));
                         lista.add(m);
                     }
                 }
@@ -213,7 +216,8 @@ public class Persistencia {
                     m.getEspecialidade()  + ";" +
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
-                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente())
+                    (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
+                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta())
                 );
             }
 
