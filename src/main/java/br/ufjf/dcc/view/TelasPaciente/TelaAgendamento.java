@@ -99,11 +99,13 @@ public class TelaAgendamento {
         });
 
         comboBoxMedicos.addActionListener(e -> {
-            atualizarHorariosDisponiveis();
+            if(listaAgendamentos.getSelectedValue() == null)
+                atualizarHorariosDisponiveis();
         });
 
         campoData.addActionListener(e -> {
-            atualizarHorariosDisponiveis();
+            if(listaAgendamentos.getSelectedValue() == null)
+                atualizarHorariosDisponiveis();
         });
 
         painelAgendamentos.setBorder(BorderFactory.createTitledBorder("Consultas Agendadas"));
