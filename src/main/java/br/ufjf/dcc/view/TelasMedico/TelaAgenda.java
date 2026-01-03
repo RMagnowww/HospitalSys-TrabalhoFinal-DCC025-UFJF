@@ -216,6 +216,13 @@ public class TelaAgenda {
         if (medicoAtual.getDuracaoConsulta() > 0) {
             campoDuracao.setSelectedItem(medicoAtual.getDuracaoConsulta());
         }
+        checkSegunda.setSelected(medicoAtual.getDiasTrabalha().get(0));
+        checkTerca.setSelected(medicoAtual.getDiasTrabalha().get(1));
+        checkQuarta.setSelected(medicoAtual.getDiasTrabalha().get(2));
+        checkQuinta.setSelected(medicoAtual.getDiasTrabalha().get(3));
+        checkSexta.setSelected(medicoAtual.getDiasTrabalha().get(4));
+        checkSabado.setSelected(medicoAtual.getDiasTrabalha().get(5));
+        checkDomingo.setSelected(medicoAtual.getDiasTrabalha().get(6));       
     }
 
     private void carregarConsultas() {
@@ -249,6 +256,14 @@ public class TelaAgenda {
         String inicio = campoInicio.getText();
         String fim = campoFim.getText();
         int duracao = Integer.parseInt(campoDuracao.getSelectedItem().toString());
+        ArrayList<Boolean> diasTrabalha = new ArrayList<Boolean>(7);
+            diasTrabalha.add(checkSegunda.isSelected());
+            diasTrabalha.add(checkTerca.isSelected());
+            diasTrabalha.add(checkQuarta.isSelected());
+            diasTrabalha.add(checkQuinta.isSelected());
+            diasTrabalha.add(checkSexta.isSelected());
+            diasTrabalha.add(checkSabado.isSelected());
+            diasTrabalha.add(checkDomingo.isSelected());
         if (inicio == null || inicio.trim().isEmpty() || fim == null || fim.trim().isEmpty() || duracao <= 0) {
             JOptionPane.showMessageDialog(frame, 
                 "Preencha os horários de início, fim e a duração!", 
@@ -261,6 +276,7 @@ public class TelaAgenda {
             medicoAtual.setHorarioInicioExpediente(inicio);
             medicoAtual.setHorarioFimExpediente(fim);
             medicoAtual.setDuracaoConsulta(duracao);
+            medicoAtual.setDiasTrabalha(diasTrabalha);
             Persistencia.salvarUsuario(medicoAtual);
 
             JOptionPane.showMessageDialog(frame, 

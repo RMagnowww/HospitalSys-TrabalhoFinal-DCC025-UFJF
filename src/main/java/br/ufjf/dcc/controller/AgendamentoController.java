@@ -136,7 +136,7 @@ public class AgendamentoController {
     public static List<LocalTime> gerarHorariosDisponiveis(Medico medico, LocalDate data) {
         List<LocalTime> horarios = new ArrayList<>();
         
-        if (medico.getHorarioInicioExpediente() == null || medico.getHorarioFimExpediente() == null || medico.getDuracaoConsulta() == 0) {
+        if (medico.getHorarioInicioExpediente() == null || medico.getHorarioFimExpediente() == null || medico.getDuracaoConsulta() <= 0 || medico.getDiasTrabalha().get(data.getDayOfWeek().getValue()-1) == false) {
             return horarios; 
         }
 

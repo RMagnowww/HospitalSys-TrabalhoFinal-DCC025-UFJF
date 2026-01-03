@@ -246,7 +246,6 @@ public class TelaAgendamento {
 
             AgendamentoController.agendarConsulta(pacienteAtual, medico, dataHora, descricao);
             atualizarListaConsultas();
-            limparCampos();
             listaAgendamentos.setSelectedIndex(listaAgendamentos.getLastVisibleIndex());
 
         } catch (Exception ex) {

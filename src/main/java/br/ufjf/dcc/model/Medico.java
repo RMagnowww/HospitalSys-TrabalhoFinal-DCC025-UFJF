@@ -16,6 +16,7 @@ public class Medico extends Usuario {
     private int duracaoConsulta;
 
     private List<Consulta> agendaConsultas;
+    private ArrayList<Boolean> diasTrabalha;
 
     public Medico(String nome, String cpf, String telefone, String email, String senha, String crm, String especialidade) {
         super(nome, cpf, telefone, email, senha, PerfilUsuario.MEDICO);
@@ -24,6 +25,8 @@ public class Medico extends Usuario {
         this.atividade = StatusMedico.ATIVO;
         this.agendaConsultas = new ArrayList<>();
         setDuracaoConsulta(0);
+        diasTrabalha = new ArrayList<Boolean>(7);
+            diasTrabalha.add(false); diasTrabalha.add(false); diasTrabalha.add(false); diasTrabalha.add(false); diasTrabalha.add(false); diasTrabalha.add(false); diasTrabalha.add(false);
     }
 
     public String getCrm() { 
@@ -78,6 +81,16 @@ public class Medico extends Usuario {
     public void adicionarConsultaAgenda(Consulta consulta) {
         this.agendaConsultas.add(consulta);
     }
+
+    public ArrayList<Boolean> getDiasTrabalha() {
+        ArrayList<Boolean> copiaDiasTrabalha = new ArrayList<Boolean>(this.diasTrabalha);
+        return copiaDiasTrabalha;
+    }
+
+    public void setDiasTrabalha(ArrayList<Boolean> diasTrabalha) {
+        this.diasTrabalha = diasTrabalha;
+    }
+
     @Override
     public String toString(){
         return getNome() + " - CPF: " + getCpf() + " - " + getEspecialidade();

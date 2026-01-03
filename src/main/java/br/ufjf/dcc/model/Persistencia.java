@@ -36,6 +36,10 @@ public class Persistencia {
             }
 
             else if (u instanceof Medico m) {
+                ArrayList<Boolean> b = m.getDiasTrabalha();
+                ArrayList<Boolean> allFalse = new ArrayList<Boolean>(7);
+                for(int i = 0; i < 7; i++)
+                    allFalse.add(false);
                 bw.write(
                     "MEDICO;" +
                     m.getNome() + ";" +
@@ -48,7 +52,14 @@ public class Persistencia {
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
                     (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
-                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta())
+                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta()) + ";" +
+                    (m.getDiasTrabalha().equals(allFalse) ? "" : b.get(0) + ";" + 
+                    b.get(1) + ";" + 
+                    b.get(2) + ";" + 
+                    b.get(3) + ";" + 
+                    b.get(4) + ";" + 
+                    b.get(5) + ";" + 
+                    b.get(6))
                 );
             }
 
@@ -104,6 +115,12 @@ public class Persistencia {
                         if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
                         if (d.length > 10) m.setHorarioFimExpediente(d[10]);
                         if (d.length > 11) m.setDuracaoConsulta(Integer.parseInt(d[11]));
+                        if (d.length > 12){ 
+                            ArrayList<Boolean> b = new ArrayList<Boolean>(7);
+                            for(int i = 0; i < 7; i++)
+                                b.add(Boolean.parseBoolean(d[12+i]));
+                            m.setDiasTrabalha(b);
+                        }
                         lista.add(m);
                     }
 
@@ -174,6 +191,12 @@ public class Persistencia {
                         if (d.length > 9) m.setHorarioInicioExpediente(d[9]);
                         if (d.length > 10) m.setHorarioFimExpediente(d[10]);
                         if (d.length > 11) m.setDuracaoConsulta(Integer.parseInt(d[11]));
+                        if (d.length > 12){ 
+                            ArrayList<Boolean> b = new ArrayList<Boolean>(7);
+                            for(int i = 0; i < 7; i++)
+                                b.add(Boolean.parseBoolean(d[12+i]));
+                            m.setDiasTrabalha(b);
+                        }
                         lista.add(m);
                     }
                 }
@@ -205,6 +228,10 @@ public class Persistencia {
             }
 
             else if (u instanceof Medico m) {
+                ArrayList<Boolean> b = m.getDiasTrabalha();
+                ArrayList<Boolean> allFalse = new ArrayList<Boolean>(7);
+                for(int i = 0; i < 7; i++)
+                    allFalse.add(false);
                 linhaExcluir = (
                     "MEDICO;" +
                     m.getNome() + ";" +
@@ -217,7 +244,14 @@ public class Persistencia {
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
                     (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
-                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta())
+                    (m.getDuracaoConsulta() == 0 ? "" : m.getDuracaoConsulta()) + ";" +
+                    (m.getDiasTrabalha().equals(allFalse) ? "" : b.get(0) + ";" + 
+                    b.get(1) + ";" + 
+                    b.get(2) + ";" + 
+                    b.get(3) + ";" + 
+                    b.get(4) + ";" + 
+                    b.get(5) + ";" + 
+                    b.get(6))
                 );
             }
 
