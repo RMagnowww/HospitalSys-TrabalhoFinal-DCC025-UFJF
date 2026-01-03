@@ -2,6 +2,6 @@ SECRETARIO;Maria;123.456.789-10;(32)91234-5678;maria@admin.com;admin123;123abc
 PACIENTE;Gabriel Angelo;333.333.333-77;(32) 94444-5555;gabrielangelo@paciente.com;paciente123;Olegário Maciel;São Mateus;11222-333;Juiz de Fora;157;01/01/2000;O+;false
 MEDICO;Dr. Malvo;123.456.789-10;(32)91234-5678;malvo@medico.com;medico123;1234;Fisioterapeuta;ATIVO;13:00;18:00
 MEDICO;Dr. Hamilton;123.456.789-10;(32)91234-5678;hamilton@medico.com;medico123;1234;Cirurgião;INATIVO;13:00;18:00
-PACIENTE;Rafael;111.222.333-44;(32) 1111-2222;rafael@paciente.com;paciente123;Morais e Castro;Alto dos Passos;11111-222;Juiz de Fora;1600;01/01/2000;A+;true
 PACIENTE;Gabriel;123.456.789-10;(32)91234-5678;gabriel@paciente.com;paciente123;Morais e Castro;Alto dos Passos;12345-678;Juiz de Fora;1600;01/01/2000;A+;false
 MEDICO;Dr. Jorge;123.456.789-10;(32)91234-5678;jorge@medico.com;medico123;1234;Cardiologista;ATIVO;13:00;18:00
+PACIENTE;Rafael;111.222.333-44;(32) 1111-2222;rafael@paciente.com;paciente123;Morais e Castro;Alto dos Passos;11111-222;Juiz de Fora;1600;01/01/2000;A+;true

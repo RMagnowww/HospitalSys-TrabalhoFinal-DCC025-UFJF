@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Persistencia {
 
-    private static final String ARQUIVO = "usuarios.txt";
+    private static final String ARQUIVO = "data/usuarios.txt";
     // ================= SALVAR USUÁRIOS=================
     public static void salvarUsuario(Usuario u) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO, true))) {
@@ -255,7 +255,7 @@ public class Persistencia {
         }
     }
 
- private static final String ARQUIVOCONSULTAS = "consultas.txt";
+ private static final String ARQUIVOCONSULTAS = "data/consultas.txt";
     // ================= SALVAR CONSULTAS =================
     public static void salvarConsultas(Consulta c) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVOCONSULTAS, true))) {
@@ -435,7 +435,7 @@ public class Persistencia {
         }
     }
 
-    private static final String ARQUIVODOCUMENTOS = "documentos.txt";
+    private static final String ARQUIVODOCUMENTOS = "data/documentos.txt";
      // ================= SALVAR DOCUMENTOS =================
     public static void salvarDocumentos(DocumentoMedico d) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVODOCUMENTOS, true))) {
