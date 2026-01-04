@@ -19,18 +19,18 @@ public class Persistencia {
                 Endereco e = p.getEndereco();
                 bw.write(
                     "PACIENTE;" +
-                    p.getNome() + ";" +
-                    p.getCpf() + ";" +
-                    p.getTelefone() + ";" +
-                    p.getEmail() + ";" +
-                    p.getSenha() + ";" +
-                    e.getRua() + ";" +
-                    e.getBairro() + ";" +
-                    e.getCep() + ";" +
-                    e.getCidade() + ";" +
-                    e.getNumero() + ";" +
-                    p.getDataNascimento() + ";" +
-                    p.getTipoSanguineo() + ";" +
+                    p.getNome().replaceAll(";","΋") + ";" +
+                    p.getCpf().replaceAll(";","΋") + ";" +
+                    p.getTelefone().replaceAll(";","΋") + ";" +
+                    p.getEmail().replaceAll(";","΋") + ";" +
+                    p.getSenha().replaceAll(";","΋") + ";" +
+                    e.getRua().replaceAll(";","΋") + ";" +
+                    e.getBairro().replaceAll(";","΋") + ";" +
+                    e.getCep().replaceAll(";","΋") + ";" +
+                    e.getCidade().replaceAll(";","΋") + ";" +
+                    e.getNumero().replaceAll(";","΋") + ";" +
+                    p.getDataNascimento().replaceAll(";","΋") + ";" +
+                    p.getTipoSanguineo().replaceAll(";","΋") + ";" +
                     p.isAceitaVisitas()
                 );
             }
@@ -42,13 +42,13 @@ public class Persistencia {
                     allFalse.add(false);
                 bw.write(
                     "MEDICO;" +
-                    m.getNome() + ";" +
-                    m.getCpf() + ";" +
-                    m.getTelefone() + ";" +
-                    m.getEmail() + ";" +
-                    m.getSenha() + ";" +
-                    m.getCrm() + ";" +
-                    m.getEspecialidade()  + ";" +
+                    m.getNome().replaceAll(";","΋") + ";" +
+                    m.getCpf().replaceAll(";","΋") + ";" +
+                    m.getTelefone().replaceAll(";","΋") + ";" +
+                    m.getEmail().replaceAll(";","΋") + ";" +
+                    m.getSenha().replaceAll(";","΋") + ";" +
+                    m.getCrm().replaceAll(";","΋") + ";" +
+                    m.getEspecialidade().replaceAll(";","΋")  + ";" +
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
                     (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
@@ -66,12 +66,12 @@ public class Persistencia {
             else if (u instanceof Secretario s) {
                 bw.write(
                     "SECRETARIO;" +
-                    s.getNome() + ";" +
-                    s.getCpf() + ";" +
-                    s.getEmail() + ";" +
-                    s.getTelefone() + ";" +
-                    s.getSenha() + ";" +
-                    s.getMatricula()
+                    s.getNome().replaceAll(";","΋") + ";" +
+                    s.getCpf().replaceAll(";","΋") + ";" +
+                    s.getEmail().replaceAll(";","΋") + ";" +
+                    s.getTelefone().replaceAll(";","΋") + ";" +
+                    s.getSenha().replaceAll(";","΋") + ";" +
+                    s.getMatricula().replaceAll(";","΋")
                 );
             }
 
@@ -94,10 +94,11 @@ public class Persistencia {
                 switch (d[0]) {
 
                     case "PACIENTE" -> {
-                        Endereco e = new Endereco(d[6], d[7], d[8], d[9], d[10]);
+                        Endereco e = new Endereco(d[6].replaceAll("΋",";") , d[7].replaceAll("΋",";") , d[8].replaceAll("΋",";") , d[9].replaceAll("΋",";") , d[10].replaceAll("΋",";") );
                         Paciente p = new Paciente(
-                            d[1], d[2], d[3], d[4], d[5],
-                            e, d[11], d[12]
+                            d[1].replaceAll("΋",";") , d[2].replaceAll("΋",";") , d[3].replaceAll("΋",";") , 
+                            d[4].replaceAll("΋",";") , d[5].replaceAll("΋",";") , e, d[11].replaceAll("΋",";") ,
+                            d[12].replaceAll("΋",";")
                         );
                         p.setAceitaVisitas(Boolean.parseBoolean(d[13]));
                         lista.add(p);
@@ -105,8 +106,9 @@ public class Persistencia {
 
                     case "MEDICO" -> {
                         Medico m = new Medico(
-                            d[1], d[2], d[3], d[4], d[5],
-                            d[6], d[7]
+                            d[1].replaceAll("΋",";") , d[2].replaceAll("΋",";") , d[3].replaceAll("΋",";") ,
+                            d[4].replaceAll("΋",";") , d[5].replaceAll("΋",";") ,
+                            d[6].replaceAll("΋",";") , d[7].replaceAll("΋",";") 
                         );
                         if(d[8].equals("ATIVO"))
                             m.setAtividade(StatusMedico.ATIVO);
@@ -126,7 +128,8 @@ public class Persistencia {
 
                     case "SECRETARIO" -> {
                         Secretario s = new Secretario(
-                            d[1], d[2], d[3], d[4], d[5], d[6]
+                            d[1].replaceAll("΋",";") , d[2].replaceAll("΋",";") , d[3].replaceAll("΋",";") , 
+                            d[4].replaceAll("΋",";") , d[5].replaceAll("΋",";") , d[6].replaceAll("΋",";") 
                         );
                         lista.add(s);
                     }
@@ -151,10 +154,11 @@ public class Persistencia {
                 switch (d[0]) {
 
                     case "PACIENTE" -> {
-                        Endereco e = new Endereco(d[6], d[7], d[8], d[9], d[10]);
+                        Endereco e = new Endereco(d[6].replaceAll("΋",";") , d[7].replaceAll("΋",";") , d[8].replaceAll("΋",";") , d[9].replaceAll("΋",";") , d[10].replaceAll("΋",";") );
                         Paciente p = new Paciente(
-                            d[1], d[2], d[3], d[4], d[5],
-                            e, d[11], d[12]
+                            d[1].replaceAll("΋",";") , d[2].replaceAll("΋",";") , d[3].replaceAll("΋",";") , 
+                            d[4].replaceAll("΋",";") , d[5].replaceAll("΋",";") , e, d[11].replaceAll("΋",";") ,
+                            d[12].replaceAll("΋",";")
                         );
                         p.setAceitaVisitas(Boolean.parseBoolean(d[13]));
                         lista.add(p);
@@ -181,8 +185,9 @@ public class Persistencia {
 
                     case "MEDICO" -> {
                         Medico m = new Medico(
-                            d[1], d[2], d[3], d[4], d[5],
-                            d[6], d[7]
+                            d[1].replaceAll("΋",";") , d[2].replaceAll("΋",";") , d[3].replaceAll("΋",";") ,
+                            d[4].replaceAll("΋",";") , d[5].replaceAll("΋",";") ,
+                            d[6].replaceAll("΋",";") , d[7].replaceAll("΋",";") 
                         );
                         if(d[8].equals("ATIVO"))
                             m.setAtividade(StatusMedico.ATIVO);
@@ -211,20 +216,21 @@ public class Persistencia {
             if (u instanceof Paciente p) {
                 Endereco e = p.getEndereco();
                 linhaExcluir = (
-                    "PACIENTE;" +
-                    p.getNome() + ";" +
-                    p.getCpf() + ";" +
-                    p.getTelefone() + ";" +
-                    p.getEmail() + ";" +
-                    p.getSenha() + ";" +
-                    e.getRua() + ";" +
-                    e.getBairro() + ";" +
-                    e.getCep() + ";" +
-                    e.getCidade() + ";" +
-                    e.getNumero() + ";" +
-                    p.getDataNascimento() + ";" +
-                    p.getTipoSanguineo() + ";" +
-                    p.isAceitaVisitas());
+                   "PACIENTE;" +
+                    p.getNome().replaceAll(";","΋") + ";" +
+                    p.getCpf().replaceAll(";","΋") + ";" +
+                    p.getTelefone().replaceAll(";","΋") + ";" +
+                    p.getEmail().replaceAll(";","΋") + ";" +
+                    p.getSenha().replaceAll(";","΋") + ";" +
+                    e.getRua().replaceAll(";","΋") + ";" +
+                    e.getBairro().replaceAll(";","΋") + ";" +
+                    e.getCep().replaceAll(";","΋") + ";" +
+                    e.getCidade().replaceAll(";","΋") + ";" +
+                    e.getNumero().replaceAll(";","΋") + ";" +
+                    p.getDataNascimento().replaceAll(";","΋") + ";" +
+                    p.getTipoSanguineo().replaceAll(";","΋") + ";" +
+                    p.isAceitaVisitas()
+                );
             }
 
             else if (u instanceof Medico m) {
@@ -233,14 +239,14 @@ public class Persistencia {
                 for(int i = 0; i < 7; i++)
                     allFalse.add(false);
                 linhaExcluir = (
-                    "MEDICO;" +
-                    m.getNome() + ";" +
-                    m.getCpf() + ";" +
-                    m.getTelefone() + ";" +
-                    m.getEmail() + ";" +
-                    m.getSenha() + ";" +
-                    m.getCrm() + ";" +
-                    m.getEspecialidade()  + ";" +
+                   "MEDICO;" +
+                    m.getNome().replaceAll(";","΋") + ";" +
+                    m.getCpf().replaceAll(";","΋") + ";" +
+                    m.getTelefone().replaceAll(";","΋") + ";" +
+                    m.getEmail().replaceAll(";","΋") + ";" +
+                    m.getSenha().replaceAll(";","΋") + ";" +
+                    m.getCrm().replaceAll(";","΋") + ";" +
+                    m.getEspecialidade().replaceAll(";","΋")  + ";" +
                     m.getAtividade() + ";" +
                     (m.getHorarioInicioExpediente() == null ? "" : m.getHorarioInicioExpediente()) + ";" +
                     (m.getHorarioFimExpediente() == null ? "" : m.getHorarioFimExpediente()) + ";" +
@@ -258,12 +264,12 @@ public class Persistencia {
             else if (u instanceof Secretario s) {
                 linhaExcluir = (
                     "SECRETARIO;" +
-                    s.getNome() + ";" +
-                    s.getCpf() + ";" +
-                    s.getEmail() + ";" +
-                    s.getTelefone() + ";" +
-                    s.getSenha() + ";" +
-                    s.getMatricula()
+                    s.getNome().replaceAll(";","΋") + ";" +
+                    s.getCpf().replaceAll(";","΋") + ";" +
+                    s.getEmail().replaceAll(";","΋") + ";" +
+                    s.getTelefone().replaceAll(";","΋") + ";" +
+                    s.getSenha().replaceAll(";","΋") + ";" +
+                    s.getMatricula().replaceAll(";","΋")
                 );
             }
         String arquivoTemporario = "usuarios_temp.txt";
@@ -298,13 +304,13 @@ public class Persistencia {
     public static void salvarConsultas(Consulta c) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVOCONSULTAS, true))) {
                 bw.write(
-                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
-                    c.getPaciente().getNome() + ";" +
-                    c.getPaciente().getCpf() + ";" +
-                    c.getMedico().getNome() + ";" +
-                    c.getMedico().getCpf() + ";" +
+                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")).replaceAll(";","΋") + ";" +
+                    c.getPaciente().getNome().replaceAll(";","΋") + ";" +
+                    c.getPaciente().getCpf().replaceAll(";","΋") + ";" +
+                    c.getMedico().getNome().replaceAll(";","΋") + ";" +
+                    c.getMedico().getCpf().replaceAll(";","΋") + ";" +
                     c.getStatus() + ";" +
-                    c.getDescricao()
+                    c.getDescricao().replaceAll(";","΋")
 
                     
                 );
@@ -329,9 +335,9 @@ public class Persistencia {
                     case "REALIZADA" -> {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
-                            if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
+                            if (p.getNome().equals(d[1].replaceAll("΋",";")) && p.getCpf().equals(d[2].replaceAll("΋",";")) && m.getNome().equals(d[3].replaceAll("΋",";")) && m.getCpf().equals(d[4].replaceAll("΋",";"))) {
                                Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.REALIZADA);
-                               c.setDescricao(d[6]);
+                               c.setDescricao(d[6].replaceAll("΋",";"));
                                lista.add(c);  
                             }
                         }
@@ -359,9 +365,9 @@ public class Persistencia {
                     case "AGENDADA" -> {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Medico m : medicos) {
-                            if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
+                            if (p.getNome().equals(d[1].replaceAll("΋",";")) && p.getCpf().equals(d[2].replaceAll("΋",";")) && m.getNome().equals(d[3].replaceAll("΋",";")) && m.getCpf().equals(d[4].replaceAll("΋",";"))) {
                                Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
-                                c.setDescricao(d[6]);
+                                c.setDescricao(d[6].replaceAll("΋",";"));
                                lista.add(c);  
                             }
                         }
@@ -389,9 +395,9 @@ public class Persistencia {
                     case "AGENDADA" -> {
                         ArrayList<Paciente> pacientes = carregarPacientes();
                         for (Paciente p : pacientes) {
-                            if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
+                            if (p.getNome().equals(d[1].replaceAll("΋",";")) && p.getCpf().equals(d[2].replaceAll("΋",";")) && m.getNome().equals(d[3].replaceAll("΋",";")) && m.getCpf().equals(d[4].replaceAll("΋",";"))) {
                                Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.AGENDADA);
-                                c.setDescricao(d[6]); 
+                                c.setDescricao(d[6].replaceAll("΋",";")); 
                                lista.add(c);  
                             }
                         }
@@ -421,9 +427,9 @@ public class Persistencia {
                         ArrayList<Medico> medicos = carregarMedicos();
                         for (Paciente p : pacientes)
                             for(Medico m : medicos) {
-                                if (p.getNome().equals(d[1]) && p.getCpf().equals(d[2]) && m.getNome().equals(d[3]) && m.getCpf().equals(d[4])) {
+                                if (p.getNome().equals(d[1].replaceAll("΋",";")) && p.getCpf().equals(d[2].replaceAll("΋",";")) && m.getNome().equals(d[3].replaceAll("΋",";")) && m.getCpf().equals(d[4].replaceAll("΋",";"))) {
                                     Consulta c = new Consulta(LocalDateTime.parse(d[0], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")), p, m, StatusConsulta.FALTA);
-                                    c.setDescricao(d[6]); 
+                                    c.setDescricao(d[6].replaceAll("΋",";")); 
                                     lista.add(c);  
                                 }
                             }
@@ -438,13 +444,13 @@ public class Persistencia {
     public static void deletarConsulta(Consulta c) throws IOException {
         String linhaExcluir = new String();
                 linhaExcluir = (
-                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
-                    c.getPaciente().getNome() + ";" +
-                    c.getPaciente().getCpf() + ";" +
-                    c.getMedico().getNome() + ";" +
-                    c.getMedico().getCpf() + ";" +
+                    c.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")).replaceAll(";","΋") + ";" +
+                    c.getPaciente().getNome().replaceAll(";","΋") + ";" +
+                    c.getPaciente().getCpf().replaceAll(";","΋") + ";" +
+                    c.getMedico().getNome().replaceAll(";","΋") + ";" +
+                    c.getMedico().getCpf().replaceAll(";","΋") + ";" +
                     c.getStatus() + ";" +
-                    c.getDescricao());
+                    c.getDescricao().replaceAll(";","΋"));
 
         String arquivoTemporarioConsultas = "consultas_temp.txt";
 
@@ -480,38 +486,38 @@ public class Persistencia {
                if (d instanceof Atestado a) {
                 bw.write(
                     "ATESTADO;" +
-                    a.getMedico().getNome() + ";" +
-                    a.getMedico().getCpf() + ";" +
-                    a.getPaciente().getNome() + ";" +
-                    a.getPaciente().getCpf() + ";" +
+                    a.getMedico().getNome().replaceAll(";","΋")  + ";" +
+                    a.getMedico().getCpf().replaceAll(";","΋")  + ";" +
+                    a.getPaciente().getNome().replaceAll(";","΋")  + ";" +
+                    a.getPaciente().getCpf().replaceAll(";","΋")  + ";" +
                     a.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
                     a.getDiasAfastamento() + ";" +
-                    a.getDescricao()
+                    a.getDescricao().replaceAll(";","΋")
                 );
             }
 
             else if (d instanceof Exame e) {
                 bw.write(
                     "EXAME;" +
-                    e.getMedico().getNome() + ";" +
-                    e.getMedico().getCpf() + ";" +
-                    e.getPaciente().getNome() + ";" +
-                    e.getPaciente().getCpf() + ";" +
+                    e.getMedico().getNome().replaceAll(";","΋")  + ";" +
+                    e.getMedico().getCpf().replaceAll(";","΋")  + ";" +
+                    e.getPaciente().getNome().replaceAll(";","΋")  + ";" +
+                    e.getPaciente().getCpf().replaceAll(";","΋")  + ";" +
                     e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
-                    e.getNomeExame()  + ";" +
-                    e.getResultado()
+                    e.getNomeExame().replaceAll(";","΋")  + ";" +
+                    e.getResultado().replaceAll(";","΋")
                 );
             }
 
             else if (d instanceof Receita r) {
                 bw.write(
                     "RECEITA;" +
-                    r.getMedico().getNome() + ";" +
-                    r.getMedico().getCpf() + ";" +
-                    r.getPaciente().getNome() + ";" +
-                    r.getPaciente().getCpf() + ";" +
+                    r.getMedico().getNome().replaceAll(";","΋")  + ";" +
+                    r.getMedico().getCpf().replaceAll(";","΋")  + ";" +
+                    r.getPaciente().getNome().replaceAll(";","΋")  + ";" +
+                    r.getPaciente().getCpf().replaceAll(";","΋")  + ";" +
                     r.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ";" +
-                    r.getMedicamentos()
+                    r.getMedicamentos().replaceAll(";","΋")
                 );
             }
 
@@ -535,8 +541,8 @@ public class Persistencia {
 
                     case "ATESTADO" -> {
                         for(Medico m : medicos)
-                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
-                                Atestado a = new Atestado(m, p, Integer.parseInt(d[6]), d[7]);
+                            if (m.getNome().equals(d[1].replaceAll("΋",";")) && m.getCpf().equals(d[2].replaceAll("΋",";")) && p.getNome().equals(d[3].replaceAll("΋",";")) && p.getCpf().equals(d[4].replaceAll("΋",";"))) {
+                                Atestado a = new Atestado(m, p, Integer.parseInt(d[6]), d[7].replaceAll("΋",";"));
                                 a.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(a);
                             }
@@ -544,8 +550,8 @@ public class Persistencia {
 
                     case "EXAME" -> {
                         for(Medico m : medicos)
-                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
-                                Exame e = new Exame(m, p, d[6], d[7]);
+                            if (m.getNome().equals(d[1].replaceAll("΋",";")) && m.getCpf().equals(d[2].replaceAll("΋",";")) && p.getNome().equals(d[3].replaceAll("΋",";")) && p.getCpf().equals(d[4].replaceAll("΋",";"))) {
+                                Exame e = new Exame(m, p, d[6].replaceAll("΋",";"), d[7].replaceAll("΋",";"));
                                 e.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(e);
                             }
@@ -553,8 +559,8 @@ public class Persistencia {
 
                     case "RECEITA" -> {
                         for(Medico m : medicos)
-                            if (m.getNome().equals(d[1]) && m.getCpf().equals(d[2]) && p.getNome().equals(d[3]) && p.getCpf().equals(d[4])) {
-                                Receita r = new Receita(m, p, d[6]);
+                            if (m.getNome().equals(d[1].replaceAll("΋",";")) && m.getCpf().equals(d[2].replaceAll("΋",";")) && p.getNome().equals(d[3].replaceAll("΋",";")) && p.getCpf().equals(d[4].replaceAll("΋",";"))) {
+                                Receita r = new Receita(m, p, d[6].replaceAll("΋",";"));
                                 r.setData(LocalDateTime.parse(d[5], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))); 
                                 lista.add(r);
                     }
