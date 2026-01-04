@@ -108,6 +108,8 @@ public class TelaCadastroPaciente {
 
         listPacientes.addListSelectionListener(e -> {
             if(listPacientes.getSelectedValue() != null){
+                campoNome.setEditable(false);
+                campoCPF.setEditable(false);
                 campoNome.setText(listPacientes.getSelectedValue().getNome());
                 campoCPF.setText(listPacientes.getSelectedValue().getCpf());
                 campoTelefone.setText(listPacientes.getSelectedValue().getTelefone());
@@ -123,6 +125,8 @@ public class TelaCadastroPaciente {
             }
         });
         botaoNovo.addActionListener( e -> {
+            campoNome.setEditable(true);
+            campoCPF.setEditable(true);
             listPacientes.clearSelection();
             campoNome.setText(null);
             campoCPF.setText(null);
@@ -138,10 +142,14 @@ public class TelaCadastroPaciente {
             campoTipoSanguineo.setText(null);
         });
         botaoCadastrar.addActionListener(  e -> {
-            if(listPacientes.getSelectedValue() == null)
-                SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getText().equals("") && !campoTipoSanguineo.getText().equals("")){
+                if(listPacientes.getSelectedValue() == null)
+                    SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+                else
+                    SecretarioController.alterarDadosPaciente(listPacientes.getSelectedValue(), campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+            }
             else
-                SecretarioController.alterarDadosPaciente(listPacientes.getSelectedValue(), campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados do paciente!","Erro!", JOptionPane.ERROR_MESSAGE);
             try{
                 pacientes = Persistencia.carregarPacientes();
             } 

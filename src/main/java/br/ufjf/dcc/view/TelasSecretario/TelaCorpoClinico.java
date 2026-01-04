@@ -95,6 +95,8 @@ public class TelaCorpoClinico {
 
         listMedicos.addListSelectionListener(e -> {
             if(listMedicos.getSelectedValue() != null){
+                campoNome.setEditable(false);
+                campoCPF.setEditable(false);
                 campoNome.setText(listMedicos.getSelectedValue().getNome());
                 campoCPF.setText(listMedicos.getSelectedValue().getCpf());
                 campoTelefone.setText(listMedicos.getSelectedValue().getTelefone());
@@ -115,18 +117,23 @@ public class TelaCorpoClinico {
             campoEmail.setText(null);
             campoSenha.setText(null);
             boxStatus.setSelectedIndex(0);
+            campoNome.setEditable(true);
+            campoCPF.setEditable(true);
         });
         botaoCadastrar.addActionListener(e -> {
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoCrm.getText().equals("") && !campoEspecialidade.getText().equals(""))
                 if(listMedicos.getSelectedValue() == null)
                     SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(),  boxStatus.getSelectedItem().toString());
                 else
                     SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
-                try{
-                    medicos = Persistencia.carregarMedicos();
-                } 
-                catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados do médico","Erro!", JOptionPane.ERROR_MESSAGE);
+            try{
+                medicos = Persistencia.carregarMedicos();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
             listMedicos.setSelectedIndex(medicos.size()-1);
         });

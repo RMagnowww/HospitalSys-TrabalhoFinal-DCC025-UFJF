@@ -45,6 +45,8 @@ public class TelaDadosPessoais {
         painelBotoes = new JPanel();
         campoNome = new JTextField(23);
         campoCPF = new JTextField(23);
+            campoNome.setEditable(false);
+            campoCPF.setEditable(false);
         campoTelefone = new JTextField(23);
         campoCidade = new JTextField(23);
         campoBairro = new JTextField(23);
@@ -100,7 +102,12 @@ public class TelaDadosPessoais {
 
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
-        botaoConfirmar.addActionListener(e -> { PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getText(),campoTipoSanguineo.getText());});
+        botaoConfirmar.addActionListener(e -> {
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getText().equals("") && !campoTipoSanguineo.getText().equals("")) 
+                PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getText(),campoTipoSanguineo.getText());
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados!","Erro!", JOptionPane.ERROR_MESSAGE);
+        });
         botaoSair.addActionListener(e -> frame.dispose());
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
