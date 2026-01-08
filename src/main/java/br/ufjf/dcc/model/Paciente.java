@@ -22,7 +22,7 @@ public class Paciente extends Usuario{
     public Paciente(String nome, String cpf, String telefone, String email, String senha, Endereco endereco, String dataNascimento, String tipoSanguineo) {
         super(nome, cpf, telefone, email, senha, PerfilUsuario.PACIENTE);
         this.endereco = endereco;
-        this.dataNascimento = dataNascimento;
+        setDataNascimento(dataNascimento);
         this.tipoSanguineo = tipoSanguineo;
         this.aceitaVisitas = true;
 
