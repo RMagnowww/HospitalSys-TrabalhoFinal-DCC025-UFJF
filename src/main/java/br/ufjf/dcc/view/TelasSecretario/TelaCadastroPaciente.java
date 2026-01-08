@@ -110,7 +110,7 @@ public class TelaCadastroPaciente {
     }
 
     public void abrirTelaCadastroPaciente(){
-        frame.setSize(800,600);
+        frame.setSize(800,700);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
