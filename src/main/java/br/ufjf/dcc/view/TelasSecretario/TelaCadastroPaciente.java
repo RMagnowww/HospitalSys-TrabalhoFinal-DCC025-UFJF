@@ -1,16 +1,18 @@
 /*  Rafael Magno Campos da Silva - 202435012
     Gabriel Haddad Cyrino Gadioli - 202435026
     Gabriel Angelo Bovareto Batista - 202435039 */
-    
-package br.ufjf.dcc.view.TelasSecretario;
-import  br.ufjf.dcc.controller.SecretarioController;
-import br.ufjf.dcc.model.Persistencia;
 
+package br.ufjf.dcc.view.TelasSecretario;
+import br.ufjf.dcc.controller.SecretarioController;
+import br.ufjf.dcc.model.Persistencia;
 import br.ufjf.dcc.model.Paciente;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import com.toedter.calendar.JDateChooser; 
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class TelaCadastroPaciente {
     private JFrame frame;
@@ -28,8 +30,9 @@ public class TelaCadastroPaciente {
     private JTextField campoRua;
     private JTextField campoNumero;
     private JTextField campoCEP;
-    private JTextField campoDataNascimento;
-    private JTextField campoTipoSanguineo;
+    private JDateChooser campoDataNascimento;  
+    private JComboBox<String> campoTipoSanguineo;  // Alterado para JComboBox
+    private JComboBox<String> campoFatorRh;        // Novo JComboBox para o Fator Rh
     private JTextField campoEmail;
     private JTextField campoSenha;
     private JButton botaoCadastrar;
@@ -67,8 +70,17 @@ public class TelaCadastroPaciente {
         campoRua = new JTextField(36);
         campoNumero = new JTextField(36);
         campoCEP = new JTextField(36);
-        campoDataNascimento = new JTextField(36);
-        campoTipoSanguineo = new JTextField(36);
+        campoDataNascimento = new JDateChooser();  // Inicializando o JDateChooser
+        campoDataNascimento.setDateFormatString("dd/MM/yyyy");  // Definindo o formato da data
+        
+        // Criando a JComboBox para Tipo Sanguíneo
+        String[] tiposSanguineos = {"A", "B", "AB", "O"};
+        campoTipoSanguineo = new JComboBox<>(tiposSanguineos);
+        
+        // Criando a JComboBox para Fator Rh (Positivo ou Negativo)
+        String[] fatoresRh = {"+", "-"};
+        campoFatorRh = new JComboBox<>(fatoresRh);
+        
         campoEmail = new JTextField(36);
         campoSenha = new JTextField(36);
         botaoCadastrar = new JButton("Salvar Paciente");
@@ -124,10 +136,22 @@ public class TelaCadastroPaciente {
                 campoCEP.setText(listPacientes.getSelectedValue().getEndereco().getCep());
                 campoEmail.setText(listPacientes.getSelectedValue().getEmail());
                 campoSenha.setText(listPacientes.getSelectedValue().getSenha());
-                campoDataNascimento.setText(listPacientes.getSelectedValue().getDataNascimento());
-                campoTipoSanguineo.setText(listPacientes.getSelectedValue().getTipoSanguineo());
+                // Alterando para pegar a data do JDateChooser
+                try {
+                    java.util.Date data = new SimpleDateFormat("dd/MM/yyyy").parse(listPacientes.getSelectedValue().getDataNascimento());
+                    campoDataNascimento.setDate(data);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                // Separando o tipo sanguíneo e o fator Rh
+                String tipoSanguineo = listPacientes.getSelectedValue().getTipoSanguineo();
+                String tipo = tipoSanguineo.substring(0, tipoSanguineo.length() - 1); // Parte do tipo sanguíneo (A, B, AB, O)
+                String rh = tipoSanguineo.substring(tipoSanguineo.length() - 1);      // Parte do fator Rh (+ ou -)
+                campoTipoSanguineo.setSelectedItem(tipo);
+                campoFatorRh.setSelectedItem(rh);
             }
         });
+
         botaoNovo.addActionListener( e -> {
             campoNome.setEditable(true);
             campoCPF.setEditable(true);
@@ -142,15 +166,26 @@ public class TelaCadastroPaciente {
             campoCEP.setText(null);
             campoEmail.setText(null);
             campoSenha.setText(null); 
-            campoDataNascimento.setText(null);
-            campoTipoSanguineo.setText(null);
+            campoDataNascimento.setDate(null);  // Limpando a data no JDateChooser
+            campoTipoSanguineo.setSelectedIndex(0);  // Resetando o ComboBox
+            campoFatorRh.setSelectedIndex(0);        // Resetando o ComboBox
         });
+
         botaoCadastrar.addActionListener(  e -> {
-            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getText().equals("") && !campoTipoSanguineo.getText().equals("")){
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && campoDataNascimento.getDate() != null){
+                // Combinação do tipo sanguíneo e fator Rh
+                String tipo = (String) campoTipoSanguineo.getSelectedItem();
+                String rh = (String) campoFatorRh.getSelectedItem();
+                String tipoSanguineo = tipo + rh;
+
+                // Convertendo a data escolhida no JDateChooser para String
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dataNascimento = dateFormat.format(campoDataNascimento.getDate());
+                
                 if(listPacientes.getSelectedValue() == null)
-                    SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+                    SecretarioController.cadastrarPaciente(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCidade.getText(), campoBairro.getText(), campoRua.getText(), campoNumero.getText(), campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), dataNascimento, tipoSanguineo);
                 else
-                    SecretarioController.alterarDadosPaciente(listPacientes.getSelectedValue(), campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), campoDataNascimento.getText(), campoTipoSanguineo.getText());
+                    SecretarioController.alterarDadosPaciente(listPacientes.getSelectedValue(), campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(), dataNascimento, tipoSanguineo);
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados do paciente!","Erro!", JOptionPane.ERROR_MESSAGE);
@@ -163,6 +198,7 @@ public class TelaCadastroPaciente {
             listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
             listPacientes.setSelectedIndex(pacientes.size()-1);
         });
+
         botaoRemover.addActionListener(e -> {
             if(listPacientes.getSelectedValue() != null){
                 SecretarioController.deletarUsuario(listPacientes.getSelectedValue());
@@ -184,12 +220,14 @@ public class TelaCadastroPaciente {
                 campoCEP.setText(null);
                 campoEmail.setText(null);
                 campoSenha.setText(null); 
-                campoDataNascimento.setText(null);
-                campoTipoSanguineo.setText(null);
+                campoDataNascimento.setDate(null);
+                campoTipoSanguineo.setSelectedIndex(0);
+                campoFatorRh.setSelectedIndex(0);
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Não há paciente selecionado para remoção!","Erro!", JOptionPane.ERROR_MESSAGE);
         });
+
         botaoSair.addActionListener(e -> frame.dispose());
 
         painelList.setLayout(new BorderLayout(10,10));
@@ -209,6 +247,12 @@ public class TelaCadastroPaciente {
         painelEsq.add(labelEmail);
         painelEsq.add(labelSenha);
 
+        // Painel para Tipo Sanguíneo e Fator Rh
+        JPanel painelTipoSanguineoRh = new JPanel();
+        painelTipoSanguineoRh.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        painelTipoSanguineoRh.add(campoTipoSanguineo);
+        painelTipoSanguineoRh.add(campoFatorRh);
+
         painelDir.add(campoNome);
         painelDir.add(campoCPF);
         painelDir.add(campoTelefone);
@@ -218,7 +262,7 @@ public class TelaCadastroPaciente {
         painelDir.add(campoNumero);
         painelDir.add(campoCEP);
         painelDir.add(campoDataNascimento);
-        painelDir.add(campoTipoSanguineo);
+        painelDir.add(painelTipoSanguineoRh);  // Adicionando o painel de Tipo Sanguíneo e Fator Rh
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 
