@@ -4,6 +4,8 @@
     
 package br.ufjf.dcc.model;
 
+import javax.swing.JOptionPane;
+
 public class Endereco {
     private String rua;
     private String bairro;
@@ -37,11 +39,30 @@ public class Endereco {
 
     public String getCep() { return cep; }
     public void setCep(String cep) {
+    try {
         if (cep == null || cep.trim().isEmpty()) {
-            throw new IllegalArgumentException("O CEP não pode ser vazio");
+            throw new IllegalArgumentException("CEP não pode ser vazio ou nulo.");
         }
-        this.cep = cep;
+
+        // Remove tudo que não for número
+        cep = cep.replaceAll("[^0-9]", "");
+
+        // Verifica se tem 8 dígitos
+        if (cep.length() != 8 || !cep.matches("\\d{8}")) {
+            throw new IllegalArgumentException("CEP deve conter 8 dígitos numéricos.");
+        }
+
+        // Formata o CEP: xxxxx-xxx
+        String cepFormatado = String.format("%s-%s", 
+            cep.substring(0, 5),   // primeiros 5 dígitos
+            cep.substring(5));     // últimos 3 dígitos
+
+        this.cep = cepFormatado;
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "CEP Inválido", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     public String getCidade() { return cidade;}
     public void setCidade(String cidade) {
