@@ -13,6 +13,15 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>br.ufjf.dcc.Main</exec.mainClass>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <pluginManagement>
             <plugins>
