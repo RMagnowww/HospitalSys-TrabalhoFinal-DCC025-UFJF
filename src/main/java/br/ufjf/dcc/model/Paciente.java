@@ -4,8 +4,16 @@
     
 package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Paciente extends Usuario{
     private static final long serialVersionUID = 1L;
@@ -33,7 +41,23 @@ public class Paciente extends Usuario{
         return dataNascimento; 
     }
     public void setDataNascimento(String dataNascimento) { 
-        this.dataNascimento = dataNascimento; 
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data = LocalDate.parse(dataNascimento, formatter);
+
+            if(data.isAfter(LocalDate.now())){
+                throw new IllegalArgumentException("Data de nascimento não pode ser no futuro");
+            }
+            this.dataNascimento = dataNascimento;
+        } catch (DateTimeParseException e){
+            JOptionPane.showMessageDialog(null,
+                "Data invalida. use o Formato dd/MM/yyyy",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(null,
+                e.getMessage(),
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
     public String getTipoSanguineo() { 
         return tipoSanguineo; 
