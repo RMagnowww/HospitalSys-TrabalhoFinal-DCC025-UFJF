@@ -1,5 +1,6 @@
 package br.ufjf.dcc.model;
 
+import br.ufjf.dcc.model.enums.PerfilUsuario;
 import br.ufjf.dcc.model.*;
 import org.junit.jupiter.api.*;
 
