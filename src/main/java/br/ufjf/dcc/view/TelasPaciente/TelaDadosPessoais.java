@@ -27,7 +27,8 @@ public class TelaDadosPessoais {
     private JTextField campoNumero;
     private JTextField campoCEP;
     private JDateChooser campoDataNascimento;
-    private JTextField campoTipoSanguineo;
+    private JComboBox<String> campoTipoSanguineo;  // Alterado para JComboBox
+    private JComboBox<String> campoFatorRh;        // Novo JComboBox para o Fator Rh
     private JTextField campoEmail;
     private JTextField campoSenha;
     private JButton botaoConfirmar;
@@ -63,7 +64,15 @@ public class TelaDadosPessoais {
         campoCEP = new JTextField(23);
         campoDataNascimento= new JDateChooser();
         campoDataNascimento.setDateFormatString("dd/MM/yyyy");
-        campoTipoSanguineo = new JTextField(23);
+
+        // Criando a JComboBox para Tipo Sanguíneo
+        String[] tiposSanguineos = {"A", "B", "AB", "O"};
+        campoTipoSanguineo = new JComboBox<>(tiposSanguineos);
+        
+        // Criando a JComboBox para Fator Rh (Positivo ou Negativo)
+        String[] fatoresRh = {"+", "-"};
+        campoFatorRh = new JComboBox<>(fatoresRh);
+
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
         botaoConfirmar = new JButton("Confirmar Mudanças");
@@ -97,11 +106,17 @@ public class TelaDadosPessoais {
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
-        campoTipoSanguineo.setText(paciente.getTipoSanguineo());
+        // Separando o tipo sanguíneo e o fator Rh
+        String tipoSanguineo = paciente.getTipoSanguineo();
+        String tipo = tipoSanguineo.substring(0, tipoSanguineo.length() - 1); // Parte do tipo sanguíneo (A, B, AB, O)
+        String rh = tipoSanguineo.substring(tipoSanguineo.length() - 1); 
+             // Parte do fator Rh (+ ou -)
+        campoTipoSanguineo.setSelectedItem(tipo);
+        campoFatorRh.setSelectedItem(rh);
         campoEmail.setText(paciente.getEmail());
         campoSenha.setText(paciente.getSenha());
 
-        frame.setSize(450,550);
+        frame.setSize(450,650);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -117,12 +132,31 @@ public class TelaDadosPessoais {
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
         botaoConfirmar.addActionListener(e -> {
-            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getDate().equals("") && !campoTipoSanguineo.getText().equals("")) 
-                PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getDateFormatString(),campoTipoSanguineo.getText());
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && campoDataNascimento.getDate()!= null){ 
+                // Combinação do tipo sanguíneo e fator Rh
+                // Combinação do tipo sanguíneo e fator Rh
+                String tipot = (String) campoTipoSanguineo.getSelectedItem();
+                String rht = (String) campoFatorRh.getSelectedItem();
+                String tipoSanguineoteste = tipot + rht;
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dataNascimento = dateFormat.format(campoDataNascimento.getDate());
+                PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),dataNascimento ,tipoSanguineoteste);
+            }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados!","Erro!", JOptionPane.ERROR_MESSAGE);
         });
+
+
+
         botaoSair.addActionListener(e -> frame.dispose());
+
+
+        JPanel painelTipoSanguineoRh = new JPanel();
+        painelTipoSanguineoRh.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        painelTipoSanguineoRh.add(campoTipoSanguineo);
+        painelTipoSanguineoRh.add(campoFatorRh);
+
         painelEsq.add(labelNome);
         painelEsq.add(labelCPF);
         painelEsq.add(labelTelefone);
@@ -145,7 +179,7 @@ public class TelaDadosPessoais {
         painelDir.add(campoNumero);
         painelDir.add(campoCEP);
         painelDir.add(campoDataNascimento);
-        painelDir.add(campoTipoSanguineo);
+        painelDir.add(painelTipoSanguineoRh);
         painelDir.add(campoEmail);
         painelDir.add(campoSenha);
 
