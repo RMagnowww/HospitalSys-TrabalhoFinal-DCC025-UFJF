@@ -14,8 +14,8 @@ class ExameTest{
     private static final String VALID_PACIENTE_PHONE = "(32)96655-3322";
     private static final String VALID_PACIENTE_EMAIL = "joao@paciente.com";
     private static final String VALID_PACIENTE_PASSWORD = "paciente123";
-    private static final String VALID_DATA_NASC = "07/04/1986";
-    private static final String VALID_TIPO_SANGUE = "A+";
+    private static final String VALID_DATA_NASCIMENTO = "07/04/1986";
+    private static final String VALID_TIPO_SANGUINEO = "A+";
     private static final Endereco VALID_ENDERECO = Endereco.getInstance("Padre Cafe, 210 - Paineiras, Juiz de Fora - CEP: 78645-320");
     private static final String VALID_MEDICO_NAME = "Dr. Andrade";
     private static final String VALID_MEDICO_CPF = "556.854.145-90";
