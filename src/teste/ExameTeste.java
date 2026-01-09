@@ -23,6 +23,7 @@ class ExameTest{
     private static final String VALID_MEDICO_EMAIL = "andrade@medico.com";
     private static final String VALID_MEDICO_PASSWORD = "medico123";
     private static final String VALID_MEDICO_CRM = "12345-MG";
+    private static final String VALID_MEDICO_ESPECIALIDADE = "Ortopedista";
 
     private Paciente validPaciente;
     private Medico validMedico;
@@ -30,7 +31,7 @@ class ExameTest{
     private Exame validExame;
         @BeforeEach
         void setUp() {
-        validMedico = new Medico(VALID_MEDICO_NAME, VALID_MEDICO_CPF, VALID_MEDICO_PHONE, VALID_MEDICO_EMAIL, VALID_MEDICO_PASSWORD, VALID_MEDICO_CRM);
+        validMedico = new Medico(VALID_MEDICO_NAME, VALID_MEDICO_CPF, VALID_MEDICO_PHONE, VALID_MEDICO_EMAIL, VALID_MEDICO_PASSWORD, VALID_MEDICO_CRM, VALID_MEDICO_ESPECIALIDADE);
         validPaciente = new Paciente(VALID_PACIENTE_NAME, VALID_PACIENTE_CPF, VALID_PACIENTE_PHONE, VALID_PACIENTE_EMAIL, VALID_PACIENTE_PASSWORD, VALID_ENDERECO, VALID_DATA_NASC, VALID_TIPO_SANGUE);
         validExame = new Exame(validMedico, validPaciente, VALID_NOMEEXAME, VALID_RESULTADO);
     }
