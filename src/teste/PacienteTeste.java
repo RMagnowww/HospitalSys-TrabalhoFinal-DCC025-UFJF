@@ -27,6 +27,7 @@ class PacienteTest {
         assertEquals(VALID_CPF, validPaciente.getCpf());
         assertEquals(VALID_PHONE, validPaciente.getTelefone());
         assertEquals(VALID_EMAIL, validPaciente.getEmail());
+        assertEquals(VALID_PASSWORD, validPaciente.getPassword());
         assertEquals(VALID_DATADENASCIMENTO, validPaciente.getDataNascimento());
         assertEquals(VALID_TIPOSANGUINEO, validPaciente.getTipoSanguineo());
         assertEquals(VALID_ENDERECO, validPaciente.getEndereco());
