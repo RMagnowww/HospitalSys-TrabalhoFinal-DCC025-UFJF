@@ -7,6 +7,10 @@ import br.ufjf.dcc.controller.PacienteController;
 import br.ufjf.dcc.model.Paciente;
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import com.toedter.calendar.JDateChooser; 
 
 public class TelaDadosPessoais {
     private JFrame frame;
@@ -22,7 +26,7 @@ public class TelaDadosPessoais {
     private JTextField campoRua;
     private JTextField campoNumero;
     private JTextField campoCEP;
-    private JTextField campoDataNascimento;
+    private JDateChooser campoDataNascimento;
     private JTextField campoTipoSanguineo;
     private JTextField campoEmail;
     private JTextField campoSenha;
@@ -57,7 +61,8 @@ public class TelaDadosPessoais {
         campoRua = new JTextField(23);
         campoNumero = new JTextField(23);
         campoCEP = new JTextField(23);
-        campoDataNascimento= new JTextField(23);
+        campoDataNascimento= new JDateChooser();
+        campoDataNascimento.setDateFormatString("dd/MM/yyyy");
         campoTipoSanguineo = new JTextField(23);
         campoEmail = new JTextField(23);
         campoSenha = new JTextField(23);
@@ -86,7 +91,12 @@ public class TelaDadosPessoais {
         campoRua.setText(paciente.getEndereco().getRua());
         campoNumero.setText(paciente.getEndereco().getNumero());
         campoCEP.setText(paciente.getEndereco().getCep());
-        campoDataNascimento.setText(paciente.getDataNascimento());
+        try {
+                    java.util.Date data = new SimpleDateFormat("dd/MM/yyyy").parse(paciente.getDataNascimento());
+                    campoDataNascimento.setDate(data);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
         campoTipoSanguineo.setText(paciente.getTipoSanguineo());
         campoEmail.setText(paciente.getEmail());
         campoSenha.setText(paciente.getSenha());
@@ -107,8 +117,8 @@ public class TelaDadosPessoais {
         painelBotoes.setLayout(new GridLayout(1,2,10,0));
 
         botaoConfirmar.addActionListener(e -> {
-            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getText().equals("") && !campoTipoSanguineo.getText().equals("")) 
-                PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getText(),campoTipoSanguineo.getText());
+            if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoCidade.getText().equals("") && !campoBairro.getText().equals("") && !campoRua.getText().equals("") && !campoNumero.getText().equals("") && !campoCEP.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoDataNascimento.getDate().equals("") && !campoTipoSanguineo.getText().equals("")) 
+                PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),campoDataNascimento.getDateFormatString(),campoTipoSanguineo.getText());
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados!","Erro!", JOptionPane.ERROR_MESSAGE);
         });
