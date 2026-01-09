@@ -1,7 +1,5 @@
 package br.ufjf.dcc.model;
 
-import br.ufjf.dcc.model.enums.PerfilUsuario;
-import br.ufjf.dcc.model.*;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +22,7 @@ class SecretarioTest {
         assertEquals(VALID_CPF, validSecretario.getCpf());
         assertEquals(VALID_PHONE, validSecretario.getTelefone());
         assertEquals(VALID_EMAIL, validSecretario.getEmail());
-        assertEquals(VALID_PASSWORD, validSecretario.getPassword());
+        assertEquals(VALID_PASSWORD, validSecretario.getSenha());
         assertEquals(VALID_MATRICULA, validSecretario.getMatricula());
     }
          @Test

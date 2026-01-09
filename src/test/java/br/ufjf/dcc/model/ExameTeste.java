@@ -1,7 +1,6 @@
 package br.ufjf.dcc.model;
 
 import br.ufjf.dcc.model.enums.TipoDocumento;
-import br.ufjf.dcc.model.*;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,7 @@ class ExameTest{
     private static final String VALID_PACIENTE_PASSWORD = "paciente123";
     private static final String VALID_DATA_NASCIMENTO = "07/04/1986";
     private static final String VALID_TIPO_SANGUINEO = "A+";
-    private static final Endereco VALID_ENDERECO = Endereco.getInstance("Padre Cafe, 210 - Paineiras, Juiz de Fora - CEP: 78645-320");
+    private static final Endereco VALID_ENDERECO = new Endereco("Padre Cafe", "Paineiras", "78645-320", "Juiz de Fora", "210");
     private static final String VALID_MEDICO_NAME = "Dr. Andrade";
     private static final String VALID_MEDICO_CPF = "556.854.145-90";
     private static final String VALID_MEDICO_PHONE = "(32)95872-0813";
