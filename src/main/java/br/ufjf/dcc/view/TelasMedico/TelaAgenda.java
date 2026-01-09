@@ -47,7 +47,6 @@ public class TelaAgenda {
     private JLabel labelStatus;
     private JButton botaoSair;
     private JButton botaoSalvar;
-    private JButton botaoAtualizar;
     private JButton botaoRealizarConsulta;
     private JButton botaoMarcarFalta;
     
@@ -91,7 +90,6 @@ public class TelaAgenda {
         labelStatus = new JLabel("Status:");
         botaoSair = new JButton("Sair");
         botaoSalvar = new JButton("Salvar Expediente");
-        botaoAtualizar = new JButton("Atualizar");
         botaoRealizarConsulta = new JButton("Realizar Consulta");
         botaoMarcarFalta = new JButton("Marcar Falta");
         
@@ -122,9 +120,6 @@ public class TelaAgenda {
             salvarExpediente();
         });
 
-        botaoAtualizar.addActionListener(e -> {
-            carregarConsultas();
-        });
 
         botaoRealizarConsulta.addActionListener(e -> {
             realizarConsulta();
@@ -140,10 +135,9 @@ public class TelaAgenda {
         configurarPainelConsultas();
         configurarPainelInfo();
 
-        painelBotoes.setLayout(new GridLayout(0,4,10,0));
+        painelBotoes.setLayout(new GridLayout(0,3,10,0));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(0,50,0,50));
         painelBotoes.add(botaoSair);
-        painelBotoes.add(botaoAtualizar);
         painelBotoes.add(botaoRealizarConsulta);
         painelBotoes.add(botaoMarcarFalta);
 
