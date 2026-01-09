@@ -14,6 +14,10 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import com.toedter.calendar.JDateChooser; 
 
 public class TelaAgendamento {
     private JFrame frame;
@@ -29,7 +33,7 @@ public class TelaAgendamento {
     private JButton botaoNovoAgendamento;
     private JButton botaoSair;
     private JComboBox<Medico> comboBoxMedicos;
-    private JTextField campoData;
+    private JDateChooser campoData;
     private JComboBox<LocalTime> comboBoxHorarios;
     private JTextPane paneDescricao;
     private JLabel respostaStatusConsulta;
@@ -56,7 +60,8 @@ public class TelaAgendamento {
         botaoNovoAgendamento = new JButton("Novo Agendamemto");
         botaoSair = new JButton("Sair");
         comboBoxMedicos = new JComboBox<>();
-        campoData = new JTextField();
+        campoData = new JDateChooser();
+        campoData.setDateFormatString("dd/MM/yyyy");
         comboBoxHorarios = new JComboBox<>();
         paneDescricao = new JTextPane();
         respostaStatusConsulta = new JLabel();
@@ -90,13 +95,18 @@ public class TelaAgendamento {
                 Consulta selecionada = listaAgendamentos.getSelectedValue();
                 comboBoxMedicos.removeAllItems();
                 comboBoxMedicos.addItem(selecionada.getMedico());
-                campoData.setText(selecionada.getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                try {
+                    java.util.Date data = new SimpleDateFormat("dd/MM/yyyy").parse(selecionada.getDataHora().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    campoData.setDate(data);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
                 comboBoxHorarios.removeAllItems();
                 comboBoxHorarios.addItem(selecionada.getDataHora().toLocalTime());
                 respostaStatusConsulta.setText(selecionada.getStatus().toString());
                 paneDescricao.setText(selecionada.getDescricao());
                 comboBoxMedicos.setEnabled(false);
-                campoData.setEditable(false);
+                campoData.setEnabled(false);
                 comboBoxHorarios.setEditable(false);
                 paneDescricao.setEditable(false);
             }
@@ -107,7 +117,7 @@ public class TelaAgendamento {
                 atualizarHorariosDisponiveis();
         });
 
-        campoData.addActionListener(e -> {
+        campoData.addPropertyChangeListener("date", e -> {
             if(listaAgendamentos.getSelectedValue() == null)
                 atualizarHorariosDisponiveis();
         });
@@ -148,7 +158,7 @@ public class TelaAgendamento {
                 atualizarListaConsultas();
                 limparCampos();
                 comboBoxMedicos.setEnabled(true);
-                campoData.setEditable(true);
+                campoData.setEnabled(true);
                 comboBoxHorarios.setEditable(true);
                 paneDescricao.setEditable(true);
                 carregarMedicosDisponiveis();
@@ -159,7 +169,7 @@ public class TelaAgendamento {
 
         botaoNovoAgendamento.addActionListener(e -> {
             comboBoxMedicos.setEnabled(true);
-            campoData.setEditable(true);
+            campoData.setEnabled(true);
             comboBoxHorarios.setEditable(true);
             paneDescricao.setEditable(true);
             carregarMedicosDisponiveis();
@@ -205,11 +215,11 @@ public class TelaAgendamento {
     private void atualizarHorariosDisponiveis() {
         comboBoxHorarios.removeAllItems();
         Medico medicoSelecionado = (Medico) comboBoxMedicos.getSelectedItem();
-        String dataTexto = campoData.getText();
+        java.util.Date date = campoData.getDate();
 
-        if (medicoSelecionado != null && dataTexto != null && !dataTexto.trim().isEmpty()) {
+        if (medicoSelecionado != null && date != null) {
             try {
-                LocalDate data = LocalDate.parse(dataTexto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                LocalDate data = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 List<LocalTime> horarios = AgendamentoController.gerarHorariosDisponiveis(medicoSelecionado, data);
                 
                 for (LocalTime horario : horarios) {
@@ -234,10 +244,10 @@ public class TelaAgendamento {
     private void agendarNovaConsulta() {
         Medico medico = (Medico) comboBoxMedicos.getSelectedItem();
         LocalTime horario = (LocalTime) comboBoxHorarios.getSelectedItem();
-        String dataTexto = campoData.getText();
+        java.util.Date date = campoData.getDate();
         String descricao = paneDescricao.getText();
 
-        if (medico == null || horario == null || dataTexto == null || dataTexto.trim().isEmpty() || descricao.equals("")) {
+        if (medico == null || horario == null || date == null || descricao.equals("")) {
             JOptionPane.showMessageDialog(frame, 
                 "Preencha todos os campos obrigatórios!", 
                 "Erro", JOptionPane.ERROR_MESSAGE);
@@ -245,7 +255,7 @@ public class TelaAgendamento {
         }
 
         try {
-            LocalDate data = LocalDate.parse(dataTexto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDate data = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDateTime dataHora = LocalDateTime.of(data, horario);
 
             AgendamentoController.agendarConsulta(pacienteAtual, medico, dataHora, descricao);
@@ -272,7 +282,7 @@ public class TelaAgendamento {
 
     private void limparCampos() {
         comboBoxMedicos.setSelectedIndex(0);
-        campoData.setText(null);
+        campoData.setDate(null);
         comboBoxHorarios.removeAllItems();
         paneDescricao.setText(null);
         respostaStatusConsulta.setText(null);
