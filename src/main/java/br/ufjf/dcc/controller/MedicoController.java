@@ -7,6 +7,8 @@ package br.ufjf.dcc.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import br.ufjf.dcc.model.Medico;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -55,5 +57,59 @@ public class MedicoController {
             catch (IOException ex) {
                 ex.printStackTrace();
             }
+    }
+
+    public static void salvarExpediente(Medico medicoAtual,String inicio, String fim, int duracao, ArrayList<Boolean> diasTrabalha){
+        //if para verificar formatacao de inicio e fim em HH:mm
+        if (!inicio.matches("\\d{2}:\\d{2}") || !fim.matches("\\d{2}:\\d{2}")) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                "Horários de início e fim de expediente devem estar no formato HH:mm.",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //if para verificar se fim > inicio
+        String[] partesInicio = inicio.split(":");
+        String[] partesFim = fim.split(":");
+        int horaInicio = Integer.parseInt(partesInicio[0]);
+        int minutoInicio = Integer.parseInt(partesInicio[1]);
+        int horaFim = Integer.parseInt(partesFim[0]);
+        int minutoFim = Integer.parseInt(partesFim[1]);
+        if (horaFim < horaInicio || (horaFim == horaInicio && minutoFim <= minutoInicio)) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                "Horário de fim de expediente deve ser maior que o horário de início.",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JFrame frame = new JFrame();
+        try {
+            Persistencia.deletarUsuario(medicoAtual);
+            } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, 
+                "Erro ao salvar expediente: " + ex.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try{
+            medicoAtual.setHorarioInicioExpediente(inicio);
+            medicoAtual.setHorarioFimExpediente(fim);
+            medicoAtual.setDuracaoConsulta(duracao);
+            medicoAtual.setDiasTrabalha(diasTrabalha);
+            JOptionPane.showMessageDialog(frame, 
+                "Expediente salvo com sucesso!", 
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } 
+        try{
+            Persistencia.salvarUsuario(medicoAtual);
+        }catch(IOException ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, 
+                "Erro ao salvar expediente: " + ex.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

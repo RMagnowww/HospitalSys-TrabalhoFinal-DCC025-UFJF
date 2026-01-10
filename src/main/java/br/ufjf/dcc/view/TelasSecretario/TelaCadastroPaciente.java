@@ -195,8 +195,12 @@ public class TelaCadastroPaciente {
             catch (IOException ex) {
                 ex.printStackTrace();
             }
-            listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
-            listPacientes.setSelectedIndex(pacientes.size()-1);
+            if(listPacientes.getSelectedValue()!=null){
+                listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
+                listPacientes.setSelectedIndex(pacientes.size()-1);
+            }
+            else
+                listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
         });
 
         botaoRemover.addActionListener(e -> {
@@ -210,6 +214,10 @@ public class TelaCadastroPaciente {
                 }
                 listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
                 listPacientes.clearSelection();
+
+                campoNome.setEditable(true);
+                campoCPF.setEditable(true);
+
                 campoNome.setText(null);
                 campoCPF.setText(null);
                 campoTelefone.setText(null);

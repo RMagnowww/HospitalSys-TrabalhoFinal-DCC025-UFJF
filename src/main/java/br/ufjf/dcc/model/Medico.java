@@ -40,6 +40,8 @@ public class Medico extends Usuario {
         if (crm == null || crm.trim().isEmpty()) {
             throw new IllegalArgumentException("O CRM do médico é obrigatório.");
         }
+        if (crm.length() != 6)
+                throw new IllegalArgumentException("O CRM deve ter 6 digitos");
         this.crm = crm;
     }
 
@@ -57,12 +59,37 @@ public class Medico extends Usuario {
         return horarioInicioExpediente; 
     }
     public void setHorarioInicioExpediente(String horarioInicioExpediente) {
+        //verificar se horario esta no formato HH:mm sem try catch
+        if (!horarioInicioExpediente.matches("\\d{2}:\\d{2}")) {
+            throw new IllegalArgumentException("Horário de início de expediente inválido. Use HH:mm.");
+        }
+        //verificar se horario não ultrapassa 23:59 e nem é menor que 00:00
+        String[] partes = horarioInicioExpediente.split(":");
+        int hora = Integer.parseInt(partes[0]);
+        int minuto = Integer.parseInt(partes[1]);
+        if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
+            throw new IllegalArgumentException("Horário de início de expediente inválido. Use HH:mm entre 00:00 e 23:59.");
+        }
         this.horarioInicioExpediente = horarioInicioExpediente; 
     }
     public String getHorarioFimExpediente() {
         return horarioFimExpediente; 
     }
     public void setHorarioFimExpediente(String horarioFimExpediente) {
+        //verificar se horario esta no formato HH:mm sem try catch
+        if (!horarioFimExpediente.matches("\\d{2}:\\d{2}")) {
+            throw new IllegalArgumentException("Horário de fim de expediente inválido. Use HH:mm.");
+        }
+        //verificar se horario não ultrapassa 23:59 e nem é menor que 00:00
+        String[] partes = horarioFimExpediente.split(":");
+        int hora = Integer.parseInt(partes[0]);
+        int minuto = Integer.parseInt(partes[1]);
+        if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
+            throw new IllegalArgumentException("Horário de fim de expediente inválido. Use HH:mm entre 00:00 e 23:59.");
+        }
+        //verificar se horario fim é maior que horario inicio
+        
+
         this.horarioFimExpediente = horarioFimExpediente; 
     }
      public int getDuracaoConsulta() {
