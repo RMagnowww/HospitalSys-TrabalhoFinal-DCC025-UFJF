@@ -142,6 +142,22 @@ public class TelaDadosPessoais {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String dataNascimento = dateFormat.format(campoDataNascimento.getDate());
                 PacienteController.alterarDados(paciente, campoNome.getText(),campoCPF.getText(),campoTelefone.getText(),campoCidade.getText(),campoBairro.getText(),campoRua.getText(),campoNumero.getText(),campoCEP.getText(),campoEmail.getText(),campoSenha.getText(),dataNascimento ,tipoSanguineoteste);
+                campoNome.setText(paciente.getNome());
+                campoCPF.setText(paciente.getCpf());
+                campoTelefone.setText(paciente.getTelefone());
+                campoCidade.setText(paciente.getEndereco().getCidade());
+                campoBairro.setText(paciente.getEndereco().getBairro());
+                campoRua.setText(paciente.getEndereco().getRua());
+                campoNumero.setText(paciente.getEndereco().getNumero());
+                campoCEP.setText(paciente.getEndereco().getCep());
+                String tipoSanguineox = paciente.getTipoSanguineo();
+                String tipox = tipoSanguineox.substring(0, tipoSanguineox.length() - 1); // Parte do tipo sanguíneo (A, B, AB, O)
+                String rhx = tipoSanguineox.substring(tipoSanguineox.length() - 1);  
+                campoTipoSanguineo.setSelectedItem(tipox);
+                campoFatorRh.setSelectedItem(rhx);
+                campoEmail.setText(paciente.getEmail());
+                campoSenha.setText(paciente.getSenha());
+                
             }
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos de dados!","Erro!", JOptionPane.ERROR_MESSAGE);

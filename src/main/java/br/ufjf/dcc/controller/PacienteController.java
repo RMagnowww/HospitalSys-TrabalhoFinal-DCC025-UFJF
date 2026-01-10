@@ -19,24 +19,32 @@ public class PacienteController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        p.setNome(nome);
-        p.setCpf(cpf);
-        p.setTelefone(telefone);
-        p.getEndereco().setCidade(cidade);
-        p.getEndereco().setBairro(bairro);
-        p.getEndereco().setRua(rua);
-        p.getEndereco().setNumero(num);
-        p.getEndereco().setCep(cep);
-        p.setEmail(email);
-        p.setSenha(senha);
-        p.setDataNascimento(dataNas);
-        p.setTipoSanguineo(tipoSang);
+        try{
+            p.setNome(nome);
+            p.setCpf(cpf);
+            p.setTelefone(telefone);
+            p.getEndereco().setCidade(cidade);
+            p.getEndereco().setBairro(bairro);
+            p.getEndereco().setRua(rua);
+            p.getEndereco().setNumero(num);
+            p.getEndereco().setCep(cep);
+            p.setEmail(email);
+            p.setSenha(senha);
+            p.setDataNascimento(dataNas);
+            p.setTipoSanguineo(tipoSang);
+
+            JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados de Paciente Confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            
+        }
         try {
             Persistencia.salvarUsuario(p);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados Pessoais confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
     }
     public static String checarDisponibilidadeVisita(String pacienteNome){
         try {
