@@ -210,6 +210,10 @@ public class TelaCadastroPaciente {
                 }
                 listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
                 listPacientes.clearSelection();
+
+                campoNome.setEditable(true);
+                campoCPF.setEditable(true);
+
                 campoNome.setText(null);
                 campoCPF.setText(null);
                 campoTelefone.setText(null);

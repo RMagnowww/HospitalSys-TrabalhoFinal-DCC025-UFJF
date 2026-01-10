@@ -152,6 +152,10 @@ public class TelaCorpoClinico {
                 }
                 listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
                 listMedicos.clearSelection();
+
+                campoNome.setEditable(true);
+                campoCPF.setEditable(true);
+
                 campoNome.setText(null);
                 campoCPF.setText(null);
                 campoTelefone.setText(null);
