@@ -31,7 +31,7 @@ public class TelaLogin {
         painelDir = new JPanel();
         painelBotoes = new JPanel();
         campoEmail = new JTextField(26);
-        campoSenha = new JTextField(26);
+        campoSenha = new JPasswordField(26);
         labelEmail = new JLabel("E-mail:");
         labelSenha = new JLabel("Senha:");
         botaoEntrar = new JButton("Entrar");
