@@ -9,6 +9,8 @@ import br.ufjf.dcc.model.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import br.ufjf.dcc.controller.MedicoController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -269,24 +271,7 @@ public class TelaAgenda {
             return;
         }
 
-        try {
-            Persistencia.deletarUsuario(medicoAtual);
-            medicoAtual.setHorarioInicioExpediente(inicio);
-            medicoAtual.setHorarioFimExpediente(fim);
-            medicoAtual.setDuracaoConsulta(duracao);
-            medicoAtual.setDiasTrabalha(diasTrabalha);
-            Persistencia.salvarUsuario(medicoAtual);
-
-            JOptionPane.showMessageDialog(frame, 
-                "Expediente salvo com sucesso!", 
-                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(frame, 
-                "Erro ao salvar expediente: " + ex.getMessage(), 
-                "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        MedicoController.salvarExpediente(medicoAtual,inicio, fim, duracao, diasTrabalha);
     }
 
     private void realizarConsulta() {

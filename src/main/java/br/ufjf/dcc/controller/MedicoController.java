@@ -7,6 +7,8 @@ package br.ufjf.dcc.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import br.ufjf.dcc.model.Medico;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -55,5 +57,38 @@ public class MedicoController {
             catch (IOException ex) {
                 ex.printStackTrace();
             }
+    }
+
+    public static void salvarExpediente(Medico medicoAtual,String inicio, String fim, int duracao, ArrayList<Boolean> diasTrabalha){
+        JFrame frame = new JFrame();
+        try {
+            Persistencia.deletarUsuario(medicoAtual);
+            } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, 
+                "Erro ao salvar expediente: " + ex.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try{
+            medicoAtual.setHorarioInicioExpediente(inicio);
+            medicoAtual.setHorarioFimExpediente(fim);
+            medicoAtual.setDuracaoConsulta(duracao);
+            medicoAtual.setDiasTrabalha(diasTrabalha);
+            JOptionPane.showMessageDialog(frame, 
+                "Expediente salvo com sucesso!", 
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } 
+        try{
+            Persistencia.salvarUsuario(medicoAtual);
+        }catch(IOException ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, 
+                "Erro ao salvar expediente: " + ex.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
