@@ -31,14 +31,18 @@ public class SecretarioController{
     }
     
     public static void cadastrarPaciente(String nome, String cpf, String telefone, String cidade, String bairro, String rua, String num, String cep, String email, String senha, String dataNas, String tipoSang){
+        try{
         Endereco e = new Endereco(rua, bairro, cep, cidade, num);
         Paciente p = new Paciente(nome, cpf, telefone, email, senha, e, dataNas, tipoSang);
-        try {
-            Persistencia.salvarUsuario(p);
+        Persistencia.salvarUsuario(p);
+        JOptionPane.showMessageDialog(new JFrame(),"Paciente Cadastrado!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE
+            );
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        JOptionPane.showMessageDialog(new JFrame(),"Paciente Cadastrado!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void alterarDadosPaciente(Paciente p,String nome, String cpf, String telefone, String cidade, String bairro, String rua, String num, String cep, String email, String senha, String dataNas, String tipoSang){
@@ -47,24 +51,32 @@ public class SecretarioController{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        p.setNome(nome);
-        p.setCpf(cpf);
-        p.setTelefone(telefone);
-        p.getEndereco().setCidade(cidade);
-        p.getEndereco().setBairro(bairro);
-        p.getEndereco().setRua(rua);
-        p.getEndereco().setNumero(num);
-        p.getEndereco().setCep(cep);
-        p.setEmail(email);
-        p.setSenha(senha);
-        p.setDataNascimento(dataNas);
-        p.setTipoSanguineo(tipoSang);
+        try{
+            p.setNome(nome);
+            p.setCpf(cpf);
+            p.setTelefone(telefone);
+            p.getEndereco().setCidade(cidade);
+            p.getEndereco().setBairro(bairro);
+            p.getEndereco().setRua(rua);
+            p.getEndereco().setNumero(num);
+            p.getEndereco().setCep(cep);
+            p.setEmail(email);
+            p.setSenha(senha);
+            p.setDataNascimento(dataNas);
+            p.setTipoSanguineo(tipoSang);
+
+            JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados de Paciente Confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch(IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            
+        }
         try {
             Persistencia.salvarUsuario(p);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        JOptionPane.showMessageDialog(new JFrame(), "Alteração de Dados de Paciente Confirmada!", "Successo",JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void cadastrarMedico(String nome, String cpf, String telefone, String email, String senha, String crm, String especialidade, String atividade){

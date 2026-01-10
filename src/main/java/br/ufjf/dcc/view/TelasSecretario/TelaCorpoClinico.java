@@ -139,7 +139,7 @@ public class TelaCorpoClinico {
                 ex.printStackTrace();
             }
             listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
-            listMedicos.setSelectedIndex(medicos.size()-1);
+            //listMedicos.setSelectedIndex(medicos.size()-1);
         });
         botaoRemover.addActionListener(e -> {
             if(listMedicos.getSelectedValue() != null){

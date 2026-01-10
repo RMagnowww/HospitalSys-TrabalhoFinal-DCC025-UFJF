@@ -196,7 +196,7 @@ public class TelaCadastroPaciente {
                 ex.printStackTrace();
             }
             listPacientes.setListData(pacientes.toArray(new Paciente[pacientes.size()]));
-            listPacientes.setSelectedIndex(pacientes.size()-1);
+            //listPacientes.setSelectedIndex(pacientes.size()-1);
         });
 
         botaoRemover.addActionListener(e -> {
