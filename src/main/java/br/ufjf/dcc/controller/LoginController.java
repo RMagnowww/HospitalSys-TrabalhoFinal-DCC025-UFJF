@@ -9,6 +9,8 @@ import br.ufjf.dcc.model.*;
 import java.io.IOException;
 import java.util.List;
 
+import br.ufjf.dcc.model.exceptions.LoginException;
+
 public class LoginController {
 
     public static Usuario autenticar(String email, String senha) {
@@ -27,6 +29,6 @@ public class LoginController {
             e.printStackTrace();
         }
 
-        return null; // LOGIN INVALIDO
+        throw new LoginException("Login inválido");
     }
 }
