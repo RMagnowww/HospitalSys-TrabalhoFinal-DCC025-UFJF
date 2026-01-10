@@ -4,7 +4,7 @@
     
 package br.ufjf.dcc.model;
 
-import javax.swing.JOptionPane;
+
 
 public class Endereco {
     private String rua;
@@ -39,7 +39,6 @@ public class Endereco {
 
     public String getCep() { return cep; }
     public void setCep(String cep) {
-    try {
         if (cep == null || cep.trim().isEmpty()) {
             throw new IllegalArgumentException("CEP não pode ser vazio ou nulo.");
         }
@@ -58,10 +57,6 @@ public class Endereco {
             cep.substring(5));     // últimos 3 dígitos
 
         this.cep = cepFormatado;
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "CEP Inválido", JOptionPane.ERROR_MESSAGE);
-    }
 }
 
     public String getCidade() { return cidade;}

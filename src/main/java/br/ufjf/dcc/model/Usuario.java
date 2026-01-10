@@ -5,7 +5,6 @@
 package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.PerfilUsuario;
 import java.io.Serializable;
-import javax.swing.JOptionPane;
 
 public abstract class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,14 +29,10 @@ public abstract class Usuario implements Serializable {
     }
 
     public void setNome(String nome) {
-        try {
             if (nome == null || nome.trim().length() <= 1) {
                 throw new IllegalArgumentException("O nome deve ter mais de um caractere");
             }
             this.nome = nome;
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Nome invalido", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public String getCpf() {
@@ -45,7 +40,6 @@ public abstract class Usuario implements Serializable {
     }
 
 public void setCpf(String cpf) {
-    try {
         if (cpf == null || cpf.trim().isEmpty()) {
             throw new IllegalArgumentException("CPF não pode ser vazio ou nulo.");
         }
@@ -67,10 +61,6 @@ public void setCpf(String cpf) {
             cpf.substring(9));     
 
         this.cpf = cpfFormatado;  
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "CPF Inválido", JOptionPane.ERROR_MESSAGE);
-    }
 }
 
     public String getSenha() {
@@ -78,14 +68,10 @@ public void setCpf(String cpf) {
     }
 
     public void setSenha(String senha) {
-        try {
             if (senha == null || senha.trim().isEmpty()) {
                 throw new IllegalArgumentException("A senha é obrigatória.");
             }
             this.senha = senha;
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Senha invalida", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public String getTelefone() {
@@ -93,7 +79,6 @@ public void setCpf(String cpf) {
     }
     
     public void setTelefone(String telefone) {
-    try {
         if (telefone == null || telefone.trim().isEmpty()) {
             throw new IllegalArgumentException("Telefone não pode ser vazio ou nulo.");
         }
@@ -110,10 +95,6 @@ public void setCpf(String cpf) {
             telefone.substring(0, 2),   
             telefone.substring(2, 7),   
             telefone.substring(7));     
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-    }
 }
 
     public String getEmail() {
@@ -121,7 +102,6 @@ public void setCpf(String cpf) {
     }
     
     public void setEmail(String email) {
-    try {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email não pode ser vazio ou nulo.");
         }
@@ -131,11 +111,6 @@ public void setCpf(String cpf) {
         }
 
         this.email = email;  
-
-    } catch (IllegalArgumentException e) {
-
-        JOptionPane.showMessageDialog(null, e.getMessage(), "Email invalido", JOptionPane.ERROR_MESSAGE);
-    }
 }
 
 
