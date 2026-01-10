@@ -126,8 +126,9 @@ public class TelaCorpoClinico {
         });
         botaoCadastrar.addActionListener(e -> {
             if(!campoNome.getText().equals("") && !campoCPF.getText().equals("") && !campoTelefone.getText().equals("") && !campoEmail.getText().equals("") && !campoSenha.getText().equals("") && !campoCrm.getText().equals("") && !campoEspecialidade.getText().equals(""))
-                if(listMedicos.getSelectedValue() == null)
+                if(listMedicos.getSelectedValue() == null){ 
                     SecretarioController.cadastrarMedico(campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoEmail.getText(), campoSenha.getText(), campoCrm.getText(), campoEspecialidade.getText(),  boxStatus.getSelectedItem().toString());
+                }
                 else
                     SecretarioController.alterarDadosMedico(listMedicos.getSelectedValue(), campoNome.getText(), campoCPF.getText(), campoTelefone.getText(), campoCrm.getText(), campoEspecialidade.getText(), campoEmail.getText(), campoSenha.getText(), boxStatus.getSelectedItem().toString());
             else
@@ -138,8 +139,11 @@ public class TelaCorpoClinico {
             catch (IOException ex) {
                 ex.printStackTrace();
             }
-            listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
-            //listMedicos.setSelectedIndex(medicos.size()-1);
+            if(listMedicos.getSelectedValue()!= null){
+                listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
+                listMedicos.setSelectedIndex(medicos.size()-1);}
+            else
+                listMedicos.setListData(medicos.toArray(new Medico[medicos.size()]));
         });
         botaoRemover.addActionListener(e -> {
             if(listMedicos.getSelectedValue() != null){
