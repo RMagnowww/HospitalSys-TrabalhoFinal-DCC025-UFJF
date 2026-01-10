@@ -9,7 +9,7 @@ class SecretarioTest {
     private static final String VALID_PHONE = "(32)91459-5588";
     private static final String VALID_EMAIL = "rafael@admin.com";
     private static final String VALID_PASSWORD = "admin123";
-    private static final String VALID_MATRICULA = "12345";
+    private static final String VALID_MATRICULA = "123456";
 
     private Secretario validSecretario;
          @BeforeEach

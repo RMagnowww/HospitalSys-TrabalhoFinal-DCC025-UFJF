@@ -9,7 +9,7 @@ class MedicoTest {
     private static final String VALID_PHONE = "(32)95872-0813";
     private static final String VALID_EMAIL = "andrade@medico.com";
     private static final String VALID_PASSWORD = "medico123";
-    private static final String VALID_CRM = "12345-MG";
+    private static final String VALID_CRM = "123456";
     private static final String VALID_ESPECIALIDADE = "Ortopedista";
 
     private Medico validMedico;
@@ -27,12 +27,12 @@ class MedicoTest {
         assertEquals(VALID_CRM, validMedico.getCrm());
         assertEquals(VALID_ESPECIALIDADE, validMedico.getEspecialidade());
     }
-    /*    @Test
+        @Test
     void should_throw_exception_when_CRM_is_invalid() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Medico(VALID_NAME, VALID_CPF, VALID_PHONE, VALID_EMAIL, VALID_PASSWORD, "12345-mg@", VALID_ESPECIALIDADE);
         });
-    }*/
+    }
          @Test
     void should_throw_exception_when_especialidade_is_empty() {
         assertThrows(IllegalArgumentException.class, () -> {

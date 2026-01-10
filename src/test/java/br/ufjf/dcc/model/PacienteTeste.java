@@ -29,16 +29,16 @@ class PacienteTest {
         assertEquals(VALID_TIPOSANGUINEO, validPaciente.getTipoSanguineo());
         assertEquals(VALID_ENDERECO, validPaciente.getEndereco());
     }
-    /*@Test
+    @Test
     void should_throw_exception_when_dataNascimento_is_invalid() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Paciente(
                 VALID_NAME, VALID_CPF, VALID_PHONE, VALID_EMAIL, VALID_PASSWORD,
-                VALID_ENDERECO, "00/00/0000", VALID_TIPOSANGUINEO);
+                VALID_ENDERECO, "31/12/9999", VALID_TIPOSANGUINEO);
         });
     }
 
-    @Test
+    /*@Test
     void should_throw_exception_when_tipoSanguineo_is_invalid() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Paciente(
@@ -50,24 +50,36 @@ class PacienteTest {
 @DisplayName("Usuario Tests")
 class UsuarioTests {
         @Test
-    void should_not_change_cpf_when_invalid() {
-        validPaciente.setCpf("086.756.45-90");
-        assertEquals("086.756.245-90", validPaciente.getCpf());
+    void should_throw_exception_when_cpf_is_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Paciente(
+                VALID_NAME, "111.222.333-4444", VALID_PHONE, VALID_EMAIL, VALID_PASSWORD,
+                VALID_ENDERECO, VALID_DATADENASCIMENTO, VALID_TIPOSANGUINEO);
+         });
     }
         @Test
-    void should_not_change_email_when_invalid() {
-        validPaciente.setEmail("renapaciente.com");
-        assertEquals(VALID_EMAIL, validPaciente.getEmail());
+    void should_throw_exception_when_email_is_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Paciente(
+                VALID_NAME, VALID_CPF, VALID_PHONE, "paciente@nada.com", VALID_PASSWORD,
+                VALID_ENDERECO, VALID_DATADENASCIMENTO, VALID_TIPOSANGUINEO);
+         });
     }
         @Test
-    void should_not_change_phone_when_invalid() {
-        validPaciente.setTelefone("96655-3322");
-        assertEquals("(32)96655-3322", validPaciente.getTelefone());
+    void should_throw_exception_when_telefone_is_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Paciente(
+                VALID_NAME, VALID_CPF, "(32)98888-77", VALID_EMAIL, VALID_PASSWORD,
+                VALID_ENDERECO, VALID_DATADENASCIMENTO, VALID_TIPOSANGUINEO);
+         });
     }
         @Test
-    void should_not_change_name_when_invalid() {
-        validPaciente.setNome("");
-        assertEquals(VALID_NAME, validPaciente.getNome());
+    void should_throw_exception_when_name_is_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Paciente(
+                "a", VALID_CPF, VALID_PHONE, VALID_EMAIL, VALID_PASSWORD,
+                VALID_ENDERECO, VALID_DATADENASCIMENTO, VALID_TIPOSANGUINEO);
+         });
     }
 }
 }

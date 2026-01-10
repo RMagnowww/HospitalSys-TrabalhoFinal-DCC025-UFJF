@@ -22,7 +22,7 @@ class ConsultaTest {
     private static final String VALID_MEDICO_PHONE = "(32)95872-0813";
     private static final String VALID_MEDICO_EMAIL = "andrade@medico.com";
     private static final String VALID_MEDICO_PASSWORD = "medico123";
-    private static final String VALID_MEDICO_CRM = "12345-MG";
+    private static final String VALID_MEDICO_CRM = "123456";
     private static final String VALID_MEDICO_ESPECIALIDADE = "Ortopedista";
 
     private Paciente validPaciente;
