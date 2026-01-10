@@ -49,6 +49,9 @@ public class Paciente extends Usuario{
         return tipoSanguineo; 
     }
     public void setTipoSanguineo(String tipoSanguineo) { 
+        if(!tipoSanguineo.matches("^(A|B|AB|O)[+-]$")) {
+            throw new IllegalArgumentException("Tipo sanguíneo inválido");
+        }
         this.tipoSanguineo = tipoSanguineo; 
     }
     public boolean isAceitaVisitas() { 
