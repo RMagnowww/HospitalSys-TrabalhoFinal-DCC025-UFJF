@@ -255,6 +255,8 @@ public class TelaAgenda {
     private void salvarExpediente() {
         String inicio = campoInicio.getText();
         String fim = campoFim.getText();
+        
+        
         int duracao = Integer.parseInt(campoDuracao.getSelectedItem().toString());
         ArrayList<Boolean> diasTrabalha = new ArrayList<Boolean>(7);
             diasTrabalha.add(checkSegunda.isSelected());
