@@ -35,11 +35,13 @@ public class TelaDisponibilidadeMedicos{
     private JList<Medico> listMedicosAtivos;
     private JList<Consulta> listConsultaFalta;
     private JTextField campoMedico1;
+    private JTextField campoEspecialidade;
     private JTextField campoMedico2;
     private JTextField campoPaciente;
     private JTextField campoHorario;
     private JComboBox<LocalTime> boxHorarios;
     private JLabel labelMedico1;
+    private JLabel labelEspecialidade;
     private JLabel labelMedico2;
     private JLabel labelPaciente;
     private JLabel labelHorarioConsulta;
@@ -65,15 +67,18 @@ public class TelaDisponibilidadeMedicos{
         listMedicosAtivos = new JList<Medico>();
         listConsultaFalta = new JList<Consulta>();
         campoMedico1 = new JTextField(20);
+        campoEspecialidade = new JTextField(20);
         campoMedico2 = new JTextField(20);
         campoPaciente = new JTextField(20);
         campoHorario = new JTextField(20);
         campoMedico1.setEditable(false);
+        campoEspecialidade.setEditable(false);
         campoMedico2.setEditable(false);
         campoPaciente.setEditable(false);
         campoHorario.setEditable(false);
         boxHorarios = new JComboBox<LocalTime>();
         labelMedico1 = new JLabel("Médico:");
+        labelEspecialidade = new JLabel("Especialidade:");
         labelMedico2 = new JLabel("Médico:");
         labelPaciente = new JLabel("Paciente:");
         labelHorarioConsulta = new JLabel("Horário:");
@@ -101,6 +106,7 @@ public class TelaDisponibilidadeMedicos{
 
         listMedicosAtivos.addListSelectionListener(e ->{
             campoMedico1.setText(listMedicosAtivos.getSelectedValue().getNome());
+            campoEspecialidade.setText(listMedicosAtivos.getSelectedValue().getEspecialidade());
             atualizarHorariosDisponiveis();
 
         });
@@ -129,8 +135,9 @@ public class TelaDisponibilidadeMedicos{
         painelLists.add(new JScrollPane(listMedicosAtivos));
         painelLists.add(new JScrollPane(listConsultaFalta));
 
-        painelLabels1.setLayout(new GridLayout(2,0,0,10));
+        painelLabels1.setLayout(new GridLayout(3,0,0,10));
         painelLabels1.add(labelMedico1);
+        painelLabels1.add(labelEspecialidade);
         painelLabels1.add(labelHorariosDisponiveis);
 
         painelLabels2.setLayout(new GridLayout(3,0,0,10));
@@ -138,8 +145,9 @@ public class TelaDisponibilidadeMedicos{
         painelLabels2.add(labelPaciente);
         painelLabels2.add(labelHorarioConsulta);
 
-        painelBox1.setLayout(new GridLayout(2,0,0,10));
+        painelBox1.setLayout(new GridLayout(3,0,0,10));
         painelBox1.add(campoMedico1);
+        painelBox1.add(campoEspecialidade);
         painelBox1.add(boxHorarios);
 
         painelBox2.setLayout(new GridLayout(3,0,0,10));
@@ -148,7 +156,7 @@ public class TelaDisponibilidadeMedicos{
         painelBox2.add(campoHorario);
 
         painelInfo1.setLayout(new BorderLayout(10,10));
-        painelInfo1.setBorder(BorderFactory.createEmptyBorder(0,0,135,0));
+        painelInfo1.setBorder(BorderFactory.createEmptyBorder(0,0,100,0));
         painelInfo1.add(painelLabels1, BorderLayout.WEST);
         painelInfo1.add(painelBox1, BorderLayout.CENTER);
 
