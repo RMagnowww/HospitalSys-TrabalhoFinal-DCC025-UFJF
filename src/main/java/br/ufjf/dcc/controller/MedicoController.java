@@ -16,21 +16,29 @@ import br.ufjf.dcc.model.Paciente;
 import br.ufjf.dcc.model.Persistencia;
 
 public class MedicoController {
-    public static String checarDisponibilidadeVisita(String pacienteNome){
-        try {
-            ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
-            for (Paciente p : listaPacientes) {
-                if (p.getNome().equals(pacienteNome)) {
-                    if(p.isAceitaVisitas())
-                        return "APTO";
-                    else if(!p.isAceitaVisitas())
-                        return "NÃO APTO";
+    public static String checarDisponibilidadeVisita(String pacienteNome, String pacienteCpf){
+        pacienteCpf = pacienteCpf.replaceAll("[^0-9]", "");
+        if(pacienteCpf.length() == 11){
+            pacienteCpf = String.format("%s.%s.%s-%s", 
+            pacienteCpf.substring(0, 3),   
+            pacienteCpf.substring(3, 6),  
+            pacienteCpf.substring(6, 9),  
+            pacienteCpf.substring(9));
+            try {
+                ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
+                for (Paciente p : listaPacientes) {
+                    if (p.getNome().equals(pacienteNome) && p.getCpf().equals(pacienteCpf)) {
+                        if(p.isAceitaVisitas())
+                            return "APTO";
+                        else if(!p.isAceitaVisitas())
+                            return "NÃO APTO";
+                    }
                 }
-            }
 
-        } 
-        catch (IOException ex) {
-            ex.printStackTrace();
+            } 
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         JOptionPane.showMessageDialog(new JFrame(),"Paciente não encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
         return null;

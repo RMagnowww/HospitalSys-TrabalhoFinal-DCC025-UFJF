@@ -78,52 +78,72 @@ public class TelaEmitirDocs {
         
         botaoEmitir.addActionListener(e ->{
             if(boxTipo.getSelectedItem() != null)
-                try{
-                    ArrayList<Paciente> pacientes = Persistencia.carregarPacientes();
-                    if(boxTipo.getSelectedItem() == TipoDocumento.ATESTADO){
-                        Atestado atestado = null;
-                        for(Paciente p : pacientes)
-                            if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(campoPacienteCpf.getText()))
-                                atestado = new Atestado(medico, p, Integer.parseInt(campoDiasAtestado.getText()), paneDescricaoAtestado.getText());
-                            if(atestado != null){
-                                campoDocumento.setText(atestado.gerarConteudo());
-                                Persistencia.salvarDocumentos(atestado);
-                                JOptionPane.showMessageDialog(new JFrame(),"Atestado Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
-                            }
-                            else
-                               JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
+                    try{ 
+                        ArrayList<Paciente> pacientes = Persistencia.carregarPacientes();
+                        String pacienteCpf = campoPacienteCpf.getText().replaceAll("[^0-9]", "");
+                        if(pacienteCpf.length() == 11){
+                            pacienteCpf = String.format("%s.%s.%s-%s", 
+                            pacienteCpf.substring(0, 3),   
+                            pacienteCpf.substring(3, 6),  
+                            pacienteCpf.substring(6, 9),  
+                            pacienteCpf.substring(9));
                         }
-                    if(boxTipo.getSelectedItem() == TipoDocumento.EXAME){
-                        Exame exame = null;
-                        for(Paciente p : pacientes)
-                            if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(campoPacienteCpf.getText()))
-                                exame = new Exame(medico, p,campoNomeExame.getText(), paneResultadoExame.getText());
-                            if(exame != null){
-                                campoDocumento.setText(exame.gerarConteudo());
-                                Persistencia.salvarDocumentos(exame);
-                                JOptionPane.showMessageDialog(new JFrame(),"Exame Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                        if(boxTipo.getSelectedItem() == TipoDocumento.ATESTADO){
+                            if(!campoPaciente.getText().equals("") && !campoPacienteCpf.getText().equals("") && !campoDiasAtestado.getText().equals("") && !paneDescricaoAtestado.getText().equals("") && !campoDiasAtestado.getText().replaceAll("[^0-9]", "").equals("")){
+                                Atestado atestado = null;
+                                for(Paciente p : pacientes)
+                                    if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(pacienteCpf))
+                                        atestado = new Atestado(medico, p, Integer.parseInt(campoDiasAtestado.getText().replaceAll("[^0-9]", "")), paneDescricaoAtestado.getText());
+                                    if(atestado != null){
+                                        campoDocumento.setText(atestado.gerarConteudo());
+                                        Persistencia.salvarDocumentos(atestado);
+                                        JOptionPane.showMessageDialog(new JFrame(),"Atestado Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
+                                }
                             else
-                               JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
-                    }   
-                    if(boxTipo.getSelectedItem() == TipoDocumento.RECEITA){
-                        Receita receita = null;
-                        for(Paciente p : pacientes)
-                            if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(campoPacienteCpf.getText()))
-                                receita = new Receita(medico, p, paneMedicamentosReceita.getText());
-                            if(receita != null){
-                                campoDocumento.setText(receita.gerarConteudo());
-                                Persistencia.salvarDocumentos(receita);
-                                JOptionPane.showMessageDialog(new JFrame(),"Receita Emitida com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos!","ERRO", JOptionPane.ERROR_MESSAGE);
+                        }
+                        if(boxTipo.getSelectedItem() == TipoDocumento.EXAME){
+                            if(!campoPaciente.getText().equals("") && !campoPacienteCpf.getText().equals("") && !campoNomeExame.getText().equals("") && !paneResultadoExame.getText().equals("")){
+                                Exame exame = null;
+                                for(Paciente p : pacientes)
+                                    if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(pacienteCpf))
+                                        exame = new Exame(medico, p,campoNomeExame.getText(), paneResultadoExame.getText());
+                                    if(exame != null){
+                                        campoDocumento.setText(exame.gerarConteudo());
+                                        Persistencia.salvarDocumentos(exame);
+                                        JOptionPane.showMessageDialog(new JFrame(),"Exame Emitido com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
+                                }
                             else
-                               JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
-                
+                                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos!","ERRO", JOptionPane.ERROR_MESSAGE);
+                        }   
+                        if(boxTipo.getSelectedItem() == TipoDocumento.RECEITA){
+                            if(!campoPaciente.getText().equals("") && !campoPacienteCpf.getText().equals("") && !paneMedicamentosReceita.getText().equals("")){
+                                Receita receita = null;
+                                for(Paciente p : pacientes)
+                                    if(p.getNome().equals(campoPaciente.getText()) && p.getCpf().equals(pacienteCpf))
+                                        receita = new Receita(medico, p, paneMedicamentosReceita.getText());
+                                    if(receita != null){
+                                        campoDocumento.setText(receita.gerarConteudo());
+                                        Persistencia.salvarDocumentos(receita);
+                                        JOptionPane.showMessageDialog(new JFrame(),"Receita Emitida com Sucesso!","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    JOptionPane.showMessageDialog(new JFrame(),"Paciente não Encontrado!","ERRO", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                else
+                                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos!","ERRO", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } 
+                    catch (IOException ex) {
+                        ex.printStackTrace();
                     }
-                } 
-                catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                
             else
                 JOptionPane.showMessageDialog(new JFrame(),"Selecione um tipo de documento!","ERRO", JOptionPane.ERROR_MESSAGE);
             

@@ -27,6 +27,7 @@ public class TelaHistoricoClinico {
     private JPanel painelBuscaEsq;
     private JPanel painelBuscaDir;
     private JTextField campoPacienteBusca;
+    private JTextField campoCpfBusca;
     private JList<Consulta> listConsultas;
     private JLabel labelPacienteBusca;
     private JLabel labelAptidao;
@@ -36,6 +37,7 @@ public class TelaHistoricoClinico {
     private JTextField campoDataHora;
     private JTextPane paneDescricao;
     private JLabel labelPaciente;
+    private JLabel labelCpf;
     private JLabel labelMedico;
     private JLabel labelEspecialidade;
     private JLabel labelDataHora;
@@ -58,6 +60,7 @@ public class TelaHistoricoClinico {
         painelBuscaEsq = new JPanel();
         painelBuscaDir = new JPanel();
         campoPacienteBusca = new JTextField(20);
+        campoCpfBusca = new JTextField(20);
         listConsultas = new JList<Consulta>();
         labelPacienteBusca = new JLabel("Paciente:");
         labelAptidao = new JLabel("Status:");
@@ -67,6 +70,7 @@ public class TelaHistoricoClinico {
         campoDataHora = new JTextField(25);
         paneDescricao = new JTextPane();
         labelPaciente = new JLabel("Paciente:");
+        labelCpf = new JLabel("CPF:");
         labelMedico= new JLabel("Medico:");
         labelEspecialidade = new JLabel("Especialidade:");
         labelDataHora = new JLabel("Data/Hora:");
@@ -90,34 +94,48 @@ public class TelaHistoricoClinico {
         frame.setLayout(new BorderLayout(5,5));
 
         botaoBuscar.addActionListener( e -> {
-           String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText());
-           if(apt != null){
-                if(apt.equals("APTO"))
-                    boxAptidao.setSelectedIndex(0);
-                else if(apt.equals("NÃO APTO"))
-                        boxAptidao.setSelectedIndex(1);
-                try{
-                    ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
-                    for (Paciente p : listaPacientes) {
-                        if (p.getNome().equals(campoPacienteBusca.getText())){
-                            try{
-                                consultas = Persistencia.carregarConsultasPacienteRealizadas(p);
-                            } 
-                            catch (IOException ex) {
-                                ex.printStackTrace();
+            if(!campoPacienteBusca.getText().equals("") && !campoCpfBusca.getText().equals("")){
+                String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText(), campoCpfBusca.getText());
+                if(apt != null){
+                        String pacienteCpf = campoCpfBusca.getText().replaceAll("[^0-9]", "");
+                        pacienteCpf = String.format("%s.%s.%s-%s", 
+                        pacienteCpf.substring(0, 3),   
+                        pacienteCpf.substring(3, 6),  
+                        pacienteCpf.substring(6, 9),  
+                        pacienteCpf.substring(9));
+                        if(apt.equals("APTO"))
+                            boxAptidao.setSelectedIndex(0);
+                        else if(apt.equals("NÃO APTO"))
+                                boxAptidao.setSelectedIndex(1);
+                        try{
+                            ArrayList<Paciente> listaPacientes = Persistencia.carregarPacientes();
+                            for (Paciente p : listaPacientes) {
+                                if (p.getNome().equals(campoPacienteBusca.getText())){
+                                    try{
+                                        consultas = Persistencia.carregarConsultasPacienteRealizadas(p);
+                                    } 
+                                    catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+                                    if(consultas != null)
+                                        listConsultas.setListData(consultas.toArray(new Consulta[consultas.size()]));
+                                    else 
+                                        listConsultas.removeAll();
+                                }
                             }
-                            listConsultas.setListData(consultas.toArray(new Consulta[consultas.size()]));
+                        catch (IOException ex) {
+                            ex.printStackTrace();
                         }
-                    }
-                }
-                catch (IOException ex) {
-                    ex.printStackTrace();
                 }
             }
-        });
+            else
+                JOptionPane.showMessageDialog(new JFrame(),"Preencha todos os campos para busca","Erro!", JOptionPane.ERROR_MESSAGE);
+            });
+            
         botaoAtualizar.addActionListener(e -> {
             MedicoController.atualizarAptidao(campoPacienteBusca.getText(), boxAptidao.getSelectedItem().toString());
-            String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText());
+            String apt = MedicoController.checarDisponibilidadeVisita(campoPacienteBusca.getText(), campoCpfBusca.getText());
             if(apt != null)
                 if(apt.equals("APTO"))
                     boxAptidao.setSelectedIndex(0);
@@ -141,16 +159,18 @@ public class TelaHistoricoClinico {
         painelList.setLayout(new BorderLayout(5,5));
         painelList.add(new JScrollPane(listConsultas));
 
-        painelBuscaEsq.setLayout(new GridLayout(2,0,0,15));
+        painelBuscaEsq.setLayout(new GridLayout(3,0,0,15));
         painelBuscaEsq.add(labelPacienteBusca);
+        painelBuscaEsq.add(labelCpf);
         painelBuscaEsq.add(labelAptidao);
 
-        painelBuscaDir.setLayout(new GridLayout(2,0,0,15));
+        painelBuscaDir.setLayout(new GridLayout(3,0,0,15));
         painelBuscaDir.add(campoPacienteBusca);
+         painelBuscaDir.add(campoCpfBusca);
         painelBuscaDir.add(boxAptidao);
 
         painelBusca.setLayout(new BorderLayout(5,5));
-        painelBusca.setBorder(BorderFactory.createEmptyBorder(30,0,250,0));
+        painelBusca.setBorder(BorderFactory.createEmptyBorder(30,0,225,0));
         painelBusca.add(painelBuscaEsq, BorderLayout.WEST);
         painelBusca.add(painelBuscaDir, BorderLayout.CENTER);
 

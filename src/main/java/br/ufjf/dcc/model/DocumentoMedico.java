@@ -6,7 +6,7 @@ package br.ufjf.dcc.model;
 import br.ufjf.dcc.model.enums.TipoDocumento;
 import java.time.LocalDateTime;
 
-public abstract class DocumentoMedico {
+public abstract class DocumentoMedico implements GeradorConteudo {
     private Medico medico;
     private Paciente paciente;
     private LocalDateTime data;
@@ -44,7 +44,5 @@ public abstract class DocumentoMedico {
     public void setTipo(TipoDocumento tipo){
         this.tipo = tipo;
     }
-    public String gerarConteudo(){
-        return null;
-    }
+
 }
